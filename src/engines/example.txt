@@ -1,0 +1,2 @@
+Este txt es un marcador para poder subir esta carpeta vacia al repo.  
+Se borra cuando agregue los archivos reales de esta carpeta. 

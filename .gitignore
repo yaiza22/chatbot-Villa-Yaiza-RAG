@@ -1,0 +1,24 @@
+# Datos y artefactos
+data/raw/
+data/interim/
+*.zip
+.env
+models/
+vectorstore/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+docs/
+
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+.claude/
+.cursor/
+.cursorrules
+.windsurf/
+.aider*
