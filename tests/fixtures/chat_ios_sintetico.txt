@@ -1,0 +1,18 @@
+[20/04/2024, 8:02:11 a. m.] Cliente Dos: Los mensajes y las llamadas están cifrados de extremo a extremo. Nadie fuera de este chat, ni siquiera WhatsApp, puede leerlos ni escucharlos.
+[20/04/2024, 8:03:40 a. m.] Cliente Dos: Hola buen dia, cual es la capacidad maxima de personas?
+[20/04/2024, 8:10:05 a. m.] Admin Prueba: Buen día, con gusto le colaboro. ¿Qué tipo de evento sería?
+[20/04/2024, 8:11:20 a. m.] Cliente Dos: Una boda,
+más o menos 120 invitados
+[20/04/2024, 8:15:00 a. m.] Admin Prueba: Perfecto, déjeme consultar y le respondo.
+[20/04/2024, 8:16:31 a. m.] Cliente Dos: audio omitido
+[20/04/2024, 8:17:02 a. m.] Cliente Dos: imagen omitida
+[20/04/2024, 8:20:45 a. m.] Cliente Dos: <adjunto: 00000042-PHOTO-2024-04-20-08-20-45.jpg>
+[20/04/2024, 8:25:10 a. m.] Admin Prueba: video omitido
+[20/04/2024, 8:30:00 a. m.] Cliente Dos: Llamada de voz perdida
+[20/04/2024, 8:31:10 a. m.] Admin Prueba: Videollamada perdida
+[20/04/2024, 14:05:33] Cliente Dos: documento omitido
+[20/04/2024, 14:06:00] Cliente Dos: Tienen parqueadero? y se puede poner música hasta qué hora
+[20/04/2024, 14:08:12] Admin Prueba: Le confirmo esos datos en un momento, gracias por su paciencia
+[20/04/2024, 14:09:00] Admin Prueba: Eliminaste este mensaje
+[20/04/2024, 14:10:00] Cliente Dos: ok gracias
+[21/04/24, 9:00:00 a. m.] Cliente Dos: buen día, ya tienen respuesta?
