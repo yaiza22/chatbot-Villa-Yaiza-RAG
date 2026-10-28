@@ -26,7 +26,7 @@ una muestra.
 
 Uso (desde la raíz del repositorio):: python -m src.data.anonymize --names-file data/interim/names.txt
 Se puede usar este comando más completo que tomas los nombres de los contactos (clientes) de chat_index.csv para aplicar esos nombres también.
-py -m src.data.anonymize --names-file data/interim/names.txt --index data/interim/chat_index.csv 
+py -m src.data.anonymize --names-file data/interim/names.txt --index data/interim/chat_index.csv
 """
 
 import argparse
