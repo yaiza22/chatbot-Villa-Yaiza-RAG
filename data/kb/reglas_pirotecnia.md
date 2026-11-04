@@ -1,13 +1,9 @@
 ---
 id: reglas_pirotecnia
 intent: reglas_servicios
-vigente_desde: 2026-10-29
+vigente_desde: 2026-11-03
 ---
 
 # Pirotecnia
 
-No se pone restricción a la pirotecnia, aunque mucha gente no la usa. En la finca no se vende.
-
-## Pendiente de confirmar
-
-- [POR CONFIRMAR] Validar esta regla por escrito, teniendo en cuenta que en la finca hay animales.
+Se permite la pirotecnia. La única restricción es no apuntarla hacia los animales. Mucha gente no la usa. En la finca no se vende.
