@@ -53,9 +53,25 @@ VALID_TRAIN_SOURCES = ("synthetic", "real", "both")
 VALID_SPLITS = (SPLIT_TRAIN, SPLIT_TEST)
 DEFAULT_SEED_CSV = PROCESSED_DIR / "seed.csv"
 
+
+def _build_m1_engine() -> Engine:
+    """Instancia de forma perezosa el motor M1 para no exigir scikit-learn al correr M0."""
+    from src.engines.m1_tfidf_rl import TfidfRlEngine
+
+    return TfidfRlEngine()
+
+
+def _build_m1_engine() -> Engine:
+    """Instancia de forma perezosa el motor M1 para no exigir scikit-learn al correr M0."""
+    from src.engines.m1_tfidf_rl import TfidfRlEngine
+
+    return TfidfRlEngine()
+
+
 # Registro extensible de motores disponibles por nombre.
 ENGINE_REGISTRY: dict[str, Callable[[], Engine]] = {
     "M0": RuleEngine,
+    "M1": _build_m1_engine,
 }
 
 
