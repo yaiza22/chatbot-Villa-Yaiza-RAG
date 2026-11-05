@@ -1,0 +1,78 @@
+question_id,question_text,intent,should_escalate,reference_answer,kb_source,split,source
+S001,"Buenas tardes, cuánto vale el alquiler de la finca?",precio,True,ESCALAR,,train,synthetic
+S002,hola me regala el precio x favor,precio,True,ESCALAR,,test,synthetic
+S003,Cuánto cuesta la noche para 30 personas?,precio,True,ESCALAR,,test,synthetic
+S004,q valor tiene el fin de semana largo,precio,True,ESCALAR,,train,synthetic
+S005,Me puede cotizar para un cumpleaños de 50 personas?,precio,True,ESCALAR,,train,synthetic
+S006,tienen descuento si me kedo 3 noches,precio,True,ESCALAR,,train,synthetic
+S007,cuanto cobran x persona adicional,precio,True,ESCALAR,,test,synthetic
+S008,cuanto vale para el 24 de dic?,disponibilidad,True,ESCALAR,,train,synthetic
+S009,cuantoo cuesta pasar el dia en la finca,precio,True,ESCALAR,,train,synthetic
+S010,me pasa las tarifas pa semana santa porfa,precio,True,ESCALAR,,train,synthetic
+S011,"Buenos días, qué precio tiene para un matrimonio?",precio,True,ESCALAR,,train,synthetic
+S012,Cuántas personas caben en la finca?,capacidad,False,[POR CONFIRMAR],,train,synthetic
+S013,para cuantas personas es la finca,capacidad,False,[POR CONFIRMAR],,train,synthetic
+S014,cual es la capasidad maxima de invitados,capacidad,False,[POR CONFIRMAR],,test,synthetic
+S015,caben 80 personas?,capacidad,False,[POR CONFIRMAR],,test,synthetic
+S016,cuantas personas pueden dormir ahi,capacidad,False,[POR CONFIRMAR],,train,synthetic
+S017,Cuántas habitaciones tiene y cuántas camas?,capacidad,False,[POR CONFIRMAR],,train,synthetic
+S018,"somos 120 en total, nos alcanza el espacio?",capacidad,False,[POR CONFIRMAR],,train,synthetic
+S019,hasta cuantos invitados permiten pa un matrimonio,capacidad,False,[POR CONFIRMAR],,test,synthetic
+S020,cual es el numero max de personas x fa,capacidad,False,[POR CONFIRMAR],,train,synthetic
+S021,kuantas personas aguanta la finca,capacidad,False,[POR CONFIRMAR],,train,synthetic
+S022,"Buenas, para un grupo de 25 personas sirve la finca?",capacidad,False,[POR CONFIRMAR],,train,synthetic
+S023,Se permiten mascotas?,reglas_servicios,False,[POR CONFIRMAR],,train,synthetic
+S024,puedo llevar mi perro?,reglas_servicios,False,[POR CONFIRMAR],,train,synthetic
+S025,hasta q hora se puede poner musica,reglas_servicios,False,[POR CONFIRMAR],,test,synthetic
+S026,A qué hora es el check in y el check out?,reglas_servicios,False,[POR CONFIRMAR],,train,synthetic
+S027,La finca incluye cocina y utensilios?,reglas_servicios,False,[POR CONFIRMAR],,train,synthetic
+S028,Qué incluye el alquiler?,reglas_servicios,False,[POR CONFIRMAR],,train,synthetic
+S029,tienen piscina y zona de bbq?,reglas_servicios,False,[POR CONFIRMAR],,train,synthetic
+S030,se puede entrar con licor y parlante?,reglas_servicios,False,[POR CONFIRMAR],,test,synthetic
+S031,hay q llevar sabanas y toallas?,reglas_servicios,False,[POR CONFIRMAR],,train,synthetic
+S032,puedo llevar mi propio catering o toca con ustedes?,reglas_servicios,False,[POR CONFIRMAR],,test,synthetic
+S033,tienen wifi y tv,reglas_servicios,False,[POR CONFIRMAR],,train,synthetic
+S034,Dónde queda la finca?,ubicacion,False,[POR CONFIRMAR],,test,synthetic
+S035,me manda la ubicacion x fa,ubicacion,False,[POR CONFIRMAR],,train,synthetic
+S036,como llego desde ibague,ubicacion,False,[POR CONFIRMAR],,train,synthetic
+S037,a cuanto keda del centro de ibague,ubicacion,False,[POR CONFIRMAR],,train,synthetic
+S038,se puede llegar en carro normal o toca camioneta?,ubicacion,False,[POR CONFIRMAR],,train,synthetic
+S039,tienen link de google maps?,ubicacion,False,[POR CONFIRMAR],,train,synthetic
+S040,en q vereda queda,ubicacion,False,[POR CONFIRMAR],,train,synthetic
+S041,cuanto se demora llegar desde Bogota,ubicacion,False,[POR CONFIRMAR],,test,synthetic
+S042,Queda en Ibagué o en las afueras?,ubicacion,False,[POR CONFIRMAR],,test,synthetic
+S043,me da la direccion exacta porfa,ubicacion,False,[POR CONFIRMAR],,train,synthetic
+S044,hay transporte publico hasta la finca,ubicacion,False,[POR CONFIRMAR],,train,synthetic
+S045,Tienen disponible el 24 de diciembre?,disponibilidad,True,ESCALAR,,train,synthetic
+S046,kiero fecha pa el 31 dic,disponibilidad,True,ESCALAR,,train,synthetic
+S047,esta libre la finca el puente de noviembre?,disponibilidad,True,ESCALAR,,test,synthetic
+S048,hay cupo para semana santa?,disponibilidad,True,ESCALAR,,test,synthetic
+S049,pa el 15 de enero estan disponibles,disponibilidad,True,ESCALAR,,test,synthetic
+S050,me confirma si hay fecha el fin de semana del 8,disponibilidad,True,ESCALAR,,train,synthetic
+S051,tienen algo libre en diciembre,disponibilidad,True,ESCALAR,,train,synthetic
+S052,Quisiera reservar para el 20 de diciembre,disponibilidad,True,ESCALAR,,train,synthetic
+S053,esta ocupada del 26 al 28 de dic?,disponibilidad,True,ESCALAR,,train,synthetic
+S054,disponibilida pa este finde?,disponibilidad,True,ESCALAR,,train,synthetic
+S055,hay fecha el 24 dic y cuanto vale?,disponibilidad,True,ESCALAR,,train,synthetic
+S056,"ya hice la consignacion, me confirman por favor",otro_negocio,True,ESCALAR,,train,synthetic
+S057,puedo ir a conocer la finca antes de reservar?,otro_negocio,True,ESCALAR,,test,synthetic
+S058,kisiera cambiar la fecha de mi reserba,otro_negocio,True,ESCALAR,,train,synthetic
+S059,me pueden enviar el contrato de la reserva?,otro_negocio,True,ESCALAR,,train,synthetic
+S060,necesito factura para mi empresa,otro_negocio,True,ESCALAR,,train,synthetic
+S061,si cancelo me devuelven el anticipo?,otro_negocio,True,ESCALAR,,train,synthetic
+S062,olvide una chaqueta en la finca la encontraron,otro_negocio,True,ESCALAR,,train,synthetic
+S063,me podrian recomendar un dj o sonido pa el evento,otro_negocio,True,ESCALAR,,test,synthetic
+S064,quiero hablar con el administrador x favor,otro_negocio,True,ESCALAR,,train,synthetic
+S065,"ya vamos en camino, a quien le aviso cuando lleguemos?",otro_negocio,True,ESCALAR,,train,synthetic
+S066,manejan seguro o alguna poliza para el evento?,otro_negocio,True,ESCALAR,,test,synthetic
+S067,me recomiendas un hotel en Cartagena?,fuera_de_alcance,True,ESCALAR,,train,synthetic
+S068,cuanto esta el dolar hoy,fuera_de_alcance,True,ESCALAR,,test,synthetic
+S069,como se hace un arroz con pollo,fuera_de_alcance,True,ESCALAR,,train,synthetic
+S070,quien gano el partido de ayer,fuera_de_alcance,True,ESCALAR,,train,synthetic
+S071,tienen domicilio de pizza?,fuera_de_alcance,True,ESCALAR,,train,synthetic
+S072,buenas tardes necesito un plomero urgente,fuera_de_alcance,True,ESCALAR,,test,synthetic
+S073,cual es el clima en Bogotá hoy?,fuera_de_alcance,True,ESCALAR,,train,synthetic
+S074,me ayudas con una tarea de matematicas x fa,fuera_de_alcance,True,ESCALAR,,train,synthetic
+S075,venden repuestos pa moto?,fuera_de_alcance,True,ESCALAR,,train,synthetic
+S076,como llego al terminal de transportes de Bogotá?,fuera_de_alcance,True,ESCALAR,,test,synthetic
+S077,cuentame un chiste,fuera_de_alcance,True,ESCALAR,,train,synthetic
