@@ -2,10 +2,11 @@
 
 Entrena un clasificador multiclase sobre las preguntas de entrenamiento usando
 n-gramas de 1 a 2 palabras (sin tildes) y regresión logística con pesos
-balanceados por clase. El umbral de probabilidad para decidir la abstención por
-baja confianza se selecciona automáticamente en cada llamada a ``fit()``
-mediante validación cruzada estratificada de 5 pliegues exclusivamente sobre el
-conjunto de entrenamiento recibido.
+balanceados por clase. En cada llamada a ``fit()``, selecciona primero el
+hiperparámetro de regularización ``C`` entre ``(1, 10, 100)`` minimizando la
+pérdida logarítmica (*log-loss*) fuera de pliegue mediante validación cruzada
+estratificada exclusivamente sobre ``train``, y luego elige el umbral de
+probabilidad con las predicciones fuera de pliegue de ese ``C``.
 """
 
 from __future__ import annotations
@@ -22,6 +23,7 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import log_loss
 from sklearn.model_selection import StratifiedKFold, cross_val_predict
 from sklearn.pipeline import Pipeline
 
@@ -31,16 +33,19 @@ from src.engines.base import Engine, EngineResponse
 DEFAULT_TEMPLATES_PATH = Path(__file__).resolve().parent / "m1_templates.json"
 DEFAULT_MODEL_PATH = REPO_ROOT / "models" / "m1_tfidf_rl.joblib"
 CANDIDATE_THRESHOLDS: tuple[float, ...] = tuple(
-    round(0.10 + 0.05 * idx, 2) for idx in range(17)
+    round(0.15 + 0.05 * idx, 2) for idx in range(16)
 )
+CANDIDATE_CS: tuple[float, ...] = (1.0, 10.0, 100.0)
 
 
 class TfidfRlEngine:
-    """Motor M1 con vectorización TF-IDF, regresión logística y umbral por CV.
+    """Motor M1 con vectorización TF-IDF, regresión logística y selección por CV.
 
     Attributes:
         name: Identificador del motor (``"M1"``).
         seed: Semilla fija de reproducibilidad.
+        best_c_: Valor de ``C`` elegido en ``fit()`` por menor log-loss en CV.
+        c_losses_: Pérdida logarítmica fuera de pliegue para cada ``C`` evaluado.
         threshold: Umbral de probabilidad máxima elegido en ``fit()``.
         cv_folds_: Número de pliegues utilizado en la última validación cruzada.
         threshold_table_: Tabla de compromiso entre abstención correcta e
@@ -53,13 +58,15 @@ class TfidfRlEngine:
         self,
         templates_path: Path = DEFAULT_TEMPLATES_PATH,
         candidate_thresholds: Sequence[float] = CANDIDATE_THRESHOLDS,
+        candidate_cs: Sequence[float] = CANDIDATE_CS,
         default_cv_folds: int = 5,
     ) -> None:
         """Inicializa la configuración del motor y carga las plantillas de respuesta.
 
         Args:
             templates_path: Ruta al archivo JSON con las respuestas fijas.
-            candidate_thresholds: Secuencia de umbrales en ``(0, 1)`` a evaluar en CV.
+            candidate_thresholds: Secuencia de umbrales en ``[0.15, 0.90]`` a evaluar.
+            candidate_cs: Valores candidatos para el hiperparámetro ``C``.
             default_cv_folds: Número estándar de pliegues para validación cruzada.
 
         Raises:
@@ -68,6 +75,7 @@ class TfidfRlEngine:
         self.seed = SEED
         self.templates_path = Path(templates_path)
         self.candidate_thresholds = tuple(float(t) for t in candidate_thresholds)
+        self.candidate_cs = tuple(float(c) for c in candidate_cs)
         self.default_cv_folds = int(default_cv_folds)
 
         with self.templates_path.open(encoding="utf-8") as handle:
@@ -81,6 +89,8 @@ class TfidfRlEngine:
             )
 
         self._canned_answers = canned
+        self.best_c_: float = 1.0
+        self.c_losses_: dict[float, float] = {}
         self.threshold: float = 0.5
         self.cv_folds_: int | None = None
         self.threshold_table_: pd.DataFrame = pd.DataFrame(
@@ -93,8 +103,8 @@ class TfidfRlEngine:
         )
         self._pipeline: Pipeline | None = None
 
-    def _build_pipeline(self) -> Pipeline:
-        """Construye un pipeline nuevo de TF-IDF (1–2 n-gramas) y Regresión Logística."""
+    def _build_pipeline(self, c_value: float = 1.0) -> Pipeline:
+        """Construye un pipeline de TF-IDF (1–2 n-gramas) y Regresión Logística."""
         return Pipeline(
             steps=[
                 (
@@ -108,6 +118,7 @@ class TfidfRlEngine:
                 (
                     "clf",
                     LogisticRegression(
+                        C=float(c_value),
                         class_weight="balanced",
                         random_state=self.seed,
                         max_iter=1000,
@@ -117,7 +128,7 @@ class TfidfRlEngine:
         )
 
     def fit(self, train: pd.DataFrame) -> None:
-        """Ajusta el pipeline y selecciona el umbral de confianza con CV sobre ``train``.
+        """Elige ``C`` y el umbral de confianza por CV sobre ``train`` y ajusta el modelo.
 
         Args:
             train: DataFrame con el esquema de ``seed.csv``/``labeled.csv`` que
@@ -199,19 +210,36 @@ class TfidfRlEngine:
 
         self.cv_folds_ = n_splits
         skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=self.seed)
-        cv_pipeline = self._build_pipeline()
-        oof_probas = cross_val_predict(
-            cv_pipeline,
-            texts,
-            labels,
-            cv=skf,
-            method="predict_proba",
-        )
-
         classes = np.array(sorted(counts.keys()))
-        oof_pred_indices = np.argmax(oof_probas, axis=1)
+
+        best_c = self.candidate_cs[0]
+        best_loss = float("inf")
+        best_oof_probas: np.ndarray | None = None
+        c_losses: dict[float, float] = {}
+
+        for c_val in self.candidate_cs:
+            cv_pipeline = self._build_pipeline(c_value=c_val)
+            oof_probas_c = cross_val_predict(
+                cv_pipeline,
+                texts,
+                labels,
+                cv=skf,
+                method="predict_proba",
+            )
+            loss_c = float(log_loss(labels, oof_probas_c, labels=classes))
+            c_losses[float(c_val)] = loss_c
+            if loss_c < best_loss:
+                best_loss = loss_c
+                best_c = float(c_val)
+                best_oof_probas = oof_probas_c
+
+        assert best_oof_probas is not None
+        self.best_c_ = best_c
+        self.c_losses_ = c_losses
+
+        oof_pred_indices = np.argmax(best_oof_probas, axis=1)
         oof_pred_intents = classes[oof_pred_indices]
-        oof_max_probas = np.max(oof_probas, axis=1)
+        oof_max_probas = np.max(best_oof_probas, axis=1)
 
         self.threshold_table_ = self._compute_threshold_table(
             oof_pred_intents=oof_pred_intents,
@@ -220,7 +248,7 @@ class TfidfRlEngine:
         )
         self.threshold = self._select_best_threshold(self.threshold_table_)
 
-        final_pipeline = self._build_pipeline()
+        final_pipeline = self._build_pipeline(c_value=self.best_c_)
         final_pipeline.fit(texts, labels)
         self._pipeline = final_pipeline
 
@@ -341,7 +369,7 @@ class TfidfRlEngine:
         return target
 
     def save(self, path: Path | str = DEFAULT_MODEL_PATH) -> Path:
-        """Guarda el motor entrenado, su umbral y su tabla de compromiso con ``joblib``.
+        """Guarda el motor entrenado, su ``C``, su umbral y su tabla con ``joblib``.
 
         Args:
             path: Ruta destino del archivo ``.joblib`` (por defecto en ``models/``).
@@ -359,11 +387,14 @@ class TfidfRlEngine:
         target.parent.mkdir(parents=True, exist_ok=True)
         payload = {
             "pipeline": self._pipeline,
+            "best_c": self.best_c_,
+            "c_losses": self.c_losses_,
             "threshold": self.threshold,
             "cv_folds": self.cv_folds_,
             "threshold_table": self.threshold_table_,
             "canned_answers": self._canned_answers,
             "candidate_thresholds": self.candidate_thresholds,
+            "candidate_cs": self.candidate_cs,
             "default_cv_folds": self.default_cv_folds,
         }
         joblib.dump(payload, target)
@@ -392,9 +423,12 @@ class TfidfRlEngine:
             candidate_thresholds=payload.get(
                 "candidate_thresholds", CANDIDATE_THRESHOLDS
             ),
+            candidate_cs=payload.get("candidate_cs", CANDIDATE_CS),
             default_cv_folds=payload.get("default_cv_folds", 5),
         )
         instance._pipeline = payload["pipeline"]
+        instance.best_c_ = float(payload.get("best_c", 1.0))
+        instance.c_losses_ = dict(payload.get("c_losses", {}))
         instance.threshold = float(payload["threshold"])
         instance.cv_folds_ = payload.get("cv_folds")
         instance.threshold_table_ = payload.get(
@@ -403,9 +437,6 @@ class TfidfRlEngine:
         if "canned_answers" in payload:
             instance._canned_answers = dict(payload["canned_answers"])
         return instance
-
-
-TfidfLrEngine = TfidfRlEngine
 
 
 def _ensure_protocol_compliance() -> Engine:

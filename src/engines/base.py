@@ -56,4 +56,3 @@ class Engine(Protocol):
             Instancia de ``EngineResponse`` con la predicción y metadatos.
         """
         ...
-

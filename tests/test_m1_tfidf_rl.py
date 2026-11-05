@@ -98,7 +98,10 @@ def test_m1_smoke_protocol_and_persistence(
 
     engine.fit(synthetic_train_df)
     assert engine.cv_folds_ == 5
-    assert 0.10 <= engine.threshold <= 0.90
+    assert engine.best_c_ in (1.0, 10.0, 100.0)
+    assert set(engine.c_losses_.keys()) == {1.0, 10.0, 100.0}
+    assert engine.candidate_thresholds[0] == pytest.approx(0.15)
+    assert 0.15 <= engine.threshold <= 0.90
 
     table = engine.get_threshold_tradeoff_table()
     assert list(table.columns) == [
@@ -124,6 +127,7 @@ def test_m1_smoke_protocol_and_persistence(
     loaded_resp = loaded.respond("cuántas habitaciones y camas tienen para dormir")
     assert loaded_resp.intent == response.intent
     assert loaded_resp.confidence == pytest.approx(response.confidence)
+    assert loaded.best_c_ == pytest.approx(engine.best_c_)
     assert loaded.threshold == pytest.approx(engine.threshold)
 
 

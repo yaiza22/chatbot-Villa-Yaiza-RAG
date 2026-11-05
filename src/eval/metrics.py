@@ -18,7 +18,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from src.config import ESCALATING_INTENTS, INTENTS, SEED
+from src.config import INTENTS, SEED
 
 SMALL_SAMPLE_THRESHOLD = 10
 UNCONFIRMED_MARKER = "[POR CONFIRMAR]"
@@ -344,7 +344,6 @@ def compute_group_metrics(
         h1_status = "omitted_for_engine"
 
     lat = latency_summary(latencies)
-    _ = ESCALATING_INTENTS
 
     return {
         "engine": engine_name,

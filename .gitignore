@@ -17,6 +17,13 @@ docs/
 AGENTS.md
 CLAUDE.md
 GEMINI.md
+00_CONTEXTO.md
+01_ARQUITECTURA.md
+02_CONVENCIONES.md
+03_TAREAS.md
+04_DECISIONES.md
+05_EVALUACION.md
+06_PROMPTS.md
 .claude/
 .cursor/
 .cursorrules

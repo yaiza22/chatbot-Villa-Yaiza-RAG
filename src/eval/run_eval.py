@@ -23,7 +23,6 @@ from typing import Any
 import pandas as pd
 
 from src.config import (
-    ESCALATING_INTENTS,
     INTENTS,
     PROCESSED_DIR,
     REPORTS_DIR,
@@ -52,13 +51,6 @@ REQUIRED_COLUMNS = (
 VALID_TRAIN_SOURCES = ("synthetic", "real", "both")
 VALID_SPLITS = (SPLIT_TRAIN, SPLIT_TEST)
 DEFAULT_SEED_CSV = PROCESSED_DIR / "seed.csv"
-
-
-def _build_m1_engine() -> Engine:
-    """Instancia de forma perezosa el motor M1 para no exigir scikit-learn al correr M0."""
-    from src.engines.m1_tfidf_rl import TfidfRlEngine
-
-    return TfidfRlEngine()
 
 
 def _build_m1_engine() -> Engine:
@@ -277,9 +269,13 @@ def evaluate(
 
     raw_train = eval_df if train_df is None else train_df
     fit_df = prepare_train_data(raw_train, train_source=train_source)
-    assert (
-        fit_df.empty or (fit_df["split"].astype(str).str.strip() == SPLIT_TRAIN).all()
-    )
+    if (
+        not fit_df.empty
+        and not (fit_df["split"].astype(str).str.strip() == SPLIT_TRAIN).all()
+    ):
+        raise ValueError(
+            "El conjunto preparado para fit() contiene filas fuera de la partición 'train'."
+        )
 
     if eval_df.empty:
         eval_subset = eval_df.copy()
@@ -366,7 +362,6 @@ def evaluate(
     predictions_df = pd.DataFrame(all_prediction_rows)
     summary_df = pd.DataFrame(summary_rows)
     manual_eval_df = build_manual_eval_sheet(predictions_df)
-    _ = ESCALATING_INTENTS
 
     return EvaluationResult(
         summary_df=summary_df,
