@@ -9,10 +9,11 @@ La hoja (exportada de Excel) solo necesita las columnas ``question_id``, ``quest
    (UTF-8 con o sin BOM). Si alguna fila no tiene tantas columnas como el encabezado,
    informa su número y su ``question_id`` (nunca el texto) y no escribe nada.
 2. Separa las filas descartadas: las que tienen ``intent`` vacío. El motivo sale de
-   ``dudosa``: ``descartada`` es un mensaje sin sentido (``sin_sentido``) y
-   ``un comentario`` es un mensaje que podría tener sentido con su contexto
-   (``depende_contexto``). Una fila sin intención y sin motivo se considera olvidada y
-   detiene el proceso.
+   ``dudosa``: si empieza por ``#descartada`` (o ``descartar``) es un mensaje sin
+   sentido (``sin_sentido``).
+   Cualquier otra nota es un mensaje que necesita contexto (``depende_contexto``). 
+   Una fila con nota en ``dudosa`` no puede tener intención.
+   Y una sin intención y sin nota se considera olvidada: ambos casos detienen el proceso.
 3. Valida las intenciones contra la taxonomía y recalcula ``should_escalate`` a partir de
    la intención (``True``/``False``), avisando si el valor de la hoja no coincidía.
 4. Escribe ``labeled.csv`` (UTF-8 sin BOM, separado por comas, con comillas donde haga
@@ -98,7 +99,7 @@ class Built:
     unlabeled: list[str] = field(default_factory=list)
     invalid_intents: list[tuple[str, str]] = field(default_factory=list)
     escalation_mismatch: list[str] = field(default_factory=list)
-    with_doubt: list[str] = field(default_factory=list)
+    # with_doubt: list[str] = field(default_factory=list)
     intent_counts: Counter = field(default_factory=Counter)
     reason_counts: Counter = field(default_factory=Counter)
 
@@ -128,8 +129,9 @@ def discard_reason(note: str) -> str:
     Motivo de descarte según la nota de ``dudosa``.
 
     Returns:
-        ``sin_sentido`` si empieza por ``#descartada`` (o ``descartar``),
-        ``depende_contexto`` si empieza por ``un comentario``; si no, ``sin_clasificar``.
+        ``sin_sentido`` si empieza por ``#descartad`` (o ``descartar``);
+        ``depende_contexto`` si hay cualquier otra nota (necesita contexto);
+        ``sin_clasificar`` si la nota está vacía.
     """
     folded = _fold(note)
     if folded.startswith(("#descartad", "descartar")):
@@ -138,6 +140,7 @@ def discard_reason(note: str) -> str:
     if folded:
         return REASON_CONTEXT
     return REASON_UNLABELED
+
 
 def read_table(path: Path) -> Table:
     """
@@ -236,8 +239,8 @@ def build_labeled(rows: Sequence[dict[str, str]]) -> Built:
         declared = parse_bool(row.get("should_escalate", ""))
         if declared is not None and declared != escalate:
             built.escalation_mismatch.append(question_id)
-        if note:
-            built.with_doubt.append(question_id)
+        # if note:
+        #     built.with_doubt.append(question_id)
         if escalate:
             reference, kb_source = ESCALATE_ANSWER, ""
         else:
@@ -318,8 +321,8 @@ def _print_summary(table: Table, built: Built) -> None:
     print("Filas por intención:")
     for intent in INTENTS:
         print(f"  {intent}: {built.intent_counts.get(intent, 0)}")
-    if built.with_doubt:
-        _print_ids("Etiquetadas con alguna duda anotada", built.with_doubt)
+    # if built.with_doubt:
+    #     _print_ids("Etiquetadas con alguna duda anotada", built.with_doubt)
     if built.escalation_mismatch:
         _print_ids(
             "AVISO: should_escalate de la hoja no coincide con la intención "
@@ -353,7 +356,7 @@ def _blocking_problems(built: Built) -> list[tuple[str, list[str]]]:
         ("question_id repetidos", built.duplicates),
         ("intención que no está en la taxonomía", invalid),
         ("texto de pregunta vacío", built.empty_text),
-        ("intención y motivo de descarte a la vez (deja solo uno)", built.conflicts),
+        ("intención y nota en dudosa a la vez (si hay nota, deja intent vacío)", built.conflicts),
         ("sin intención y sin motivo en dudosa (¿se olvidó?)", built.unlabeled),
     ]
     return [(label, ids) for label, ids in candidates if ids]

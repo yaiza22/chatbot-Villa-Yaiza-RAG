@@ -52,7 +52,7 @@ def good_rows() -> list[list[str]]:
         row(1, "cuanto vale el alquiler", "precio"),
         row(2, "caben 80 personas?", "capacidad"),
         row(3, "tienen disponible el 24 de dic?", "disponibilidad"),
-        row(4, "27", "", "", "un comentario"),
+        row(4, "27", "", "", "depende del mensaje anterior"),
         row(5, "jajaja ok", "", "", "#descartada"),
     ]
 
@@ -216,6 +216,7 @@ def test_discarded_rows_are_split_by_reason_without_question_text(
     [
         [row(1, intent="", note="")],  # sin intención ni motivo: se olvidó
         [row(1, intent="precio", note="#descartada")],  # intención y descarte a la vez
+        [row(1, intent="precio", note="¿precio u otro_negocio?")],  # intención y nota
         [row(1), row(1)],  # id repetido
         [
             ["S001", "cuanto vale", "precio", "", "", "YS", "P1"]
@@ -232,14 +233,32 @@ def test_blocking_problems_write_nothing(
     assert not (tmp_path / "labeled_discarded.csv").exists()
 
 
-def test_doubt_notes_keep_the_row_and_are_counted(
-    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+@pytest.mark.parametrize(
+    ("note", "expected"),
+    [
+        ("#descartada", "sin_sentido"),
+        ("Descartar", "sin_sentido"),
+        ("¿precio u otro_negocio?", "depende_contexto"),
+        ("depende del mensaje anterior", "depende_contexto"),
+        ("", "sin_clasificar"),
+    ],
+)
+def test_discard_reason_from_note(note: str, expected: str) -> None:
+    assert bl.discard_reason(note) == expected
+
+
+def test_any_note_without_intent_is_discarded_as_needs_context(
+    tmp_path: Path,
 ) -> None:
-    rows = [row(1, intent="precio", note="¿precio u otro_negocio?")]
+    rows = good_rows() + [row(6, "y el otro?", "", "", "¿precio u otro_negocio?")]
     out = tmp_path / "labeled.csv"
     assert run_main(write_sheet(tmp_path / "s.csv", rows), out) == 0
-    assert len(read_rows(out)) == 1
-    assert "duda" in capsys.readouterr().out
+    discarded = {
+        d["question_id"]: d["motivo"]
+        for d in read_rows(tmp_path / "labeled_discarded.csv")
+    }
+    assert discarded["R006"] == "depende_contexto"
+    assert "R006" not in {r["question_id"] for r in read_rows(out)}
 
 
 def test_small_classes_are_warned(
