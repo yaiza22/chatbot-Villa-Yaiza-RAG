@@ -139,6 +139,7 @@ def discard_reason(note: str) -> str:
         return REASON_CONTEXT
     return REASON_UNLABELED
 
+
 def read_table(path: Path) -> Table:
     """
     Lee un CSV detectando separador y BOM.
@@ -222,7 +223,7 @@ def build_labeled(rows: Sequence[dict[str, str]]) -> Built:
                 }
             )
             continue
-        if reason != REASON_UNLABELED:
+        if reason == REASON_NO_SENSE:
             built.conflicts.append(question_id)
             continue
         if intent not in INTENTS:
