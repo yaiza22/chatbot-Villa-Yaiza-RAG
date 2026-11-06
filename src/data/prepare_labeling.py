@@ -329,7 +329,7 @@ def build_pairs(
 
     blocks: list[_Block] = []
 
-    #for chat_id, rows in chats.items():
+    # for chat_id, rows in chats.items():
     for chat_id in sorted(chats):
         rows = chats[chat_id]
         current: _Block | None = None
