@@ -60,10 +60,18 @@ def _build_m1_engine() -> Engine:
     return TfidfRlEngine()
 
 
+def _build_m2_engine() -> Engine:
+    """Instancia de forma perezosa el motor M2 para no exigir sentence-transformers a M0/M1."""
+    from src.engines.m2_embeddings import EmbeddingEngine
+
+    return EmbeddingEngine()
+
+
 # Registro extensible de motores disponibles por nombre.
 ENGINE_REGISTRY: dict[str, Callable[[], Engine]] = {
     "M0": RuleEngine,
     "M1": _build_m1_engine,
+    "M2": _build_m2_engine,
 }
 
 
