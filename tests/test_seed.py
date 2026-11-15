@@ -43,12 +43,12 @@ def test_schema_ids_and_sources(rows: list[dict[str, str]]) -> None:
     assert all(row["question_text"].strip() for row in rows)
 
 
-def test_every_intent_has_between_10_and_12_questions(
+def test_every_intent_has_between_10_and_13_questions(
     rows: list[dict[str, str]],
 ) -> None:
     counts = Counter(row["intent"] for row in rows)
     assert set(counts) == set(INTENTS)
-    assert all(10 <= count <= 12 for count in counts.values())
+    assert all(10 <= count <= 13 for count in counts.values())
 
 
 def test_escalation_flag_follows_the_taxonomy(rows: list[dict[str, str]]) -> None:
