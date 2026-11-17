@@ -51,21 +51,21 @@ SYNTHETIC_CASES: list[tuple[str, str, bool, float]] = [
         True,
         1.0,
     ),
-    # 7. Capacidad (respondible con plantilla [POR CONFIRMAR]).
+    # 7. Capacidad
     (
         "Cuántas habitaciones y camas tiene la finca para dormir?",
         "capacidad",
         False,
         1.0,
     ),
-    # 8. Reglas y servicios (respondible con plantilla [POR CONFIRMAR]).
+    # 8. Reglas y servicios
     (
         "Se permiten mascotas y tienen piscina y wifi?",
         "reglas_servicios",
         False,
         1.0,
     ),
-    # 9. Ubicación (respondible con plantilla [POR CONFIRMAR]).
+    # 9. Ubicación 
     (
         "En qué vereda queda y cómo llego desde Ibagué en carro?",
         "ubicacion",
@@ -137,7 +137,7 @@ def test_engine_smoke_protocol(engine: RuleEngine) -> None:
     assert response.confidence == 1.0
     assert response.escalate is False
     assert response.answer is not None
-    assert "[POR CONFIRMAR]" in response.answer
+    """assert "[POR CONFIRMAR]" in response.answer: Ya no se usa porque ya se actualizaron canned_answers"""
     assert response.retrieved == []
     assert response.latency_ms is not None
     assert response.latency_ms >= 0.0
@@ -174,7 +174,7 @@ def test_m0_synthetic_messages(
     else:
         assert expected_intent not in ESCALATING_INTENTS
         assert response.answer is not None
-        assert "[POR CONFIRMAR]" in response.answer
+        #assert "[POR CONFIRMAR]" in response.answer: ya no se usa
 
 
 def test_normalize_text_accents_and_repeated_letters() -> None:
