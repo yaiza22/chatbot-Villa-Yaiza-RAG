@@ -68,9 +68,9 @@ from pathlib import Path
 from src.config import ESCALATING_INTENTS, INTENTS, KB_DIR, PROCESSED_DIR
 from src.data.anonymize import add_list_arguments, build_anonymizer
 from src.data.check_pii import check_file
-from src.data.prepare_labeling import write_csv #, SHEET_FILENAME
+from src.data.prepare_labeling import write_csv  # , SHEET_FILENAME
 
-#KB_DIR = PROCESSED_DIR.parent / "kb"
+# KB_DIR = PROCESSED_DIR.parent / "kb"
 LABELED_FILENAME = "labeled.csv"
 LABELED_COLUMNS = (
     "question_id",
@@ -226,7 +226,9 @@ def _parse_kb_file(path: Path) -> KbFragment:
     body = _squash(" ".join(body_lines))
     if not body:
         raise ValueError("el fragmento no tiene contenido")
-    return KbFragment(meta["id"], meta["intent"].lower(), meta.get("vigente_desde", ""), body)
+    return KbFragment(
+        meta["id"], meta["intent"].lower(), meta.get("vigente_desde", ""), body
+    )
 
 
 def load_kb(kb_dir: Path) -> dict[str, KbFragment]:
@@ -245,7 +247,9 @@ def load_kb(kb_dir: Path) -> dict[str, KbFragment]:
             intención fuera de la taxonomía o sin contenido). Se listan todos los errores.
     """
     if not kb_dir.is_dir():
-        raise ValueError(f"no se encontró la carpeta de la base de conocimiento: {kb_dir}")
+        raise ValueError(
+            f"no se encontró la carpeta de la base de conocimiento: {kb_dir}"
+        )
     fragments: dict[str, KbFragment] = {}
     errors: list[str] = []
     for path in sorted(kb_dir.glob("*.md")):
@@ -255,9 +259,13 @@ def load_kb(kb_dir: Path) -> dict[str, KbFragment]:
             errors.append(f"{path.name}: {exc}")
             continue
         if fragment.id != path.stem:
-            errors.append(f"{path.name}: el id '{fragment.id}' no coincide con el nombre del archivo")
+            errors.append(
+                f"{path.name}: el id '{fragment.id}' no coincide con el nombre del archivo"
+            )
         elif fragment.intent not in INTENTS:
-            errors.append(f"{path.name}: intención '{fragment.intent}' fuera de la taxonomía")
+            errors.append(
+                f"{path.name}: intención '{fragment.intent}' fuera de la taxonomía"
+            )
         else:
             fragments[fragment.id] = fragment
     if errors:
@@ -549,8 +557,11 @@ def merge_labeled(
         allow_relabel: Permite actualizar los campos de ``MERGE_FIELDS``.
     """
     result = MergeResult()
-    #current = {row["question_id"]: {**{c: "" for c in LABELED_COLUMNS}, **row} for row in existing}
-    current = {row["question_id"]: {c: row.get(c, "") for c in LABELED_COLUMNS} for row in existing}
+    # current = {row["question_id"]: {**{c: "" for c in LABELED_COLUMNS}, **row} for row in existing}
+    current = {
+        row["question_id"]: {c: row.get(c, "") for c in LABELED_COLUMNS}
+        for row in existing
+    }
     result.now_discarded = [qid for qid in discarded_ids if qid in current]
     for row in new:
         question_id = row["question_id"]
@@ -633,7 +644,9 @@ def _print_summary(
                 "  Vacías (sin intención, sin kb_source y sin nota)", built.unlabeled
             )
         if built.incomplete:
-            _print_pending("  Incompletas (respondibles sin kb_source)", built.incomplete)
+            _print_pending(
+                "  Incompletas (respondibles sin kb_source)", built.incomplete
+            )
     if built.kb_counts:
         print("Filas por fragmento de la base:")
         for kb_id, count in sorted(built.kb_counts.items()):
@@ -712,24 +725,35 @@ def _blocking_problems(
     invalid = [
         f"{question_id} ({value!r})" for question_id, value in built.invalid_intents
     ]
-    unknown_kb = [f"{question_id} ({value!r})" for question_id, value in built.kb_unknown]
+    unknown_kb = [
+        f"{question_id} ({value!r})" for question_id, value in built.kb_unknown
+    ]
     candidates = [
         ("question_id con formato inválido", built.bad_ids),
         ("question_id repetidos", built.duplicates),
         ("intención que no está en la taxonomía", invalid),
         ("kb_source que no existe en la base de conocimiento", unknown_kb),
-        ("kb_source de un fragmento que escala (no es respondible)", built.kb_escalating),
+        (
+            "kb_source de un fragmento que escala (no es respondible)",
+            built.kb_escalating,
+        ),
         (
             "intención que escala junto con kb_source (deja solo una de las dos)",
             built.intent_kb_conflict,
         ),
         ("texto de pregunta vacío", built.empty_text),
-        ("intención o kb_source y nota en dudosa a la vez (si hay nota, déjalos vacíos)", built.conflicts),
+        (
+            "intención o kb_source y nota en dudosa a la vez (si hay nota, déjalos vacíos)",
+            built.conflicts,
+        ),
     ]
     if not allow_pending:
         candidates += [
             ("sin intención y sin motivo en dudosa (¿se olvidó?)", built.unlabeled),
-            ("respondible sin kb_source (elige el fragmento o cambia la intención)", built.incomplete),
+            (
+                "respondible sin kb_source (elige el fragmento o cambia la intención)",
+                built.incomplete,
+            ),
         ]
     return [(label, ids) for label, ids in candidates if ids]
 
@@ -743,7 +767,9 @@ def _report_hits(hits) -> None:
         )
         totals[hit.tag] += hit.count
     summary = ", ".join(f"{tag}: {count}" for tag, count in sorted(totals.items()))
-    print(f"FALLA: posibles datos personales ({summary}). No se escribió ningún archivo.")
+    print(
+        f"FALLA: posibles datos personales ({summary}). No se escribió ningún archivo."
+    )
 
 
 def run(
@@ -832,7 +858,9 @@ def run(
         if output_path.exists():
             existing = read_table(output_path)
             if existing.misaligned:
-                print(f"ERROR: {output_path.name} tiene filas ilegibles. Nada se escribió.")
+                print(
+                    f"ERROR: {output_path.name} tiene filas ilegibles. Nada se escribió."
+                )
                 return 2
             existing_rows = existing.rows
         merge_result = merge_labeled(
@@ -842,9 +870,18 @@ def run(
             allow_relabel,
         )
         merge_problems = [
-            ("el texto de la pregunta no coincide con labeled.csv (el texto no se modifica)", merge_result.text_changed),
-            ("la etiqueta cambia y falta --allow-relabel", merge_result.relabel_blocked),
-            ("ya estaba etiquetada en labeled.csv y la hoja ahora la descarta (corrígelo a mano)", merge_result.now_discarded),
+            (
+                "el texto de la pregunta no coincide con labeled.csv (el texto no se modifica)",
+                merge_result.text_changed,
+            ),
+            (
+                "la etiqueta cambia y falta --allow-relabel",
+                merge_result.relabel_blocked,
+            ),
+            (
+                "ya estaba etiquetada en labeled.csv y la hoja ahora la descarta (corrígelo a mano)",
+                merge_result.now_discarded,
+            ),
         ]
         merge_problems = [(label, ids) for label, ids in merge_problems if ids]
         if merge_problems:
@@ -853,9 +890,13 @@ def run(
             print("No se escribió ningún archivo.")
             return 2
         final_labeled = merge_result.rows
-        old_discarded = read_plain_csv(discarded_path) if discarded_path.exists() else []
+        old_discarded = (
+            read_plain_csv(discarded_path) if discarded_path.exists() else []
+        )
         final_discarded, recovered = merge_discarded(
-            old_discarded, built.discarded, {row["question_id"] for row in final_labeled}
+            old_discarded,
+            built.discarded,
+            {row["question_id"] for row in final_labeled},
         )
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -864,7 +905,9 @@ def run(
         tmp_discarded = Path(tmp) / discarded_path.name
         write_csv(tmp_labeled, LABELED_COLUMNS, final_labeled)
         write_csv(tmp_discarded, DISCARDED_COLUMNS, final_discarded)
-        hits = check_file(tmp_labeled, anonymizer, ["question_text"]) #hits = check_file(tmp_labeled, anonymizer)
+        hits = check_file(
+            tmp_labeled, anonymizer, ["question_text"]
+        )  # hits = check_file(tmp_labeled, anonymizer)
         hits += check_file(tmp_discarded, anonymizer, ["dudosa"])
         if hits:
             _report_hits(hits)
@@ -892,7 +935,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--input",
         type=Path,
-        #default=PROCESSED_DIR / SHEET_FILENAME,
+        # default=PROCESSED_DIR / SHEET_FILENAME,
         required=True,
         help="Hoja de etiquetado completada y exportada de Excel.",
     )

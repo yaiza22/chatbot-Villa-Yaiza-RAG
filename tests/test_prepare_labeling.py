@@ -258,8 +258,9 @@ def test_end_to_end_is_reproducible(tmp_path: Path) -> None:
     assert {r["pair_id"] for r in sheet} <= {r["pair_id"] for r in qa}
     assert not list((tmp_path / "out1").glob(".tmp_*"))
 
+
 # Este comportamiento ya no se espera.
-#def test_existing_sheet_is_not_overwritten_without_force(tmp_path: Path) -> None:
+# def test_existing_sheet_is_not_overwritten_without_force(tmp_path: Path) -> None:
 #    messages = write_messages(tmp_path / "messages.csv", many_chats())
 #    out = tmp_path / "out"
 #    assert run_main(messages, out) == 0

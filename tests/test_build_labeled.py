@@ -11,23 +11,29 @@ SHEET_HEADER = [
     "question_id",
     "question_text",
     "intent",
-    "kb_source", 
+    "kb_source",
     "should_escalate",
     "dudosa",
     "responsable",
     "pair_id",
 ]
 
-#========= Base de prueba para kb
-KB = {"capacidad_personas": "capacidad", "reglas_mascotas": "reglas_servicios",
-      "ubicacion_direccion": "ubicacion"}
+# ========= Base de prueba para kb
+KB = {
+    "capacidad_personas": "capacidad",
+    "reglas_mascotas": "reglas_servicios",
+    "ubicacion_direccion": "ubicacion",
+}
+
 
 def make_kb(folder):
     folder.mkdir(parents=True, exist_ok=True)
     for kb_id, intent in KB.items():
         (folder / f"{kb_id}.md").write_text(
             f"---\nid: {kb_id}\nintent: {intent}\nvigente_desde: 2026-11-03\n---\n\n# Título\n\nTexto de {kb_id}.\n",
-            encoding="utf-8")
+            encoding="utf-8",
+        )
+
 
 def row(
     number: int,
@@ -72,7 +78,9 @@ def good_rows() -> list[list[str]]:
 def run_main(sheet: Path, out: Path, *extra: str) -> int:
     kb_dir = sheet.parent / "kb"
     make_kb(kb_dir)
-    return bl.main(["--input", str(sheet), "--output", str(out), "--kb-dir", str(kb_dir), *extra])
+    return bl.main(
+        ["--input", str(sheet), "--output", str(out), "--kb-dir", str(kb_dir), *extra]
+    )
 
 
 # --- Lectura: separador, BOM y comas ---------------------------------------------------
@@ -148,8 +156,8 @@ def test_misaligned_rows_are_reported_by_id_without_text(
     sheet = tmp_path / "s.csv"
     sheet.write_text(
         ",".join(SHEET_HEADER)
-        + "\nR001,cuanto vale,precio,,,YS,P00001\n"
-        + "R002,hola, cuanto vale el secreto,precio,,,YS,P00002\n",
+        + "\nR001,cuanto vale,precio,,,,YS,P00001\n"
+        + "R002,hola, cuanto vale el secreto,precio,,,,YS,P00002\n",
         encoding="utf-8",
     )
     out = tmp_path / "labeled.csv"
@@ -167,7 +175,9 @@ def test_should_escalate_is_recomputed_from_intent(
     rows = [
         row(1, intent="precio", escalate="VERDADERO"),
         row(2, intent="", kb="capacidad_personas", escalate="FALSO"),
-        row(3, intent="", kb="ubicacion_direccion", escalate="VERDADERO"),  # no coincide
+        row(
+            3, intent="", kb="ubicacion_direccion", escalate="VERDADERO"
+        ),  # no coincide
         row(4, intent="disponibilidad", escalate=""),
     ]
     out = tmp_path / "labeled.csv"
@@ -178,8 +188,9 @@ def test_should_escalate_is_recomputed_from_intent(
     assert "no coincide" in printed
     assert "R003" in printed
 
+
 # Este test ya no es necesario
-#def test_reference_answer_and_kb_source_rules(tmp_path: Path) -> None:
+# def test_reference_answer_and_kb_source_rules(tmp_path: Path) -> None:
 #    header = SHEET_HEADER + ["reference_answer", "kb_source"]
 #    rows = [
 #        row(1, intent="precio") + ["algo que se ignora", "kb_x"],
@@ -329,7 +340,9 @@ def test_compare_reports_only_ids(
     manual = tmp_path / "manual.csv"
     with manual.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle)
-        writer.writerow(["question_id", "question_text", "intent", "kb_source", "should_escalate"])
+        writer.writerow(
+            ["question_id", "question_text", "intent", "kb_source", "should_escalate"]
+        )
         writer.writerow(
             ["R001", "cuanto vale el alquiler", "precio", "", "VERDADERO"]
         )  # igual
@@ -339,7 +352,9 @@ def test_compare_reports_only_ids(
         writer.writerow(
             ["R003", "texto distinto secreto", "disponibilidad", "", "True"]
         )  # texto
-        writer.writerow(["R099", "fila extra", "precio", "", "", "True"])  # solo en el manual
+        writer.writerow(
+            ["R099", "fila extra", "precio", "", "", "True"]
+        )  # solo en el manual
     out = tmp_path / "labeled.csv"
     assert run_main(sheet, out, "--compare-with", str(manual)) == 0
     printed = capsys.readouterr().out

@@ -187,9 +187,14 @@ def assign_new_splits(
         test_ids.update(members[:n_test])
 
     result = [
-        row
-        if row["split"]
-        else {**row, "split": SPLIT_TEST if row["question_id"] in test_ids else SPLIT_TRAIN}
+        (
+            row
+            if row["split"]
+            else {
+                **row,
+                "split": SPLIT_TEST if row["question_id"] in test_ids else SPLIT_TRAIN,
+            }
+        )
         for row in rows
     ]
     result = [dict(row) for row in result]

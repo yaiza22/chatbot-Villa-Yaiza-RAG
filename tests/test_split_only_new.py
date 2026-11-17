@@ -13,7 +13,12 @@ from src.data.split import (
     main,
 )
 
-INTENTS_SAMPLE = {"capacidad": 40, "reglas_servicios": 30, "ubicacion": 20, "precio": 10}
+INTENTS_SAMPLE = {
+    "capacidad": 40,
+    "reglas_servicios": 30,
+    "ubicacion": 20,
+    "precio": 10,
+}
 
 
 def make_rows(start: int, counts: dict[str, int]) -> list[dict[str, str]]:
@@ -90,9 +95,13 @@ def test_result_does_not_depend_on_file_order_or_other_intents() -> None:
     only_capacity = assign_new_splits(
         [row for row in old + new if row["intent"] in ("capacidad", "reglas_servicios")]
     )
-    capacity_full = {r["question_id"]: r["split"] for r in full if r["intent"] == "capacidad"}
+    capacity_full = {
+        r["question_id"]: r["split"] for r in full if r["intent"] == "capacidad"
+    }
     capacity_only = {
-        r["question_id"]: r["split"] for r in only_capacity if r["intent"] == "capacidad"
+        r["question_id"]: r["split"]
+        for r in only_capacity
+        if r["intent"] == "capacidad"
     }
     assert capacity_full == capacity_only
 
@@ -107,8 +116,18 @@ def test_small_classes() -> None:
 
 def test_new_row_joining_one_existing_row_goes_to_train_when_target_is_met() -> None:
     rows = [
-        {"question_id": "R001", "question_text": "a", "intent": "capacidad", "split": SPLIT_TEST},
-        {"question_id": "R002", "question_text": "b", "intent": "capacidad", "split": ""},
+        {
+            "question_id": "R001",
+            "question_text": "a",
+            "intent": "capacidad",
+            "split": SPLIT_TEST,
+        },
+        {
+            "question_id": "R002",
+            "question_text": "b",
+            "intent": "capacidad",
+            "split": "",
+        },
     ]
     result = assign_new_splits(rows)
     assert result[0]["split"] == SPLIT_TEST

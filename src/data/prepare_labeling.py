@@ -553,7 +553,9 @@ def scan_sheets(out_dir: Path, pairs: Sequence[dict[str, str]]) -> SheetsState:
             if pair is None:
                 state.mismatches.append(f"{label} no existe en qa_pairs.csv")
             elif _collapse(row["question_text"]) != _collapse(pair["question_text"]):
-                state.mismatches.append(f"{label} tiene un texto distinto al de qa_pairs.csv")
+                state.mismatches.append(
+                    f"{label} tiene un texto distinto al de qa_pairs.csv"
+                )
             if pair_id in seen_in:
                 state.mismatches.append(
                     f"{label} ya estaba en {seen_in[pair_id]} (par repetido entre hojas)"
@@ -602,7 +604,9 @@ def _report_hits(hits) -> None:
         )
         totals[hit.tag] += hit.count
     summary = ", ".join(f"{tag}: {count}" for tag, count in sorted(totals.items()))
-    print(f"FALLA: posibles datos personales ({summary}). No se escribió ningún archivo.")
+    print(
+        f"FALLA: posibles datos personales ({summary}). No se escribió ningún archivo."
+    )
 
 
 def run(
@@ -708,9 +712,7 @@ def run(
         if sheet_path.exists():
             print(f"ERROR: ya existe {sheet_path.name}; no se sobrescribe.")
             return 2
-        sheet = build_sheet(
-            chosen, responsables, start=state.last_question_number + 1
-        )
+        sheet = build_sheet(chosen, responsables, start=state.last_question_number + 1)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(dir=out_dir, prefix=".tmp_") as tmp:

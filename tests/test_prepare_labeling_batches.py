@@ -66,10 +66,14 @@ def test_first_run_creates_qa_and_batch1(tmp_path, monkeypatch) -> None:
     sheet = read_csv(tmp_path / "labeling_sheet_batch1.csv")
     assert [row["question_id"] for row in sheet] == [f"R{n:03d}" for n in range(1, 11)]
     assert {"intent", "kb_source", "dudosa"} <= set(sheet[0])
-    assert all(row["intent"] == row["kb_source"] == row["dudosa"] == "" for row in sheet)
+    assert all(
+        row["intent"] == row["kb_source"] == row["dudosa"] == "" for row in sheet
+    )
 
 
-def test_second_batch_is_disjoint_and_continues_numbering(tmp_path, monkeypatch) -> None:
+def test_second_batch_is_disjoint_and_continues_numbering(
+    tmp_path, monkeypatch
+) -> None:
     no_pii(monkeypatch)
     write_messages(tmp_path / "messages.csv")
     go(tmp_path, sample_size=10)
@@ -103,7 +107,9 @@ def test_nothing_left_fails_with_clear_message(tmp_path, monkeypatch, capsys) ->
     assert not (tmp_path / "labeling_sheet_batch2.csv").exists()
 
 
-def test_sample_larger_than_pool_takes_everything_with_notice(tmp_path, monkeypatch, capsys) -> None:
+def test_sample_larger_than_pool_takes_everything_with_notice(
+    tmp_path, monkeypatch, capsys
+) -> None:
     no_pii(monkeypatch)
     write_messages(tmp_path / "messages.csv")
     go(tmp_path, sample_size=25)
@@ -130,7 +136,9 @@ def test_rebuild_qa_recreates_it_when_ids_still_match(tmp_path, monkeypatch) -> 
     (tmp_path / "qa_pairs.csv").write_text("basura", encoding="utf-8")
     assert go(tmp_path, rebuild_qa=True) == 0
     assert len(read_csv(tmp_path / "qa_pairs.csv")) == N_CHATS
-    assert not (tmp_path / "labeling_sheet_batch2.csv").exists()  # sin cantidad, no hay hoja
+    assert not (
+        tmp_path / "labeling_sheet_batch2.csv"
+    ).exists()  # sin cantidad, no hay hoja
 
 
 def test_rebuild_qa_aborts_if_ids_would_shift(tmp_path, monkeypatch, capsys) -> None:
@@ -165,7 +173,8 @@ def test_unknown_pair_id_in_a_sheet_aborts(tmp_path, monkeypatch) -> None:
     go(tmp_path, sample_size=10)
     sheet_path = tmp_path / "labeling_sheet_batch1.csv"
     sheet_path.write_text(
-        sheet_path.read_text(encoding="utf-8").replace("P00001", "P99999"), encoding="utf-8"
+        sheet_path.read_text(encoding="utf-8").replace("P00001", "P99999"),
+        encoding="utf-8",
     )
     assert go(tmp_path, sample_size=5) == 2
 
@@ -178,7 +187,9 @@ def test_same_seed_gives_same_sample(tmp_path, monkeypatch) -> None:
         folder.mkdir()
         write_messages(folder / "messages.csv")
         pl.run(folder / "messages.csv", folder, anonymizer=ANONYMIZER, sample_size=12)
-        ids.append([r["pair_id"] for r in read_csv(folder / "labeling_sheet_batch1.csv")])
+        ids.append(
+            [r["pair_id"] for r in read_csv(folder / "labeling_sheet_batch1.csv")]
+        )
     assert ids[0] == ids[1]
 
 
@@ -192,19 +203,25 @@ def test_etiquetadas_file_is_not_counted_as_a_sheet(tmp_path, monkeypatch) -> No
     assert (tmp_path / "labeling_sheet_batch2.csv").exists()
 
 
-def test_old_sheet_without_kb_source_column_is_still_readable(tmp_path, monkeypatch) -> None:
+def test_old_sheet_without_kb_source_column_is_still_readable(
+    tmp_path, monkeypatch
+) -> None:
     no_pii(monkeypatch)
     write_messages(tmp_path / "messages.csv")
     go(tmp_path, sample_size=10)
     sheet = tmp_path / "labeling_sheet_batch1.csv"
     rows = read_csv(sheet)
     columns = [c for c in rows[0] if c != "kb_source"]
-    with sheet.open("w", encoding="utf-8-sig", newline="") as handle:  # Excel suele agregar BOM
-        writer = csv.DictWriter(handle, fieldnames=columns, extrasaction="ignore", lineterminator="\n")
+    with sheet.open(
+        "w", encoding="utf-8-sig", newline=""
+    ) as handle:  # Excel suele agregar BOM
+        writer = csv.DictWriter(
+            handle, fieldnames=columns, extrasaction="ignore", lineterminator="\n"
+        )
         writer.writeheader()
         writer.writerows(rows)
     assert go(tmp_path, sample_size=5) == 0
-    #assert [r["question_id"] for r in read_csv(tmp_path / "labeling_sheet_batch2.csv")][0] == "R011"
+    # assert [r["question_id"] for r in read_csv(tmp_path / "labeling_sheet_batch2.csv")][0] == "R011"
     assert read_csv(tmp_path / "labeling_sheet_batch2.csv")[0]["question_id"] == "R011"
 
 
@@ -217,11 +234,15 @@ def test_incompatible_or_missing_options(tmp_path, monkeypatch, capsys) -> None:
     assert go(tmp_path) == 2  # qa existe y no se pidió hoja ni --rebuild-qa
     assert "Nada que hacer" in capsys.readouterr().out
     other = tmp_path / "otra"
-    assert pl.run(other / "messages.csv", other, anonymizer=ANONYMIZER, sample_size=5) == 2
+    assert (
+        pl.run(other / "messages.csv", other, anonymizer=ANONYMIZER, sample_size=5) == 2
+    )
 
 
 def test_pii_hit_writes_nothing(tmp_path, monkeypatch) -> None:
-    hit = SimpleNamespace(file="x.csv", row=1, row_id="R001", column="question_text", tag="[TEL]", count=1)
+    hit = SimpleNamespace(
+        file="x.csv", row=1, row_id="R001", column="question_text", tag="[TEL]", count=1
+    )
     monkeypatch.setattr(pl, "check_file", lambda *args, **kwargs: [hit])
     write_messages(tmp_path / "messages.csv")
     assert go(tmp_path, sample_size=5) == 1
@@ -230,7 +251,9 @@ def test_pii_hit_writes_nothing(tmp_path, monkeypatch) -> None:
 
 
 def test_build_sheet_continues_numbering_and_rotates_responsables() -> None:
-    sample = [{"pair_id": f"P{n}", "question_text": "q", "answer_text": ""} for n in range(4)]
+    sample = [
+        {"pair_id": f"P{n}", "question_text": "q", "answer_text": ""} for n in range(4)
+    ]
     sheet = pl.build_sheet(sample, ("YS", "CM"), start=251)
     assert [r["question_id"] for r in sheet] == ["R251", "R252", "R253", "R254"]
     assert [r["responsable"] for r in sheet] == ["YS", "CM", "YS", "CM"]
