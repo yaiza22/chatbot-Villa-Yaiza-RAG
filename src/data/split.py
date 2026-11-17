@@ -17,8 +17,17 @@ Reglas:
 * En cada intención con 2 o más preguntas queda al menos una en test y una en
   train.
 
+Partición incremental (``--only-new``): cuando se agregan filas a un archivo que ya
+tiene partición, asigna ``split`` solo a las filas con ``split`` vacío y no mueve ninguna
+fila ya asignada. Para cada intención apunta a que el total acumulado (filas viejas más
+nuevas) quede cerca de 70/30, y no solo el lote nuevo. Es determinista: cada intención
+usa su propia semilla derivada de ``SEED`` y de su nombre, así que el resultado de una
+intención no depende de las demás ni del orden del archivo. Si detecta que cambiaría una
+fila existente, falla sin escribir nada.
+
 Uso (desde la raíz del repositorio)::
     python -m src.data.split --input data/processed/seed.csv
+    python -m src.data.split --input data/processed/labeled.csv --only-new
 """
 
 import argparse
@@ -89,6 +98,105 @@ def assign_splits(
     ]
 
 
+def _ensure_existing_unchanged(
+    before: list[dict[str, str]], after: list[dict[str, str]]
+) -> None:
+    """Verifica que las filas que ya tenían ``split`` quedaron idénticas.
+
+    Raises:
+        ValueError: Si alguna fila asignada cambió (se informa su ``question_id``).
+    """
+    changed = [
+        old["question_id"]
+        for old, new in zip(before, after, strict=True)
+        if old["split"] and old != new
+    ]
+    if changed:
+        raise ValueError(
+            "La partición cambiaría filas ya asignadas: " + ", ".join(changed)
+        )
+
+
+def assign_new_splits(
+    rows: list[dict[str, str]],
+    seed: int = SEED,
+    test_fraction: float = TEST_FRACTION,
+) -> list[dict[str, str]]:
+    """Asigna ``split`` solo a las filas nuevas, sin mover las ya asignadas.
+
+    Las filas nuevas son las que tienen ``split`` vacío. En cada intención, el número de
+    filas de test del total acumulado apunta a ``test_fraction`` (al menos una en test y
+    una en train si hay 2 o más filas); a las nuevas les toca la diferencia con lo que ya
+    hay en test, sin pasar del número de nuevas. Una intención con menos de 2 filas en
+    total deja sus filas nuevas en train. Las nuevas se ordenan por ``question_id`` y se
+    mezclan con una semilla propia de la intención (``"<seed>:<intención>"``).
+
+    Args:
+        rows: Filas del CSV (cada una con ``question_id``, ``intent`` y ``split``).
+        seed: Semilla base.
+        test_fraction: Proporción objetivo de test por intención en el total acumulado.
+
+    Returns:
+        Copias de las filas, en el mismo orden, con ``split`` completo. Si no hay filas
+        nuevas, las devuelve sin cambios.
+
+    Raises:
+        ValueError: Si faltan columnas, hay ``question_id`` repetidos, una intención
+            vacía, un ``split`` que no es ``train``/``test``/vacío, o el resultado
+            cambiaría una fila ya asignada.
+    """
+    for column in REQUIRED_COLUMNS:
+        if rows and column not in rows[0]:
+            raise ValueError(f"Falta la columna '{column}'")
+    ids = [row["question_id"] for row in rows]
+    if len(set(ids)) != len(ids):
+        raise ValueError("Hay question_id repetidos")
+    if any(not row["intent"] for row in rows):
+        raise ValueError("Hay filas sin intención")
+    invalid = [
+        row["question_id"]
+        for row in rows
+        if row["split"] not in ("", SPLIT_TRAIN, SPLIT_TEST)
+    ]
+    if invalid:
+        raise ValueError(
+            f"Valores de split que no son '{SPLIT_TRAIN}' ni '{SPLIT_TEST}': "
+            + ", ".join(invalid)
+        )
+
+    existing_test: Counter[str] = Counter()
+    existing_total: Counter[str] = Counter()
+    new_ids: dict[str, list[str]] = defaultdict(list)
+    for row in rows:
+        intent = row["intent"]
+        if row["split"]:
+            existing_total[intent] += 1
+            existing_test[intent] += row["split"] == SPLIT_TEST
+        else:
+            new_ids[intent].append(row["question_id"])
+
+    test_ids: set[str] = set()
+    for intent in sorted(new_ids):
+        members = sorted(new_ids[intent])
+        total = existing_total[intent] + len(members)
+        if total < 2:
+            continue
+        target_test = min(max(1, round(total * test_fraction)), total - 1)
+        n_test = min(max(0, target_test - existing_test[intent]), len(members))
+        random.Random(f"{seed}:{intent}").shuffle(members)
+        test_ids.update(members[:n_test])
+
+    result = [
+        row
+        if row["split"]
+        else {**row, "split": SPLIT_TEST if row["question_id"] in test_ids else SPLIT_TRAIN}
+        for row in rows
+    ]
+    result = [dict(row) for row in result]
+    _ensure_existing_unchanged(rows, result)
+    return result
+
+
 def read_rows(path: Path) -> tuple[list[str], list[dict[str, str]]]:
     """Lee un CSV y devuelve sus columnas y sus filas."""
     with path.open(encoding="utf-8", newline="") as handle:
@@ -119,6 +227,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Reasigna aunque ya haya particiones (invalida resultados previos).",
     )
+    parser.add_argument(
+        "--only-new",
+        action="store_true",
+        help=(
+            "Asigna split solo a las filas con split vacío, sin mover las ya asignadas "
+            "(apunta a 70/30 sobre el total acumulado por intención)."
+        ),
+    )
     return parser
 
 
@@ -133,9 +249,19 @@ def main(argv: list[str] | None = None) -> int:
     """
     parser = _build_arg_parser()
     args = parser.parse_args(argv)
+    if args.only_new and args.force:
+        parser.error("--only-new y --force no se pueden usar juntos.")
     try:
         fieldnames, rows = read_rows(args.input)
-        result = assign_splits(rows, seed=args.seed, overwrite=args.force)
+        if args.only_new:
+            new_count = sum(1 for row in rows if not row.get("split"))
+            if new_count == 0:
+                print("No hay filas nuevas (todas tienen split); no se modificó nada.")
+                return 0
+            result = assign_new_splits(rows, seed=args.seed)
+            print(f"Filas nuevas con split asignado: {new_count}")
+        else:
+            result = assign_splits(rows, seed=args.seed, overwrite=args.force)
     except (OSError, ValueError) as exc:
         parser.error(str(exc))
     write_rows(args.output or args.input, fieldnames, result)
