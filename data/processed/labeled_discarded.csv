@@ -1,0 +1,67 @@
+question_id,motivo,dudosa,pair_id
+R001,sin_sentido,descartar,P00655
+R017,depende_contexto,"depende del contexto, podria ser cuantas personas",P00033
+R055,sin_sentido,descartar,P00619
+R063,sin_sentido,descartar,P00081
+R065,sin_sentido,descartar,P00301
+R080,depende_contexto,se refiere a fecha o personas?,P00104
+R081,depende_contexto,"depende del contexto, es una fecha o cantidad de personas",P00822
+R084,sin_sentido,descartar,P00651
+R095,sin_sentido,descartar,P00074
+R099,sin_sentido,descartar,P00547
+R105,sin_sentido,descartar,P00277
+R114,sin_sentido,descartar,P00856
+R125,depende_contexto,"precio, capacidad o disponibilidad?",P00512
+R130,sin_sentido,descartar,P00272
+R148,sin_sentido,descartar,P00157
+R156,sin_sentido,descartar,P00391
+R190,sin_sentido,descartar,P00553
+R220,sin_sentido,descartar,P00206
+R222,sin_sentido,descartar,P00846
+R244,sin_sentido,descartar,P00339
+R289,depende_contexto,a que se refiere?,P00483
+R300,sin_sentido,descartar,P00283
+R304,sin_sentido,descartar,P00414
+R308,sin_sentido,descartar,P00811
+R311,sin_sentido,descartar,P00508
+R334,sin_sentido,descartar,P00308
+R336,sin_sentido,descartar,P00309
+R342,sin_sentido,descartar,P00859
+R345,depende_contexto,necesita contexto,P00597
+R353,depende_contexto,necesita contexto,P00067
+R366,sin_sentido,descartar,P00601
+R369,depende_contexto,necesita contexto,P00819
+R380,depende_contexto,necesita contexto,P00752
+R393,depende_contexto,necesita contexto,P00362
+R395,depende_contexto,necesita contexto,P00079
+R401,sin_sentido,descartar,P00739
+R402,sin_sentido,descartar,P00429
+R403,sin_sentido,descartar,P00146
+R404,sin_sentido,descartar,P00116
+R423,sin_sentido,descartar,P00041
+R435,sin_sentido,descartar,P00093
+R436,sin_sentido,descartar,P00710
+R439,sin_sentido,descartar,P00866
+R464,sin_sentido,descartar,P00249
+R465,sin_sentido,descartar,P00016
+R473,sin_sentido,descartar,P00494
+R480,sin_sentido,descartar,P00545
+R499,sin_sentido,descartar,P00594
+R500,sin_sentido,descartar,P00816
+R543,depende_contexto,necesita contexto,P00280
+R544,sin_sentido,descartar,P00670
+R562,depende_contexto,necesita contexto,P00574
+R567,depende_contexto,necesita contexto,P00673
+R600,depende_contexto,necesita contexto,P00799
+R601,sin_sentido,descartar,P00646
+R614,depende_contexto,necesita contexto,P00078
+R624,depende_contexto,necesita contexto,P00107
+R645,depende_contexto,necesita contexto,P00103
+R650,depende_contexto,necesita contexto,P00046
+R657,depende_contexto,necesita contexto,P00260
+R667,depende_contexto,necesita contexto,P00812
+R670,depende_contexto,necesita contexto,P00769
+R763,sin_sentido,descartar,P00763
+R771,sin_sentido,descartar,P00721
+R775,depende_contexto,necesita contexto,P00233
+R813,sin_sentido,descartar,P00421
