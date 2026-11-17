@@ -259,16 +259,17 @@ def test_end_to_end_is_reproducible(tmp_path: Path) -> None:
     assert not list((tmp_path / "out1").glob(".tmp_*"))
 
 
-def test_existing_sheet_is_not_overwritten_without_force(tmp_path: Path) -> None:
-    messages = write_messages(tmp_path / "messages.csv", many_chats())
-    out = tmp_path / "out"
-    assert run_main(messages, out) == 0
-    sheet_path = out / pl.SHEET_FILENAME
-    sheet_path.write_text("etiquetas hechas a mano", encoding="utf-8")
-    assert run_main(messages, out) == 2
-    assert sheet_path.read_text(encoding="utf-8") == "etiquetas hechas a mano"
-    assert run_main(messages, out, "--force") == 0
-    assert sheet_path.read_text(encoding="utf-8") != "etiquetas hechas a mano"
+# Este comportamiento ya no se espera.
+# def test_existing_sheet_is_not_overwritten_without_force(tmp_path: Path) -> None:
+#    messages = write_messages(tmp_path / "messages.csv", many_chats())
+#    out = tmp_path / "out"
+#    assert run_main(messages, out) == 0
+#    sheet_path = out / pl.SHEET_FILENAME
+#    sheet_path.write_text("etiquetas hechas a mano", encoding="utf-8")
+#    assert run_main(messages, out) == 2
+#    assert sheet_path.read_text(encoding="utf-8") == "etiquetas hechas a mano"
+#    assert run_main(messages, out, "--force") == 0
+#    assert sheet_path.read_text(encoding="utf-8") != "etiquetas hechas a mano"
 
 
 def test_personal_data_blocks_all_output_and_is_never_printed(

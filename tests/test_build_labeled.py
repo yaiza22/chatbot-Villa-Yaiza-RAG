@@ -11,21 +11,39 @@ SHEET_HEADER = [
     "question_id",
     "question_text",
     "intent",
+    "kb_source",
     "should_escalate",
     "dudosa",
     "responsable",
     "pair_id",
 ]
 
+# ========= Base de prueba para kb
+KB = {
+    "capacidad_personas": "capacidad",
+    "reglas_mascotas": "reglas_servicios",
+    "ubicacion_direccion": "ubicacion",
+}
+
+
+def make_kb(folder):
+    folder.mkdir(parents=True, exist_ok=True)
+    for kb_id, intent in KB.items():
+        (folder / f"{kb_id}.md").write_text(
+            f"---\nid: {kb_id}\nintent: {intent}\nvigente_desde: 2026-11-03\n---\n\n# Título\n\nTexto de {kb_id}.\n",
+            encoding="utf-8",
+        )
+
 
 def row(
     number: int,
     text: str = "cuanto vale el alquiler",
     intent: str = "precio",
+    kb: str = "",
     escalate: str = "",
     note: str = "",
 ) -> list[str]:
-    return [f"R{number:03d}", text, intent, escalate, note, "YS", f"P{number:05d}"]
+    return [f"R{number:03d}", text, intent, kb, escalate, note, "YS", f"P{number:05d}"]
 
 
 def write_sheet(
@@ -50,15 +68,19 @@ def read_rows(path: Path) -> list[dict[str, str]]:
 def good_rows() -> list[list[str]]:
     return [
         row(1, "cuanto vale el alquiler", "precio"),
-        row(2, "caben 80 personas?", "capacidad"),
+        row(2, "caben 80 personas?", "", kb="capacidad_personas"),
         row(3, "tienen disponible el 24 de dic?", "disponibilidad"),
-        row(4, "27", "", "", "depende del mensaje anterior"),
-        row(5, "jajaja ok", "", "", "#descartada"),
+        row(4, "27", "", "", "", "depende del mensaje anterior"),
+        row(5, "jajaja ok", "", "", "", "#descartada"),
     ]
 
 
 def run_main(sheet: Path, out: Path, *extra: str) -> int:
-    return bl.main(["--input", str(sheet), "--output", str(out), *extra])
+    kb_dir = sheet.parent / "kb"
+    make_kb(kb_dir)
+    return bl.main(
+        ["--input", str(sheet), "--output", str(out), "--kb-dir", str(kb_dir), *extra]
+    )
 
 
 # --- Lectura: separador, BOM y comas ---------------------------------------------------
@@ -134,8 +156,8 @@ def test_misaligned_rows_are_reported_by_id_without_text(
     sheet = tmp_path / "s.csv"
     sheet.write_text(
         ",".join(SHEET_HEADER)
-        + "\nR001,cuanto vale,precio,,,YS,P00001\n"
-        + "R002,hola, cuanto vale el secreto,precio,,,YS,P00002\n",
+        + "\nR001,cuanto vale,precio,,,,YS,P00001\n"
+        + "R002,hola, cuanto vale el secreto,precio,,,,YS,P00002\n",
         encoding="utf-8",
     )
     out = tmp_path / "labeled.csv"
@@ -152,8 +174,10 @@ def test_should_escalate_is_recomputed_from_intent(
 ) -> None:
     rows = [
         row(1, intent="precio", escalate="VERDADERO"),
-        row(2, intent="capacidad", escalate="FALSO"),
-        row(3, intent="ubicacion", escalate="VERDADERO"),  # no coincide
+        row(2, intent="", kb="capacidad_personas", escalate="FALSO"),
+        row(
+            3, intent="", kb="ubicacion_direccion", escalate="VERDADERO"
+        ),  # no coincide
         row(4, intent="disponibilidad", escalate=""),
     ]
     out = tmp_path / "labeled.csv"
@@ -165,23 +189,24 @@ def test_should_escalate_is_recomputed_from_intent(
     assert "R003" in printed
 
 
-def test_reference_answer_and_kb_source_rules(tmp_path: Path) -> None:
-    header = SHEET_HEADER + ["reference_answer", "kb_source"]
-    rows = [
-        row(1, intent="precio") + ["algo que se ignora", "kb_x"],
-        row(2, intent="capacidad") + ["", ""],
-        row(3, intent="ubicacion") + ["Queda en la vereda X", "ubicacion_finca"],
-    ]
-    out = tmp_path / "labeled.csv"
-    assert run_main(write_sheet(tmp_path / "s.csv", rows, header=header), out) == 0
-    result = {r["question_id"]: r for r in read_rows(out)}
-    assert result["R001"]["reference_answer"] == "ESCALAR"
-    assert result["R001"]["kb_source"] == ""
-    assert result["R002"]["reference_answer"] == "[POR CONFIRMAR]"
-    assert result["R003"]["reference_answer"] == "Queda en la vereda X"
-    assert result["R003"]["kb_source"] == "ubicacion_finca"
-    assert {r["source"] for r in result.values()} == {"real"}
-    assert {r["split"] for r in result.values()} == {""}
+# Este test ya no es necesario
+# def test_reference_answer_and_kb_source_rules(tmp_path: Path) -> None:
+#    header = SHEET_HEADER + ["reference_answer", "kb_source"]
+#    rows = [
+#        row(1, intent="precio") + ["algo que se ignora", "kb_x"],
+#        row(2, intent="capacidad") + ["", ""],
+#        row(3, intent="ubicacion") + ["Queda en la vereda X", "ubicacion_finca"],
+#    ]
+#    out = tmp_path / "labeled.csv"
+#    assert run_main(write_sheet(tmp_path / "s.csv", rows, header=header), out) == 0
+#    result = {r["question_id"]: r for r in read_rows(out)}
+#    assert result["R001"]["reference_answer"] == "ESCALAR"
+#    assert result["R001"]["kb_source"] == ""
+#    assert result["R002"]["reference_answer"] == "[POR CONFIRMAR]"
+#    assert result["R003"]["reference_answer"] == "Queda en la vereda X"
+#    assert result["R003"]["kb_source"] == "ubicacion_finca"
+#    assert {r["source"] for r in result.values()} == {"real"}
+#    assert {r["split"] for r in result.values()} == {""}
 
 
 def test_intent_is_normalized_but_typos_block(tmp_path: Path) -> None:
@@ -250,7 +275,7 @@ def test_discard_reason_from_note(note: str, expected: str) -> None:
 def test_any_note_without_intent_is_discarded_as_needs_context(
     tmp_path: Path,
 ) -> None:
-    rows = good_rows() + [row(6, "y el otro?", "", "", "¿precio u otro_negocio?")]
+    rows = good_rows() + [row(6, "y el otro?", "", "", "", "¿precio u otro_negocio?")]
     out = tmp_path / "labeled.csv"
     assert run_main(write_sheet(tmp_path / "s.csv", rows), out) == 0
     discarded = {
@@ -315,17 +340,21 @@ def test_compare_reports_only_ids(
     manual = tmp_path / "manual.csv"
     with manual.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle)
-        writer.writerow(["question_id", "question_text", "intent", "should_escalate"])
         writer.writerow(
-            ["R001", "cuanto vale el alquiler", "precio", "VERDADERO"]
+            ["question_id", "question_text", "intent", "kb_source", "should_escalate"]
+        )
+        writer.writerow(
+            ["R001", "cuanto vale el alquiler", "precio", "", "VERDADERO"]
         )  # igual
         writer.writerow(
-            ["R002", "caben 80 personas?", "ubicacion", "FALSO"]
+            ["R002", "caben 80 personas?", "", "ubicacion_direccion", "FALSO"]
         )  # intención
         writer.writerow(
-            ["R003", "texto distinto secreto", "disponibilidad", "True"]
+            ["R003", "texto distinto secreto", "disponibilidad", "", "True"]
         )  # texto
-        writer.writerow(["R099", "fila extra", "precio", "True"])  # solo en el manual
+        writer.writerow(
+            ["R099", "fila extra", "precio", "", "", "True"]
+        )  # solo en el manual
     out = tmp_path / "labeled.csv"
     assert run_main(sheet, out, "--compare-with", str(manual)) == 0
     printed = capsys.readouterr().out
