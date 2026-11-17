@@ -1,14 +1,23 @@
 """
-Prepara los pares pregunta-respuesta y la hoja de etiquetado del primer lote.
+Prepara los pares pregunta-respuesta y las hojas de etiquetado por lotes.
 
 A partir de ``messages.csv`` (ya anonimizado en data/processed) hace tres cosas:
 1. Descarta los mensajes de cliente que no son una consulta (saludos, agradecimientos,
    confirmaciones, multimedia y mensajes vacíos) y une los mensajes seguidos del mismo
    cliente en una sola consulta.
 2. Empareja cada consulta con lo que la administración respondió a continuación y guarda
-   todos los pares en ``qa_pairs.csv``.
-3. Toma una muestra al azar (con la semilla global) y genera la hoja de etiquetado, con
-   ``intent``, ``should_escalate`` y ``dudosa`` vacías para llenarlas a mano.
+   todos los pares en ``qa_pairs.csv``. Ese archivo se crea solo si no existe o si se pide
+   con ``--rebuild-qa``; si ya existe se lee tal cual (no se vuelve a leer
+   ``messages.csv``), así los ``pair_id`` no cambian de un lote a otro.
+3. Toma una muestra al azar (con la semilla global) de los pares que todavía no están en
+   ninguna hoja ``labeling_sheet_batchN.csv`` y genera la hoja siguiente (batch N+1) con
+   ``intent``, ``kb_source``, ``should_escalate`` y ``dudosa`` vacías para llenarlas a
+   mano. Los ``question_id`` continúan la numeración (R251, R252...). Una hoja existente
+   nunca se sobrescribe.
+
+Antes de generar una hoja nueva se comprueba que todas las hojas anteriores coinciden con
+``qa_pairs.csv`` (mismo ``pair_id`` y mismo texto, sin repetidos entre hojas). Si algo no
+coincide no se escribe nada.
 
 El filtro de mensajes es deliberadamente conservador: solo descarta lo que es claramente
 cortesía o ruido y no usa palabras clave de temas (precio, fecha, mascotas...). Así la
@@ -22,11 +31,18 @@ informa fila, columna y tipo (nunca el contenido).
 Dentro de cada chat, ``messages.csv`` está en orden cronológico.
 
 Uso (desde la raíz del repositorio, con las mismas listas locales que usó el anonimizador)::
-    py -m src.data.prepare_labeling --names-file data/interim/names.txt --index data/interim/chat_index.csv
+
+    # Siguiente hoja con 100 consultas nuevas al azar
+    py -m src.data.prepare_labeling --sample-size 100 --names-file data/interim/names.txt --index data/interim/chat_index.csv
+    # Siguiente hoja con todas las consultas que faltan, en orden aleatorio
+    py -m src.data.prepare_labeling --all-remaining --names-file data/interim/names.txt --index data/interim/chat_index.csv
+    # Volver a crear qa_pairs.csv desde messages.csv (solo si messages.csv cambió)
+    py -m src.data.prepare_labeling --rebuild-qa --names-file data/interim/names.txt --index data/interim/chat_index.csv
 """
 
 import argparse
 import csv
+import io
 import random
 import re
 import sys
@@ -43,7 +59,12 @@ from src.data.anonymize import add_list_arguments, build_anonymizer
 from src.data.check_pii import check_file
 
 QA_FILENAME = "qa_pairs.csv"
+# Hoja del primer lote; las siguientes siguen ``SHEET_TEMPLATE`` (batch2, batch3...).
 SHEET_FILENAME = "labeling_sheet_batch1.csv"
+SHEET_TEMPLATE = "labeling_sheet_batch{number}.csv"
+# Solo estas hojas cuentan como lotes (``..._etiquetadas.csv`` y similares se ignoran).
+SHEET_PATTERN = re.compile(r"labeling_sheet_batch(\d+)\.csv")
+QUESTION_ID_PATTERN = re.compile(r"R(\d+)")
 
 QA_COLUMNS = ("pair_id", "chat_id", "question_text", "answer_text", "timestamp")
 # ``pair_id`` va al final solo para poder volver a ``qa_pairs.csv``; se quita al armar el archivo etiquetado definitivo.
@@ -52,6 +73,7 @@ SHEET_COLUMNS = (
     "question_text",
     "answer_text",
     "intent",
+    "kb_source",
     "should_escalate",
     "dudosa",
     "responsable",
@@ -61,9 +83,10 @@ REQUIRED_MESSAGE_COLUMNS = frozenset(
     {"msg_id", "chat_id", "timestamp", "sender_role", "text"}
 )
 
-DEFAULT_SAMPLE_SIZE = 250
+DEFAULT_SAMPLE_SIZE = 250  # tamaño del primer lote (ya generado)
 DEFAULT_MAX_GAP_MIN = 10.0
 DEFAULT_RESPONSABLES = ("YS",)
+SHEET_DELIMITERS = (",", ";", "\t")
 
 CLIENT_ROLE = "cliente"
 ADMIN_ROLE = "admin"
@@ -396,27 +419,37 @@ def sample_pairs(
 def build_sheet(
     sample: Sequence[dict[str, str]],
     responsables: Sequence[str] = DEFAULT_RESPONSABLES,
+    start: int = 1,
 ) -> list[dict[str, str]]:
     """
     Arma las filas de la hoja de etiquetado (R001, R002...).
 
     Las columnas a etiquetar quedan vacías. ``responsable`` se reparte por turnos, así que
     con varias personas las filas quedan equilibradas (diferencia máxima de una).
+
+    Args:
+        sample: Pares elegidos para la hoja, en el orden en que se van a numerar.
+        responsables: Iniciales de quienes etiquetan.
+        start: Número del primer ``question_id`` (para continuar la numeración de lotes
+            anteriores; ``start=251`` genera R251, R252...).
     """
     if not responsables:
         raise ValueError("Se necesita al menos un responsable.")
+    if start < 1:
+        raise ValueError("start debe ser al menos 1.")
     return [
         {
-            "question_id": f"R{number:03d}",
+            "question_id": f"R{start + index:03d}",
             "question_text": pair["question_text"],
             "answer_text": pair["answer_text"],
             "intent": "",
+            "kb_source": "",
             "should_escalate": "",
             "dudosa": "",
-            "responsable": responsables[(number - 1) % len(responsables)],
+            "responsable": responsables[index % len(responsables)],
             "pair_id": pair["pair_id"],
         }
-        for number, pair in enumerate(sample, start=1)
+        for index, pair in enumerate(sample)
     ]
 
 
@@ -430,7 +463,107 @@ def write_csv(
         writer.writerows(rows)
 
 
-def _print_summary(stats: Stats, sample_size: int, responsables: Sequence[str]) -> None:
+def read_qa_pairs(path: Path) -> list[dict[str, str]]:
+    """
+    Lee un ``qa_pairs.csv`` ya generado.
+
+    Raises:
+        ValueError: Si faltan columnas del esquema o hay ``pair_id`` repetidos.
+    """
+    with path.open(encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        missing = set(QA_COLUMNS) - set(reader.fieldnames or [])
+        if missing:
+            raise ValueError(
+                f"{path.name}: faltan columnas {', '.join(sorted(missing))}"
+            )
+        pairs = list(reader)
+    ids = [pair["pair_id"] for pair in pairs]
+    if len(set(ids)) != len(ids):
+        raise ValueError(f"{path.name}: hay pair_id repetidos")
+    return pairs
+
+
+def _collapse(text: str) -> str:
+    # Compara textos sin depender de espacios o saltos de línea.
+    return " ".join((text or "").split())
+
+
+@dataclass
+class SheetsState:
+    # Lo que ya se usó en las hojas existentes (solo ids y números, nunca texto).
+
+    used_pair_ids: set[str] = field(default_factory=set)
+    last_batch: int = 0
+    last_question_number: int = 0
+    mismatches: list[str] = field(default_factory=list)
+
+
+def _read_sheet_rows(path: Path) -> list[dict[str, str]]:
+    # Lee una hoja de lote (UTF-8 con o sin BOM; coma, punto y coma o tabulador).
+    try:
+        text = path.read_bytes().decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"{path.name}: no está en UTF-8") from exc
+    first_line = text.split("\n", 1)[0]
+    delimiter = max(SHEET_DELIMITERS, key=first_line.count)
+    reader = csv.DictReader(io.StringIO(text, newline=""), delimiter=delimiter)
+    header = [name.strip() for name in (reader.fieldnames or [])]
+    missing = {"question_id", "question_text", "pair_id"} - set(header)
+    if missing:
+        raise ValueError(f"{path.name}: faltan columnas {', '.join(sorted(missing))}")
+    reader.fieldnames = header
+    return [row for row in reader if any((v or "").strip() for v in row.values())]
+
+
+def scan_sheets(out_dir: Path, pairs: Sequence[dict[str, str]]) -> SheetsState:
+    """
+    Revisa las hojas ``labeling_sheet_batchN.csv`` existentes frente a ``qa_pairs``.
+
+    Una hoja es consistente si cada ``pair_id`` existe en ``pairs``, su texto coincide
+    (ignorando espacios) y ningún par aparece en dos hojas. Las inconsistencias quedan en
+    ``mismatches`` (solo hoja, ``question_id`` y ``pair_id``, nunca el texto).
+
+    Returns:
+        Estado con los ``pair_id`` ya usados, el último número de lote y el último
+        número de ``question_id``.
+    """
+    by_id = {pair["pair_id"]: pair for pair in pairs}
+    state = SheetsState()
+    seen_in: dict[str, str] = {}
+    if not out_dir.is_dir():
+        return state
+    sheets = []
+    for path in out_dir.iterdir():
+        match = SHEET_PATTERN.fullmatch(path.name)
+        if match:
+            sheets.append((int(match.group(1)), path))
+    for number, path in sorted(sheets):
+        state.last_batch = max(state.last_batch, number)
+        for row in _read_sheet_rows(path):
+            question_id = (row["question_id"] or "").strip()
+            pair_id = (row["pair_id"] or "").strip()
+            id_match = QUESTION_ID_PATTERN.fullmatch(question_id)
+            if id_match:
+                state.last_question_number = max(
+                    state.last_question_number, int(id_match.group(1))
+                )
+            label = f"{path.name}: {question_id or '-'} ({pair_id or '-'})"
+            pair = by_id.get(pair_id)
+            if pair is None:
+                state.mismatches.append(f"{label} no existe en qa_pairs.csv")
+            elif _collapse(row["question_text"]) != _collapse(pair["question_text"]):
+                state.mismatches.append(f"{label} tiene un texto distinto al de qa_pairs.csv")
+            if pair_id in seen_in:
+                state.mismatches.append(
+                    f"{label} ya estaba en {seen_in[pair_id]} (par repetido entre hojas)"
+                )
+            seen_in.setdefault(pair_id, path.name)
+            state.used_pair_ids.add(pair_id)
+    return state
+
+
+def _print_qa_summary(stats: Stats) -> None:
     dropped = ", ".join(
         f"{name}: {count}" for name, count in sorted(stats.dropped.items())
     )
@@ -439,9 +572,6 @@ def _print_summary(stats: Stats, sample_size: int, responsables: Sequence[str]) 
         f"Mensajes de cliente descartados: {sum(stats.dropped.values())} ({dropped or '-'})."
     )
     print(f"Pares generados: {stats.pairs} (con respuesta: {stats.answered_pairs}).")
-    print(
-        f"Filas en la hoja de etiquetado: {sample_size}; responsables: {', '.join(responsables)}."
-    )
     if stats.unparsed_timestamps:
         print(
             f"AVISO: {stats.unparsed_timestamps} mensajes con fecha ilegible; "
@@ -449,70 +579,164 @@ def _print_summary(stats: Stats, sample_size: int, responsables: Sequence[str]) 
         )
 
 
+def _print_sheet_summary(
+    sheet_name: str,
+    sheet: Sequence[dict[str, str]],
+    remaining: int,
+    responsables: Sequence[str],
+) -> None:
+    print(
+        f"Hoja {sheet_name}: {len(sheet)} filas "
+        f"({sheet[0]['question_id']} a {sheet[-1]['question_id']}); "
+        f"responsables: {', '.join(responsables)}."
+    )
+    print(f"Consultas de qa_pairs.csv que siguen sin usar en alguna hoja: {remaining}.")
+
+
+def _report_hits(hits) -> None:
+    totals: Counter = Counter()
+    for hit in hits:
+        print(
+            f"{hit.file}: fila {hit.row} ({hit.row_id}), columna {hit.column}: "
+            f"{hit.tag} x{hit.count}"
+        )
+        totals[hit.tag] += hit.count
+    summary = ", ".join(f"{tag}: {count}" for tag, count in sorted(totals.items()))
+    print(f"FALLA: posibles datos personales ({summary}). No se escribió ningún archivo.")
+
+
 def run(
     messages_path: Path,
     out_dir: Path,
     *,
     anonymizer,
-    sample_size: int = DEFAULT_SAMPLE_SIZE,
+    sample_size: int | None = None,
+    all_remaining: bool = False,
+    rebuild_qa: bool = False,
     max_gap_min: float = DEFAULT_MAX_GAP_MIN,
     responsables: Sequence[str] = DEFAULT_RESPONSABLES,
-    force: bool = False,
     seed: int = SEED,
 ) -> int:
     """
-    Genera ``qa_pairs.csv`` y la hoja de etiquetado en ``out_dir``.
+    Crea ``qa_pairs.csv`` si hace falta y genera la siguiente hoja de etiquetado.
 
-    Los archivos se escriben primero en una carpeta temporal, se verifican con
-    ``check_pii`` y solo si no hay hallazgos pasan a ``out_dir``.
+    ``qa_pairs.csv`` se construye desde ``messages_path`` solo si no existe o si
+    ``rebuild_qa`` es ``True``; si no, se lee el existente. La hoja nueva toma consultas
+    que no estén en ninguna hoja anterior y nunca reemplaza una hoja existente. Los
+    archivos se escriben primero en una carpeta temporal, se verifican con ``check_pii``
+    y solo si no hay hallazgos pasan a ``out_dir``.
+
+    Args:
+        messages_path: ``messages.csv`` anonimizado.
+        out_dir: Carpeta con ``qa_pairs.csv`` y las hojas.
+        anonymizer: Anonimizador usado por ``check_pii``.
+        sample_size: Cantidad de consultas nuevas para la hoja (excluyente con
+            ``all_remaining``). Si hay menos disponibles, se toman todas.
+        all_remaining: Toma todas las consultas que no están en ninguna hoja.
+        rebuild_qa: Vuelve a crear ``qa_pairs.csv`` aunque exista.
+        max_gap_min: Minutos máximos entre mensajes seguidos del cliente para unirlos.
+        responsables: Iniciales de quienes etiquetan (reparto por turnos).
+        seed: Semilla del muestreo.
 
     Returns:
         0 si todo salió bien; 1 si ``check_pii`` encontró algo (no se escribe nada);
-        2 si no se pudo continuar (hoja ya existente sin ``force``, o sin pares).
+        2 si no se pudo continuar (opciones incompatibles, hojas que no coinciden con
+        ``qa_pairs.csv``, nada por hacer o sin consultas disponibles).
     """
+    if sample_size is not None and all_remaining:
+        print("ERROR: --sample-size y --all-remaining no se pueden usar juntos.")
+        return 2
     qa_path = out_dir / QA_FILENAME
-    sheet_path = out_dir / SHEET_FILENAME
-    if sheet_path.exists() and not force:
+    build_qa = rebuild_qa or not qa_path.exists()
+
+    stats = Stats()
+    if build_qa:
+        if not messages_path.exists():
+            print(f"ERROR: no se encontró {messages_path}.")
+            return 2
+        pairs = build_pairs(read_messages(messages_path), max_gap_min, stats)
+    else:
+        pairs = read_qa_pairs(qa_path)
+    if not pairs:
+        print("ERROR: no se encontró ninguna consulta de cliente.")
+        return 2
+
+    state = scan_sheets(out_dir, pairs)
+    if state.mismatches:
+        for line in state.mismatches:
+            print(f"ERROR: {line}")
+        if rebuild_qa:
+            print(
+                "Al recrear qa_pairs.csv los pair_id ya no coinciden con las hojas "
+                "existentes. No se escribió ningún archivo."
+            )
+        else:
+            print(
+                "Las hojas existentes no coinciden con qa_pairs.csv. "
+                "No se escribió ningún archivo."
+            )
+        return 2
+
+    want_sheet = sample_size is not None or all_remaining
+    if not want_sheet and not build_qa:
         print(
-            f"ERROR: ya existe {sheet_path.name}. Generarlo de nuevo borraría las etiquetas. "
-            "Usa --force solo si quieres empezar de cero."
+            "Nada que hacer: qa_pairs.csv ya existe. Usa --sample-size N o "
+            "--all-remaining para generar una hoja, o --rebuild-qa para recrearlo."
         )
         return 2
 
-    stats = Stats()
-    pairs = build_pairs(read_messages(messages_path), max_gap_min, stats)
-    if not pairs:
-        print("ERROR: no se encontró ninguna consulta de cliente en el archivo.")
-        return 2
-    sheet = build_sheet(sample_pairs(pairs, sample_size, seed), responsables)
+    sheet: list[dict[str, str]] = []
+    sheet_path: Path | None = None
+    remaining = 0
+    if want_sheet:
+        pool = [pair for pair in pairs if pair["pair_id"] not in state.used_pair_ids]
+        if not pool:
+            print(
+                "ERROR: todas las consultas de qa_pairs.csv ya están en alguna hoja; "
+                "no queda nada por etiquetar."
+            )
+            return 2
+        size = len(pool) if all_remaining else sample_size
+        if size is not None and size > len(pool):
+            print(
+                f"AVISO: solo quedan {len(pool)} consultas sin usar; "
+                f"se toman todas (se pidieron {size})."
+            )
+        chosen = sample_pairs(pool, size or len(pool), seed)
+        remaining = len(pool) - len(chosen)
+        sheet_path = out_dir / SHEET_TEMPLATE.format(number=state.last_batch + 1)
+        if sheet_path.exists():
+            print(f"ERROR: ya existe {sheet_path.name}; no se sobrescribe.")
+            return 2
+        sheet = build_sheet(
+            chosen, responsables, start=state.last_question_number + 1
+        )
 
     out_dir.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(dir=out_dir, prefix=".tmp_") as tmp:
+        hits = []
         tmp_qa = Path(tmp) / QA_FILENAME
-        tmp_sheet = Path(tmp) / SHEET_FILENAME
-        write_csv(tmp_qa, QA_COLUMNS, pairs)
-        write_csv(tmp_sheet, SHEET_COLUMNS, sheet)
-        hits = check_file(tmp_qa, anonymizer)
-        hits += check_file(tmp_sheet, anonymizer, ["question_text", "answer_text"])
+        if build_qa:
+            write_csv(tmp_qa, QA_COLUMNS, pairs)
+            hits += check_file(tmp_qa, anonymizer)
+        tmp_sheet = Path(tmp) / (sheet_path.name if sheet_path else "sheet.csv")
+        if sheet_path is not None:
+            write_csv(tmp_sheet, SHEET_COLUMNS, sheet)
+            hits += check_file(tmp_sheet, anonymizer, ["question_text", "answer_text"])
         if hits:
-            totals: Counter = Counter()
-            for hit in hits:
-                print(
-                    f"{hit.file}: fila {hit.row} ({hit.row_id}), columna {hit.column}: "
-                    f"{hit.tag} x{hit.count}"
-                )
-                totals[hit.tag] += hit.count
-            summary = ", ".join(
-                f"{tag}: {count}" for tag, count in sorted(totals.items())
-            )
-            print(
-                f"FALLA: posibles datos personales ({summary}). No se escribió ningún archivo."
-            )
+            _report_hits(hits)
             return 1
-        tmp_qa.replace(qa_path)
-        tmp_sheet.replace(sheet_path)
+        if build_qa:
+            tmp_qa.replace(qa_path)
+        if sheet_path is not None:
+            tmp_sheet.replace(sheet_path)
 
-    _print_summary(stats, len(sheet), responsables)
+    if build_qa:
+        _print_qa_summary(stats)
+    else:
+        print(f"qa_pairs.csv existente leído: {len(pairs)} pares (no se modificó).")
+    if sheet_path is not None:
+        _print_sheet_summary(sheet_path.name, sheet, remaining, responsables)
     print("OK: check_pii sin hallazgos. Archivos escritos en", out_dir)
     if not anonymizer.has_names:
         print("AVISO: sin lista de nombres, los nombres no se verificaron.")
@@ -521,22 +745,35 @@ def run(
 
 def _build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Genera qa_pairs.csv y la hoja de etiquetado del primer lote."
+        description=(
+            "Crea qa_pairs.csv (si no existe) y genera la siguiente hoja de etiquetado "
+            "con consultas que no estén en ninguna hoja anterior."
+        )
     )
     parser.add_argument(
         "--messages",
         type=Path,
         default=PROCESSED_DIR / "messages.csv",
-        help="CSV de mensajes anonimizados.",
+        help="CSV de mensajes anonimizados (solo se lee si hay que crear qa_pairs.csv).",
     )
     parser.add_argument(
         "--out-dir", type=Path, default=PROCESSED_DIR, help="Carpeta de salida."
     )
-    parser.add_argument(
+    amount = parser.add_mutually_exclusive_group()
+    amount.add_argument(
         "--sample-size",
         type=int,
-        default=DEFAULT_SAMPLE_SIZE,
-        help="Número de consultas candidatas en la hoja.",
+        help="Número de consultas nuevas al azar para la siguiente hoja.",
+    )
+    amount.add_argument(
+        "--all-remaining",
+        action="store_true",
+        help="Toma todas las consultas que no están en ninguna hoja.",
+    )
+    parser.add_argument(
+        "--rebuild-qa",
+        action="store_true",
+        help="Vuelve a crear qa_pairs.csv desde messages.csv aunque ya exista.",
     )
     parser.add_argument(
         "--max-gap-min",
@@ -549,11 +786,6 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         nargs="+",
         default=list(DEFAULT_RESPONSABLES),
         help="Iniciales de quienes etiquetan; las filas se reparten por turnos.",
-    )
-    parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Sobrescribe la hoja aunque ya exista (borra las etiquetas hechas).",
     )
     add_list_arguments(parser)
     return parser
@@ -568,7 +800,7 @@ def main(argv: list[str] | None = None) -> int:
     """
     parser = _build_arg_parser()
     args = parser.parse_args(argv)
-    if args.sample_size < 1 or args.max_gap_min < 0:
+    if (args.sample_size is not None and args.sample_size < 1) or args.max_gap_min < 0:
         parser.error(
             "--sample-size debe ser al menos 1 y --max-gap-min no puede ser negativo."
         )
@@ -579,9 +811,10 @@ def main(argv: list[str] | None = None) -> int:
             args.out_dir,
             anonymizer=anonymizer,
             sample_size=args.sample_size,
+            all_remaining=args.all_remaining,
+            rebuild_qa=args.rebuild_qa,
             max_gap_min=args.max_gap_min,
             responsables=args.responsables,
-            force=args.force,
         )
     except (OSError, ValueError, KeyError) as exc:
         parser.error(str(exc))
