@@ -67,11 +67,19 @@ def _build_m2_engine() -> Engine:
     return EmbeddingEngine()
 
 
+def _build_m3_engine() -> Engine:
+    """Instancia de forma perezosa el motor M3 (necesita Ollama y sentence-transformers)."""
+    from src.engines.m3_rag import RagEngine
+
+    return RagEngine()
+
+
 # Registro extensible de motores disponibles por nombre.
 ENGINE_REGISTRY: dict[str, Callable[[], Engine]] = {
     "M0": RuleEngine,
     "M1": _build_m1_engine,
     "M2": _build_m2_engine,
+    "M3": _build_m3_engine,
 }
 
 

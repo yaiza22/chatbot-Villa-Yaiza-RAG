@@ -18,7 +18,7 @@ ajustar, el test queda intacto, y ``fit()`` rechaza cualquier fila con ``split =
 
 Limitación conocida: los fragmentos de la base solo cubren ``capacidad``,
 ``reglas_servicios`` y ``ubicacion``. La intención predicha es la del fragmento más cercano
-(como pide ``05_EVALUACION.md``), así que M2 nunca predice ``precio``, ``disponibilidad``,
+(según el protocolo de evaluación), así que M2 nunca predice ``precio``, ``disponibilidad``,
 ``otro_negocio`` ni ``fuera_de_alcance``: esas preguntas solo se detectan si su similitud con
 la base es baja. Es justo lo que la comparación con M1 debe medir.
 """
@@ -293,6 +293,15 @@ class EmbeddingEngine:
         )  # empates: orden de la base, reproducible
         limit = self.top_k if k is None else k
         return [(self._fragments[i].id, float(scores[i])) for i in order[:limit]]
+
+    def fragment(self, fragment_id: str) -> KbFragment:
+        """Devuelve el fragmento de la base con ese ``id`` (carga la base si hace falta).
+
+        Raises:
+            KeyError: Si no existe un fragmento con ese ``id``.
+        """
+        self._ensure_index()
+        return self._by_id[fragment_id]
 
     def fit(self, train: pd.DataFrame) -> None:
         """Elige el umbral de similitud con las preguntas de ``train``.
