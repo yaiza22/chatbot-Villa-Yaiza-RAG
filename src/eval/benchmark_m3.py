@@ -110,17 +110,21 @@ def summarize(results: pd.DataFrame) -> pd.DataFrame:
                 "n": len(group),
                 "latency_median_s": float(group["latency_s"].median()),
                 "latency_p95_s": float(np.percentile(group["latency_s"], 95)),
-                "answerable_escalated": float(answerable["escalated"].mean())
-                if len(answerable)
-                else float("nan"),
-                "escalating_escalated": float(escalating["escalated"].mean())
-                if len(escalating)
-                else float("nan"),
-                "correct_fragment_in_context": float(
-                    with_source["kb_source_in_context"].mean()
-                )
-                if len(with_source)
-                else float("nan"),
+                "answerable_escalated": (
+                    float(answerable["escalated"].mean())
+                    if len(answerable)
+                    else float("nan")
+                ),
+                "escalating_escalated": (
+                    float(escalating["escalated"].mean())
+                    if len(escalating)
+                    else float("nan")
+                ),
+                "correct_fragment_in_context": (
+                    float(with_source["kb_source_in_context"].mean())
+                    if len(with_source)
+                    else float("nan")
+                ),
             }
         )
     return pd.DataFrame(summary)
