@@ -2,7 +2,7 @@
 
 Para cada modelo candidato (``EMBEDDING_CANDIDATES``) y cada forma de vectorizar los
 fragmentos (un vector por fragmento o uno por párrafo), mide **solo con las filas de
-``train``** (el test queda intacto, D-04):
+``train``** (el test queda intacto):
 
 * ``hit_at_1/3/5``: en las preguntas respondibles con ``kb_source``, qué porcentaje trae el
   fragmento correcto entre los ``k`` más parecidos. Mide si la búsqueda encuentra lo correcto.
@@ -11,8 +11,8 @@ fragmentos (un vector por fragmento o uno por párrafo), mide **solo con las fil
   Mide si un umbral de similitud puede decidir cuándo escalar.
 * ``median_ms_per_query``: latencia mediana de vectorizar una pregunta y buscar.
 
-Con preguntas reales, ``kb_source`` solo existe cuando se termine el etiquetado (T11b); hasta
-entonces ese grupo sale con ``n_answerable = 0`` y ``hit_at_k`` vacío, no inventado.
+Si un grupo de preguntas no tiene ``kb_source`` (por ejemplo, datos reales todavía sin
+etiquetar), sale con ``n_with_kb_source = 0`` y ``hit_at_k`` vacío (NaN), nunca inventado.
 
 Uso (desde la raíz del repositorio; la primera vez descarga cada modelo de Hugging Face)::
 

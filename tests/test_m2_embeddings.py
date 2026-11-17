@@ -85,12 +85,12 @@ def kb_dir(tmp_path: Path) -> Path:
 @pytest.fixture()
 def train() -> pd.DataFrame:
     rows = [
-        ("T1", "Se admiten perros en la finca?", "reglas_servicios", False, "train"),
-        ("T2", "Cuantas personas pueden dormir?", "capacidad", False, "train"),
-        ("T3", "Donde queda la finca en la vereda?", "ubicacion", False, "train"),
-        ("T4", "cuanto cuesta el alquiler", "precio", True, "train"),
-        ("T5", "hay fecha libre en diciembre", "disponibilidad", True, "train"),
-        ("T6", "venden empanadas congeladas", "fuera_de_alcance", True, "train"),
+        ("Q1", "Se admiten perros en la finca?", "reglas_servicios", False, "train"),
+        ("Q2", "Cuantas personas pueden dormir?", "capacidad", False, "train"),
+        ("Q3", "Donde queda la finca en la vereda?", "ubicacion", False, "train"),
+        ("Q4", "cuanto cuesta el alquiler", "precio", True, "train"),
+        ("Q5", "hay fecha libre en diciembre", "disponibilidad", True, "train"),
+        ("Q6", "venden empanadas congeladas", "fuera_de_alcance", True, "train"),
     ]
     return pd.DataFrame(
         rows,
