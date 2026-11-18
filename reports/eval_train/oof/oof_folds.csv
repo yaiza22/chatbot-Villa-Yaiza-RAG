@@ -1,0 +1,11 @@
+engine,best_c_,threshold,cv_folds_,fold,n_fit,n_val,model_name,top_k
+M1,10.0,0.15,5.0,0,450,113,,
+M1,100.0,0.15,5.0,1,450,113,,
+M1,100.0,0.15,5.0,2,450,113,,
+M1,100.0,0.15,5.0,3,451,112,,
+M1,100.0,0.35,5.0,4,451,112,,
+M2,,0.83,,0,450,113,intfloat/multilingual-e5-small,5.0
+M2,,0.83,,1,450,113,intfloat/multilingual-e5-small,5.0
+M2,,0.83,,2,450,113,intfloat/multilingual-e5-small,5.0
+M2,,0.83,,3,451,112,intfloat/multilingual-e5-small,5.0
+M2,,0.84,,4,451,112,intfloat/multilingual-e5-small,5.0

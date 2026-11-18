@@ -65,7 +65,7 @@ SYNTHETIC_CASES: list[tuple[str, str, bool, float]] = [
         False,
         1.0,
     ),
-    # 9. Ubicación 
+    # 9. Ubicación
     (
         "En qué vereda queda y cómo llego desde Ibagué en carro?",
         "ubicacion",
@@ -174,7 +174,7 @@ def test_m0_synthetic_messages(
     else:
         assert expected_intent not in ESCALATING_INTENTS
         assert response.answer is not None
-        #assert "[POR CONFIRMAR]" in response.answer: ya no se usa
+        # assert "[POR CONFIRMAR]" in response.answer: ya no se usa
 
 
 def test_normalize_text_accents_and_repeated_letters() -> None:

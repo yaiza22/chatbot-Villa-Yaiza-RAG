@@ -44,8 +44,8 @@ SPLIT_TEST = "test"
 
 # Motor M2 (búsqueda semántica sobre la base de conocimiento).
 # Modelo de embeddings usado por M2 (y por el recuperador de M3). Elegido con
-# ``python -m src.eval.compare_embeddings`` sobre filas de train, primero con la semilla y
-# luego confirmado con los datos reales (78 preguntas respondibles de train).
+# ``python -m src.eval.compare_embeddings`` sobre las preguntas reales de train: mayor Hit@1
+# (con M2_SPLIT_PARAGRAPHS = True). Comparación en ``reports/m2_model_selection.csv``.
 EMBEDDING_MODEL = "intfloat/multilingual-e5-small"
 # Modelos que se comparan para elegir EMBEDDING_MODEL (todos gratuitos y multilingües).
 EMBEDDING_CANDIDATES = (
