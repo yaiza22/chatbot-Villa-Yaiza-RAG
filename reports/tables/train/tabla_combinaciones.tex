@@ -1,0 +1,20 @@
+\begin{table}[!t]
+\centering
+\caption{Combinaciones simuladas: un clasificador decide si escalar (train)}
+\label{tab:combinaciones_train}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+index & Abstención correcta & Abstención innecesaria & J = abst. correcta − abst. innecesaria & Acierto en la decisión escalar/responder & Respuesta correcta de punta a punta (respondibles) \\
+\midrule
+M0 & 0.91 [0.88--0.93] & 0.40 [0.28--0.51] & 0.51 [0.39--0.62] & 0.87 [0.84--0.89] & 0.55 [0.44--0.65] \\
+M1 (5-fold OOF) & 0.98 [0.96--0.99] & 0.64 [0.54--0.74] & 0.34 [0.23--0.44] & 0.89 [0.87--0.92] & 0.36 [0.26--0.46] \\
+M2 & 0.33 [0.29--0.37] & 0.08 [0.03--0.14] & 0.26 [0.18--0.32] & 0.41 [0.37--0.45] & 0.46 [0.35--0.58] \\
+M3 & 0.57 [0.52--0.61] & 0.09 [0.04--0.15] & 0.48 [0.40--0.55] & 0.61 [0.58--0.65] & n/a \\
+M0+M2 & 0.94 [0.92--0.96] & 0.41 [0.29--0.53] & 0.53 [0.41--0.64] & 0.89 [0.86--0.91] & 0.37 [0.27--0.49] \\
+M0+M3 & 0.92 [0.90--0.94] & 0.41 [0.29--0.53] & 0.51 [0.40--0.63] & 0.88 [0.85--0.90] & n/a \\
+M1+M2 & 0.98 [0.97--0.99] & 0.65 [0.55--0.76] & 0.33 [0.22--0.43] & 0.89 [0.87--0.92] & 0.18 [0.10--0.27] \\
+M1+M3 & 0.98 [0.97--0.99] & 0.64 [0.53--0.74] & 0.34 [0.23--0.45] & 0.90 [0.87--0.92] & n/a \\
+\bottomrule
+\end{tabular}}
+\end{table}

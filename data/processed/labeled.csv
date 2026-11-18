@@ -1,0 +1,807 @@
+question_id,question_text,intent,should_escalate,reference_answer,kb_source,split,source
+R002,Ol buenas tardes Para averiguar lo de la finca 21 22 y23 marso 35 personas Q valor,disponibilidad,True,ESCALAR,,train,real
+R003,"Hola, me interesa la finca para las fechas siguientes: Mes: ______marzo 14____ Días: _____2_____ Noches: ____1______ Cantidad de personas: ______60____ Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R004,Estamos acá más o menos cuanto tiempo,fuera_de_alcance,True,ESCALAR,,test,real
+R005,2 noches ósea sábado y domingo Y se desocupa el lunes en la tarde,precio,True,ESCALAR,,test,real
+R006,Te confirmo mañana muchas gracias Dios te bendiga,otro_negocio,True,ESCALAR,,train,real
+R007,"Hola, me interesa la finca para las fechas siguientes: Mes: _31 de diciembre al 3 de enero_________ Días: ____4______ Noches: ______3____ Cantidad de personas: ____20______ Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R008,Será posible que mañana viernes pase alguien a conocer la finca?,otro_negocio,True,ESCALAR,,test,real
+R009,Buenas tardes para confirmar Pso a la 1,otro_negocio,True,ESCALAR,,test,real
+R010,Okwy ya te confirmo vale muchas gracias,otro_negocio,True,ESCALAR,,train,real
+R011,"31, 1 y 2 de enero 15 personas más o menos Entre niños y adultos",disponibilidad,True,ESCALAR,,train,real
+R012,Ya estamos en el puente del pais,otro_negocio,True,ESCALAR,,train,real
+R013,Qué precio tendría para esos dos días? Ya que es para reunión familiar Y para 15 personas?,precio,True,ESCALAR,,test,real
+R014,Voy a compartir el video y le cuento q me Dicen para irla a mirar,otro_negocio,True,ESCALAR,,train,real
+R015,Buenas noches cuantas habitaciones tiene,capacidad,False,"Primer piso: 5 habitaciones, todas compartidas (ninguna es individual). Hay 25 camas (cada camarote cuenta como dos camas), distribuidas así: - 7 camarotes semidobles (1,20 m): cada cama es para 2 personas, es decir, 4 personas por camarote. - 3 camarotes sencillos (1 m): por lo general una persona por cama, aunque a veces se quedan dos. - 3 camas semidobles, para 2 personas cada una. - 1 cama nido extraíble de 1,20 m, para 2 personas, que se guarda debajo de otra cama. - 1 cama individual de 80 cm, para 1 persona. Algunas habitaciones: la más pequeña tiene un solo camarote semidoble, para 4 personas. La más grande tiene tres camarotes (dos semidobles y uno sencillo) y una cama pequeña de 80 cm. Otra habitación tiene tres camas semidobles y la cama nido. En la mayoría de las habitaciones hay hasta tres camarotes.",capacidad_habitaciones_camas,train,real
+R016,Con cuánto se aparta ?,reglas_servicios,False,"Para hacer una reserva se pide el 30 % de su valor. Si no se paga ese anticipo, no se guarda la reserva. No se cancela la reserva ni se devuelve el anticipo. Lo que sí se puede es mover la reserva a otra fecha.",reglas_cancelaciones,train,real
+R018,Que precio tiene el alquiler de la finca para unos 15 años,precio,True,ESCALAR,,train,real
+R019,"Entiendo, entonces en caso de que la terminen antes de esa fecha pues si gustas me comentas",otro_negocio,True,ESCALAR,,test,real
+R020,"Hola, me interesa la finca para fin de año",disponibilidad,True,ESCALAR,,train,real
+R021,"Buen dia..Mi nombre es [NOMBRE]/ Los contacto nuevamente, / para conocer si tiene una finca disponible para el 31-dic hasta el 1 de enero ( si es viable)2 ó 3 noches.. para 14 personas aproximadamente. / / con la ubicacion para conocer si es viable.. y conocer bien el proceso / antes de proceder a una negociacion . gracias.",disponibilidad,True,ESCALAR,,train,real
+R022,Estoy buscando estadía para 20 adultos y 7 niños en el puente del 16 de noviembre,disponibilidad,True,ESCALAR,,train,real
+R023,Me puedes regalar ubicación,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R024,Y cuando se podría ver?,otro_negocio,True,ESCALAR,,train,real
+R025,Listo; mañana va mi prima y ahí entonces definimos 🤗,otro_negocio,True,ESCALAR,,train,real
+R026,Q precio?,precio,True,ESCALAR,,train,real
+R027,Lo que pasa es que el 18 nos toca viajar por eso no nos quedamos,otro_negocio,True,ESCALAR,,train,real
+R028,En que parte está ubicado para ir a verla,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R029,Pues cuando este en el balneario te escribo,otro_negocio,True,ESCALAR,,train,real
+R030,"Hola, me interesa la finca para las fechas siguientes: Mes: [NOMBRE] Días: [NOMBRE] 30 a 31 Noches: 1 Cantidad de personas: 20 Me cotizas por favor. 😁Y me dices el horario de entrada y salida porfa? Gracias.",disponibilidad,True,ESCALAR,,train,real
+R031,Si los dos días Cuánto sería,precio,True,ESCALAR,,train,real
+R032,Para 40 - 45 personas,precio,True,ESCALAR,,train,real
+R033,Me puedes dar más información sobre la finca,otro_negocio,True,ESCALAR,,test,real
+R034,¡Hola! Quiero más información,otro_negocio,True,ESCALAR,,test,real
+R035,"Hola, me interesa la finca para las fechas siguientes: Mes: 12 Días: 1 Noches: 0 Cantidad de personas: 50 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R036,Bueno se ve muy bonito todo Gracias señora [NOMBRE] Y es con Usted directamente,otro_negocio,True,ESCALAR,,test,real
+R037,Si sra somos solo 12,precio,True,ESCALAR,,train,real
+R038,"Hola!! Cómo estás? Mira soy [NOMBRE], fui a ver la finca hace unos días para alquilarla del 24 al 27 de diciembre, quisiera saber dos cositas, la primera si aún se encuentra disponible y la segunda si ese es el precio fijo que me diste?",disponibilidad,True,ESCALAR,,train,real
+R039,Gracias voy a revisar las fotos Y donde están ubicados,otro_negocio,True,ESCALAR,,train,real
+R040,Y qué precio Tiene,precio,True,ESCALAR,,train,real
+R041,Bueno esa zona no conozco Pero preguntare Y te confirmo mañana,otro_negocio,True,ESCALAR,,test,real
+R042,"Gracias si porque la, queremos solo para nosotros",otro_negocio,True,ESCALAR,,train,real
+R043,Y cuanto valdría si se quedan 20 personas Que precio tendría las dos opciones Y que incluye,precio,True,ESCALAR,,train,real
+R044,Bueno señora [NOMBRE] Ya voy a enviarle a la familia para ver que me dicen Pero al tomarla nos dan servicio los 2 niveles Porque como le digo somos varias familias Le recomiendo un video de las habitaciones de arriba gracias Porfa me envía un video de las cocinas,otro_negocio,True,ESCALAR,,train,real
+R045,"Hola, me interesa la finca para las fechas siguientes: Mes: diciembre Días: 3 Noches:2 Cantidad de personas: 45 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R046,Buen día que pena ando buscando disponibilidad para el 24 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R047,Estoy cotizando con anticipación para ver opciones muchas gracias,otro_negocio,True,ESCALAR,,train,real
+R048,Hablare con mi familia y te confirmo muchas gracias,otro_negocio,True,ESCALAR,,test,real
+R049,"Ah súper, es por el salado?",ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R050,Para 20 personas,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,test,real
+R051,Ok tienes video del lugar,otro_negocio,True,ESCALAR,,test,real
+R052,"Hola buenas tardes cómo estás, tienes disponiblidad para el 31 de octubre para 20 personas",disponibilidad,True,ESCALAR,,test,real
+R053,Tienes disponibilidad para el 24 de diciembre para 24 personas Dos días una noche,disponibilidad,True,ESCALAR,,train,real
+R054,Seria oara rl 31 y primero 20 personas,disponibilidad,True,ESCALAR,,train,real
+R056,Aún tienen disponibilidad para el 31?,disponibilidad,True,ESCALAR,,test,real
+R057,5 adultos,precio,True,ESCALAR,,train,real
+R058,Quedamos hoy,otro_negocio,True,ESCALAR,,train,real
+R059,Y la dirección exacta por favor Si hay niños desde que edades pagan ?,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R060,"Hola, me interesa la finca para las fechas siguientes: Mes: _______diciembre___ Días: ______del 30 al 2___ Noches: ________4_ Cantidad de personas:16 __________ Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R061,que capacidad tiene la finca gracias y en donde se ubica,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R062,Ahh okey si es que aún no me han confirmado todos lo de la familia pero serían Confirmados 10 a 12 personas Si confirman los otros seríamos 16 personas,disponibilidad,True,ESCALAR,,train,real
+R064,"Hola buen día, qué pena por no haber podido responder a tiempo, si señor, si es posible hoy a las 11 de la mañana, mejor, quedo atento 👍",disponibilidad,True,ESCALAR,,train,real
+R066,Queda muy adentro del salado O a que tiempo?,ubicacion,False,"La finca queda a unos 3 km de la Terminal La Ceibita (carrera 12 con calle 171), aproximadamente 15 minutos en carro. Caminando desde esa terminal son unos 40 minutos. Desde el barrio Modelia, que queda antes del puente donde se dividen los caminos hacia la finca, también son aproximadamente 15 minutos en carro.",ubicacion_distancias_tiempos,test,real
+R067,Pues es que en realidad el 26 ingresamos a las 8 de la noche solo que desde las 12 entra la persona que va a decorar Ah ok dale,disponibilidad,True,ESCALAR,,train,real
+R068,"Hola buenos días, quisiera averiguar si la finca está disponible para alquilarla el 27, 28 y 29 de junio, serían dos noches para entre 80 a 100 personas. Cuál sería el valor del alquiler? Y sería posible ver la finca este fin de semana? Muchas gracias",disponibilidad,True,ESCALAR,,train,real
+R069,"Listo, entonces apenas vaya mi prima te enviamos Yo te envío los comprobantes de cada uno Entonces el 30 ahorita y el 70 allá en efectivo A donde te enviamos entonces",otro_negocio,True,ESCALAR,,test,real
+R070,En la tarde se puede?,otro_negocio,True,ESCALAR,,train,real
+R071,Déjame qué me logre comunicar con el y te lo confirmo,otro_negocio,True,ESCALAR,,train,real
+R072,Dale te agradezco,otro_negocio,True,ESCALAR,,test,real
+R073,"Hola, me interesa la finca para las fechas siguientes: Mes: __________octubre Días: __________24 y 25 Noches: 1__________ Cantidad de personas: __________40 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R074,Los encontré en una página que tenía muchas fincas en Ibague,otro_negocio,True,ESCALAR,,test,real
+R075,Disponibilidad para fin de año de la villa,disponibilidad,True,ESCALAR,,train,real
+R076,Ah ok entiendo En qué parte está ubicada,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,test,real
+R077,La tienes disponible para el 31 de diciembre Para 23 personas,disponibilidad,True,ESCALAR,,test,real
+R078,Me dieron este número porque estuve preguntando por unas fincas,otro_negocio,True,ESCALAR,,train,real
+R079,Señora [NOMBRE] disculpe me pregunta la familia si la finca nos la dejan toda solo para nosotros con todos los servicios que tienen La pregunta surge porque como no entra las habitaciones del segundo piso Disculpe la pregunta,reglas_servicios,False,"La reserva no incluye servicios adicionales de atención. Se ayuda en lo que se puede, por ejemplo a prender los fogones. El encargado de la finca limpia la piscina, prende los chorros y las luces, y está atento a lo que se necesite. Durante la estadía no se hace aseo. Después de que se van, el personal de la finca hace el aseo. La reserva incluye ropa de cama. Las toallas deben traerlas los clientes. No hay servicio de cocinero. Si lo necesitan, se pacta por fuera. Cualquier otro servicio se acuerda aparte y no viene con la reserva.",servicios_incluidos,train,real
+R082,Nada menos para llegar a un acuerdo igual yo se que vsmos hacerle mucha publicidad porque en Ibagué hay familia y los otros vamos a publicarla más adelante Muchas gracias de verdad Dios la continúe bendiciendo Tan bonita gracias Bonito Voy hablar con el grupo y le cuento más tarde Muchas gracias de verdad 🙏🏻🙏🏻 Si muy cierto La piscina tiene jacuzzi No de verdad muchas gracias Le recomiendo yo le aviso en el transcurso del día y de pronto se anima y me ayuda a bajar otro poquito 🙏🏻,otro_negocio,True,ESCALAR,,train,real
+R083,"Hola, me interesa la finca para las fechas siguientes: Mes: diciembre Días: 30 al 3 enero Noches: 4 Cantidad de personas: 30 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R085,"Somos unas 80 personas, nosotros llevamos carpas y colchonetas para completar la dormida",capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,test,real
+R086,Ok podría ir a verla ? Que ubicación tiene Me podrías regalar fotos,otro_negocio,True,ESCALAR,,train,real
+R087,"Buenas noches, ya lo hablamos con los demás y vimos que se nos sale del presupuesto, pero muchas gracias, tendremos en cuenta la finca para una próxima ocasión",otro_negocio,True,ESCALAR,,test,real
+R088,20 personas 25 de octubre al domingo 26,disponibilidad,True,ESCALAR,,train,real
+R089,Quiera saber si la finca esta disponible para el 31 al 1 Para 25 personas,disponibilidad,True,ESCALAR,,train,real
+R090,Ok Si señora. Dos días antes le confirmo. Vale.,otro_negocio,True,ESCALAR,,train,real
+R091,Para alquilar la finca El 31 de octubre Es día sábado Hasta el lunes en la tarde Personas 21 adultos 9 niños,disponibilidad,True,ESCALAR,,train,real
+R092,Mi nombre es [NOMBRE] No pero los dos videos me llegaron a mi Estos dos me los envio,otro_negocio,True,ESCALAR,,train,real
+R093,"Mujer le voy hacer sincero yo voy de vacaciones a ibagué como puede ver el número es de España la finca la voy a pagar yo solo por que es como un detalle para la familia, le pido el último descuento es que se me sale del presupuesto si? Y qué pena tanta molestia",otro_negocio,True,ESCALAR,,train,real
+R094,Para el 31 de [NOMBRE] El 1 y el 2 salimos es para un retiro espiritual Llegamos el el viernes en la noche y salimos el domingo en la tarde Allá cocinariamos Cuando no la deja Que no salga tan cara,disponibilidad,True,ESCALAR,,train,real
+R096,"Hola, me interesa la finca para las fechas siguientes: Mes: Noviembre Días: 28 y 29 Noches: 1 Cantidad de personas: 30 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R097,Me puedas dar más fotos de la finca,otro_negocio,True,ESCALAR,,train,real
+R098,Pero no tienes ubicación para llegar allá directo,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R100,Buenas tardes para confirmar si puedo ir a mirar la finca ahora,otro_negocio,True,ESCALAR,,train,real
+R101,"Hola buen día! Quería preguntarte, llegan taxis a la finca? O sería fácil devolvernos en taxi? 😁☺️ Y también quería preguntarte si tienen sistema de sonido ☺️",ubicacion,False,"La vía está en buen estado. Es destapada en un tramo y, desde el balneario Pirarucu hacia arriba, está en su mayoría pavimentada con cemento. No hay transporte público hasta la finca.",ubicacion_estado_via_transporte,train,real
+R102,Me recuerdas donde está ubicada,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,test,real
+R103,Buen día Me regalas fotos Por favor y por q lados queda,otro_negocio,True,ESCALAR,,test,real
+R104,A qué hora es el ingreso Y la salida,reglas_servicios,False,"Check-in: hacia las 9 o 10 de la mañana, no más temprano, porque ese tiempo se usa para hacer el aseo. No es estricto: a veces se puede entrar un poco antes, pero siempre deben preguntar antes de llegar. Check-out: a las 3 de la tarde. Por lo general es firme, porque hay que hacer el aseo para atender otra reserva. Si necesitan salir a otra hora, deben preguntar antes. Al ingresar debe estar presente la persona que alquiló o un encargado suyo, para revisar el inventario que se entrega. Si llega otra persona primero, a esa se le entrega y queda como encargada. Al entregar la finca se hace un video en el que se graba todo lo que se entrega: habitaciones, cocina, todas las instalaciones y los artículos entregados.",reglas_horarios_checkin_checkout,train,real
+R106,Una pregunta es que nosotros hace como dos años Nos alquilamos la finca en mayp Si aún la tiene disponible para [NOMBRE] Nosotros estamos en san bernardo Si nos puede volver a compartir la ubicación es que no nos acordamos muy bien,disponibilidad,True,ESCALAR,,test,real
+R107,Entonces un fin de semana normal que no sea una fecha especial queda en 1.400.000? Si ya es la 1 😅 muchas gracias por toda la información y por la buena atención que brindas,otro_negocio,True,ESCALAR,,test,real
+R108,"Jejejeje si, mi prima les está escribiendo! 3 millones es el precio definitivo? Seríamos 20 personas del 30 al 4 de enero",precio,True,ESCALAR,,train,real
+R109,Me puede dar info de la finca Si está disponible para el 31 de diciembre y cuál sería el costo del 29 al 3 de enero porfavor,disponibilidad,True,ESCALAR,,train,real
+R110,Después que pasen las fiestas Normalmente cuánto es,precio,True,ESCALAR,,test,real
+R111,Podemos hacer la reserva con 100 mil porque nos da miedo que nos estafen de pronto por tantas cosas que se ven,reglas_servicios,False,"Para hacer una reserva se pide el 30 % de su valor. Si no se paga ese anticipo, no se guarda la reserva. No se cancela la reserva ni se devuelve el anticipo. Lo que sí se puede es mover la reserva a otra fecha.",reglas_cancelaciones,train,real
+R112,Ya voy para allá Pero voy por Picaleña Lo que me demore,otro_negocio,True,ESCALAR,,train,real
+R113,20 personas Y tiene bolirana como dice el anuncio?,reglas_servicios,False,"Hay toda clase de juegos y actividades recreativas: Se presta mesa de ping-pong, juego de rana normal, bolirana, juegos de mesa (ajedrez, parchis, bingo) y balones para jugar en las distintas áreas de la finca: balón de goma para la piscina, balon de voleyball y futbol para la cancha de arena.",servicios_entretenimiento,test,real
+R115,Se la envié a los chicos y ellos me dicen que si no hay otra Me puedes por favor colaborar Ellos quieren algo luxury Allá hay para poner música,fuera_de_alcance,True,ESCALAR,,train,real
+R116,Estoy interesado en hospedaje para este fin de año Entrando el 31 y saliendo el dos Para 17 personas,disponibilidad,True,ESCALAR,,test,real
+R117,Si sr Cuánto cuesta Y cuáles tienes,precio,True,ESCALAR,,test,real
+R118,TIENES FOTICOS por favor que me regales.- Donde estan ubicados?,otro_negocio,True,ESCALAR,,train,real
+R119,Del 31 al 3 de enero,disponibilidad,True,ESCALAR,,test,real
+R120,Envíame todas las fotos y videos que tengas 🤭 Está súper lindo!!! Me encanta? Y viene con el michi? 🤭 Tienes sonido?,otro_negocio,True,ESCALAR,,train,real
+R121,Si te pago el anticipo tú me das algún cosa que queda para esa fecha Y donde te los puede enviar ?,otro_negocio,True,ESCALAR,,train,real
+R122,La piscina es pequeña verdad?,otro_negocio,True,ESCALAR,,test,real
+R123,Me gustaría alquilar la finca para 14 perdonas para el 31 de diciembre hasta el 1 de enero,disponibilidad,True,ESCALAR,,train,real
+R124,Acá de hablar con la pastora Y me dice que si la dejan en 1.800 Que es el presupuesto. Que hay Tú me dirás doña [NOMBRE] Para ir a verla,otro_negocio,True,ESCALAR,,train,real
+R126,Me puedes regalar fotos y en qué parte queda y que precio tiene,precio,True,ESCALAR,,train,real
+R127,Si confirmado Nosotros nos gusto mucho,otro_negocio,True,ESCALAR,,train,real
+R128,Me puede regalar fotos de la casa o videos ?,otro_negocio,True,ESCALAR,,test,real
+R129,Buenas tardes me confirma el costo de las dos noches 3 dias por favor?,disponibilidad,True,ESCALAR,,test,real
+R131,"Podemos llevar comida y bebida, verdad?",reglas_servicios,False,"Si lo necesitan, se les presta el menaje: platos, vasos, cubiertos, ollas y los utensilios de cocina que pidan. Hay dos cocinas, una en la zona de barbacoa (BBQ) y otra en el interior. La alimentación no está incluida en la reserva. Un servicio de comida o de catering sería un acuerdo aparte; por lo general no se ofrece y solo se coordina cuando hay disponibilidad.",reglas_catering_propio,test,real
+R132,Me podrías brindar información sobre la finca. Sería para el domingo 10 de enero y salida el lunes 11 de enero Para 30 personas,disponibilidad,True,ESCALAR,,test,real
+R133,Yo de foto de mi WhatsApp tengo la sagrada Familia Pero ya me pudo guardar Mire por Google Y me apareció la finca,otro_negocio,True,ESCALAR,,train,real
+R134,Q costo tiene 25 personas Con niños,precio,True,ESCALAR,,test,real
+R135,"Hola, me interesa la finca para las fechas siguientes: Mes: _____Octubre_____ Días: _________ Noches: __10-11 de octubre_______ Cantidad de personas: __25-30________ Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R136,"Listo doña [NOMBRE], 4500",otro_negocio,True,ESCALAR,,test,real
+R137,Si ya le digo q día con seguridad,otro_negocio,True,ESCALAR,,train,real
+R138,Ya le envío los comprobantes 🤗 De pronto tiene llave doña [NOMBRE]?,otro_negocio,True,ESCALAR,,train,real
+R139,13 de junio,disponibilidad,True,ESCALAR,,train,real
+R140,Blancas por favor,otro_negocio,True,ESCALAR,,train,real
+R141,Si señora muy amables,otro_negocio,True,ESCALAR,,train,real
+R142,"Se puede visitar la finca el viernes? Me pondría regalar la ubicación, por favor?",otro_negocio,True,ESCALAR,,train,real
+R143,Quisiera saber si tienes disponibilidad Para la finca El 31 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R144,Cuanto sería si nos quedamos del sábado al lunes?,disponibilidad,True,ESCALAR,,train,real
+R145,Hola buenas tardes quisiera saber si tienes disponibilidad de la finca para el día 18 de abril ?,disponibilidad,True,ESCALAR,,train,real
+R146,para celebrar un cumpleaños que se entregue el domingo en la tarde,disponibilidad,True,ESCALAR,,train,real
+R147,Está disponible Para diciembre 30 al 3 de enero,disponibilidad,True,ESCALAR,,test,real
+R149,Osea cuanto me cobrarías en total Si la segunda noche vale 900 cuanto me cobras la primera noche,precio,True,ESCALAR,,train,real
+R150,No tranquila de verdad la finca bonita y apenas para el grupo de personas pero el precio muy alto Le agradezco mucho su colaboración Igual como le dije estoy cotizando,otro_negocio,True,ESCALAR,,test,real
+R151,Entrando el 25 en la mañana y saliendo el 27 en la tarde,disponibilidad,True,ESCALAR,,train,real
+R152,Reviso Y video de todo tienes que pena,otro_negocio,True,ESCALAR,,train,real
+R153,"Ya hablamos anoche 31,1,2",disponibilidad,True,ESCALAR,,train,real
+R154,seria el 01/11/2026 entre 80 a 90 personas,disponibilidad,True,ESCALAR,,train,real
+R155,A las 5 salgo para allá,otro_negocio,True,ESCALAR,,train,real
+R157,Es muy linda Ami me gusta Pero dime en cuanto nos la alquilar para yo hablarlo 🙏🏻 ya te dije que días son . 27’000.000,otro_negocio,True,ESCALAR,,train,real
+R158,Buen día. Queremos cotizar el alquiler. Primero hay disponibilidad del 31dic al 2 enero? 15 personas Donde estan ubicados para ir a mirar y el contacto? Quedó atenta Gracias,disponibilidad,True,ESCALAR,,train,real
+R159,Tienes fotos de las habitaciones,otro_negocio,True,ESCALAR,,test,real
+R160,para el próximo domingo,disponibilidad,True,ESCALAR,,train,real
+R161,", me interesa la finca para las fechas siguientes: Mes: agosto Días: 29 y 30 Noches: 1 Cantidad de personas: 40 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R162,nooo solo somos 18 personas,precio,True,ESCALAR,,test,real
+R163,"Hola buenas tardes como está? Tú me podrías facilitar por favor el recibo del último pago Quedo pendiente, y muchas gracias ya que llevo esperando una semana el soporte",otro_negocio,True,ESCALAR,,train,real
+R164,Somos los mismos del 7 y 8 Es que te escribimos de los dos número s,disponibilidad,True,ESCALAR,,test,real
+R165,Mujer me podría enviar las fotos por aquí me hace el favor,otro_negocio,True,ESCALAR,,test,real
+R166,"Buenas tardes, Necesito servicio de una finca para el 24 de diciembre o 31 Para 17 personas Que costo tiene?",disponibilidad,True,ESCALAR,,train,real
+R167,Esta muy bonita y la ubicación que tal es Tiene 2 piscinas,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,test,real
+R168,"Hola cómo estas, mi nombre es [NOMBRE] polo acabamos de hablar, este es mi número para el evento 7-8 de [NOMBRE]",otro_negocio,True,ESCALAR,,test,real
+R169,Y el precio por ser un grupo grande,precio,True,ESCALAR,,train,real
+R170,No estoy en Ibague Por eso te pregunto,fuera_de_alcance,True,ESCALAR,,train,real
+R171,Hola buenas tardes cómo estás? Me envía la ubicación,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R172,"Hola, me interesa la finca para las fechas siguientes: Mes: diciembre Días: 30,31 y 01 Noches: 2 Cantidad de personas: 50 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R173,Me dejas ver fotos por favor Pero caben las 45 personas v Queda en Ibagué Qué precio Tiene ?,otro_negocio,True,ESCALAR,,test,real
+R174,Gracias quiero información sobre la villa que alquilan,otro_negocio,True,ESCALAR,,train,real
+R175,"Hola, me interesa la finca para las fechas siguientes: Mes: diciembre Días: 30,31 y 01 Noches: 2 Cantidad de personas: 50 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R176,Es que no tengo a quien decirle porque todos trabajan,fuera_de_alcance,True,ESCALAR,,train,real
+R177,Y que precio tiene,precio,True,ESCALAR,,train,real
+R178,Es para preguntar sobre el alquiler de la finca,disponibilidad,True,ESCALAR,,train,real
+R179,Tienes foto de cómo es la villa? Cuantas habitaciones tiene,capacidad,False,"Primer piso: 5 habitaciones, todas compartidas (ninguna es individual). Hay 25 camas (cada camarote cuenta como dos camas), distribuidas así: - 7 camarotes semidobles (1,20 m): cada cama es para 2 personas, es decir, 4 personas por camarote. - 3 camarotes sencillos (1 m): por lo general una persona por cama, aunque a veces se quedan dos. - 3 camas semidobles, para 2 personas cada una. - 1 cama nido extraíble de 1,20 m, para 2 personas, que se guarda debajo de otra cama. - 1 cama individual de 80 cm, para 1 persona. Algunas habitaciones: la más pequeña tiene un solo camarote semidoble, para 4 personas. La más grande tiene tres camarotes (dos semidobles y uno sencillo) y una cama pequeña de 80 cm. Otra habitación tiene tres camas semidobles y la cama nido. En la mayoría de las habitaciones hay hasta tres camarotes.",capacidad_habitaciones_camas,train,real
+R180,"Hola, me interesa la finca para las fechas siguientes: Mes: __________ Días: __________ Noches: __________ Cantidad de personas: __________ Me cotiza por favor. Gracias. Buenas tardes para saber tienes disponible los días 30 31 1 de diciembre y qué precio tienes",disponibilidad,True,ESCALAR,,test,real
+R181,Mm entiendo,fuera_de_alcance,True,ESCALAR,,train,real
+R182,No es que nunca me enviaste la ubicación,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R183,"Si claro! Sin problema, no te preocupes Ah si muy rico! Gracias 🫶🏼 Quedo pendiente de la cotización Y de las bebidas, la garrafa de aguardiente, las canastas de cerveza, hielo y coca cola",disponibilidad,True,ESCALAR,,test,real
+R184,"O 1, 2 y 3 de enero me va bien",disponibilidad,True,ESCALAR,,test,real
+R185,"Listo, yo te aviso cuando estemos cerca",otro_negocio,True,ESCALAR,,train,real
+R186,Usted si me aparece en mi WhatsApp,fuera_de_alcance,True,ESCALAR,,train,real
+R187,Y con cuánto días de anticipación debo separarlo y en qué parte queda la finca,reglas_servicios,False,"Para hacer una reserva se pide el 30 % de su valor. Si no se paga ese anticipo, no se guarda la reserva. No se cancela la reserva ni se devuelve el anticipo. Lo que sí se puede es mover la reserva a otra fecha.",reglas_cancelaciones,test,real
+R188,Hola buenos días quisiera saber si tienes disponibilidad para el 24 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R189,22 personas 15 de noviembre,disponibilidad,True,ESCALAR,,test,real
+R191,2 noches 14 personas,precio,True,ESCALAR,,train,real
+R192,"Hola ,buenas tardes !! Estoy buscando una finca en ibague e encontrado tu contacto en Facebook Sería para el día 14 de diciembre hasta el 26 Somos seis adultos y un niño de 3 años ,me gustaría saber en cuanto saldría y si pudiera ver la finca ,muchas gracias espero su respuesta",disponibilidad,True,ESCALAR,,train,real
+R193,A q hora puedo ir mañana,otro_negocio,True,ESCALAR,,train,real
+R194,Nena A qué cuenta te deposito,otro_negocio,True,ESCALAR,,test,real
+R195,igualmente para ti,fuera_de_alcance,True,ESCALAR,,test,real
+R196,"Hola buenas tardes, sería para todo el día, tipo 9 am hasta las 9 pm o las 11",disponibilidad,True,ESCALAR,,train,real
+R197,Es que por mí la fecha da igual por qué yo estoy de vacaciones jajaja pero es que todos viven allá en ibague y todos trabajan y hasta después de reyes es que a unos les dan vacaciones Por qué yo me regreso el 21 de enero si Dios quiere,otro_negocio,True,ESCALAR,,test,real
+R198,Podemos ir a ver la finca este fin de semana?,otro_negocio,True,ESCALAR,,train,real
+R199,Que precio? A que hora es el check in y check out,precio,True,ESCALAR,,test,real
+R200,"Le escribe [NOMBRE] Estoy cotizando una finca con alojamiento para 70 personas Para los dias 14,15 y 16 de noviembre Agradezco su información",disponibilidad,True,ESCALAR,,train,real
+R201,Buenas tardes para saber el información de la finca,otro_negocio,True,ESCALAR,,train,real
+R202,Capacidad para cuántas personas Y cuanto cuesta Me podrías enviar fotos Porfavor Donde están ubicados,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R203,Iría después de las 10,otro_negocio,True,ESCALAR,,train,real
+R204,Esq no se puede poner música No sé qué pasa Pero no sale musica,otro_negocio,True,ESCALAR,,train,real
+R205,Seríamos aproximadamente 30 personas Donde está ubicada la finca Y q precio tiene Sería del 31 de diciembre al 2 de enero,disponibilidad,True,ESCALAR,,test,real
+R206,Hola sra [NOMBRE] te tengo torta,otro_negocio,True,ESCALAR,,train,real
+R207,Comprendo En cuanto sale masomenos la noche,precio,True,ESCALAR,,train,real
+R208,Veci tienes disponible para 19 y 20 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R209,"sumerce podría el viernes pasar a conocerla. Yo no vivo aquí en Ibagué, vengo de visita donde mi familia y vine justamente a buscar el lugar o mañana en la tarde?",otro_negocio,True,ESCALAR,,train,real
+R210,Bueno si sra mil gracias Nos vemos allí,otro_negocio,True,ESCALAR,,train,real
+R211,Hola buen día quería avisarte que voy más tarde si se puede,otro_negocio,True,ESCALAR,,train,real
+R212,Mas sin embargo podemos ir a mirarla y allá pagar el 50%? Y el 1 hasta que horas ?,otro_negocio,True,ESCALAR,,train,real
+R213,Ya te confirmo,otro_negocio,True,ESCALAR,,train,real
+R214,Buenas noches Para información de la finca Para alquilar el 26 de diciembre una noche 35 personas,disponibilidad,True,ESCALAR,,test,real
+R215,Cuantas habitaciones y baños,capacidad,False,"Primer piso: 5 habitaciones, todas compartidas (ninguna es individual). Hay 25 camas (cada camarote cuenta como dos camas), distribuidas así: - 7 camarotes semidobles (1,20 m): cada cama es para 2 personas, es decir, 4 personas por camarote. - 3 camarotes sencillos (1 m): por lo general una persona por cama, aunque a veces se quedan dos. - 3 camas semidobles, para 2 personas cada una. - 1 cama nido extraíble de 1,20 m, para 2 personas, que se guarda debajo de otra cama. - 1 cama individual de 80 cm, para 1 persona. Algunas habitaciones: la más pequeña tiene un solo camarote semidoble, para 4 personas. La más grande tiene tres camarotes (dos semidobles y uno sencillo) y una cama pequeña de 80 cm. Otra habitación tiene tres camas semidobles y la cama nido. En la mayoría de las habitaciones hay hasta tres camarotes.",capacidad_habitaciones_camas,train,real
+R216,ubicación: [URL],ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R217,Jola Cómo hacemos para apartar la finca,reglas_servicios,False,"Para hacer una reserva se pide el 30 % de su valor. Si no se paga ese anticipo, no se guarda la reserva. No se cancela la reserva ni se devuelve el anticipo. Lo que sí se puede es mover la reserva a otra fecha.",reglas_cancelaciones,train,real
+R218,Bueno me estaré contactando mañana,otro_negocio,True,ESCALAR,,train,real
+R219,Te quería preguntar si es posible habilitar el piso de arriba Es que somos 8 familias Y cada una quiere su habitación,otro_negocio,True,ESCALAR,,train,real
+R221,Qué precio tiene Y donde están ubicados? Hay cuartos matrimoniales?,precio,True,ESCALAR,,train,real
+R223,Actividad Para el 31 de enero 2026 Sábado y Domingo. 30 personas. Porfa Enviar cuenta para realizar anticipo,otro_negocio,True,ESCALAR,,train,real
+R224,Mas o menos que costó tendría?,precio,True,ESCALAR,,train,real
+R225,Buenas tardes un favor para una cotización de la finca para 32 personas 15 y 16 de agosto,disponibilidad,True,ESCALAR,,train,real
+R226,Me regalarían información sobre la casa quinta por favor,otro_negocio,True,ESCALAR,,train,real
+R227,Por favor me regala precio Y fotos del lugar,precio,True,ESCALAR,,train,real
+R228,Me podrías enviar fotos del sitio y las habitaciones por favor,otro_negocio,True,ESCALAR,,train,real
+R229,Cual es la cantidad máxima de personas caben,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R230,"Daleee, déjame ya te confirmo si quieren verla de nuevo o si solo te consignamos para reservar Estoy esperando que el resto de la familia me confirme",otro_negocio,True,ESCALAR,,train,real
+R231,Que precio tiene el alquiler de la finca Para el 28 de febrero,disponibilidad,True,ESCALAR,,train,real
+R232,"Todavía no tengo la fecha completamente definida, pero sería aproximadamente para el 19 de diciembre, para pasar la noche, y la entrega de la finca sería el 20 de diciembre más o menos a las 5:00 o 6:00 de la tarde. Seríamos aproximadamente 25 personas. Quisiera saber cuánto tendría de costo y qué disponibilidad tienen para esas fechas.",disponibilidad,True,ESCALAR,,train,real
+R233,que precio,precio,True,ESCALAR,,test,real
+R234,"Hola buena tarde me enviaron este número por Facebook Estoy buscando finca para el 31 de diciembre, 1 y 2 de enero Me podría regalar la información",disponibilidad,True,ESCALAR,,train,real
+R235,Y se puede ir a ver?,otro_negocio,True,ESCALAR,,train,real
+R236,Si ya esta todo Si entonces 3 millones es el precio si? Entrando toda la gente a esa hora? Solo entrarían los de la decoración Temprano,otro_negocio,True,ESCALAR,,train,real
+R237,A ya bueno muchas gracias pero como le digo estoy en una cita médica,fuera_de_alcance,True,ESCALAR,,train,real
+R238,Hola buenas tardes Quisiera saber si la casa quinta sigue en proceso de alquiler Total de personas: 20 Fecha: 31 diciembre 1 al 2 o 3 de enero Evento: compartimiento de familia a fin de año,disponibilidad,True,ESCALAR,,test,real
+R239,Me regalas porfa información sobre la finca que alquilas,otro_negocio,True,ESCALAR,,train,real
+R240,La necesito para el martes y asta en 25 de junio,disponibilidad,True,ESCALAR,,train,real
+R241,"Hola, podrías mandarme la ubicación de la finca? :) para saber que tan lejos es",ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R242,Del 31 al 2 O 3 Enero 15 incluyendo 2 Niños uno de 5 Y otro de 6,disponibilidad,True,ESCALAR,,train,real
+R243,30 de [NOMBRE] 😁,disponibilidad,True,ESCALAR,,train,real
+R245,Ahorita la puedo llamar,otro_negocio,True,ESCALAR,,test,real
+R246,Sería entonces 13 y 14,disponibilidad,True,ESCALAR,,train,real
+R247,"Quisiera información sobre la finca villa yaiza Cuántas habitaciones y baños, somos un grupo de 20 personas con perritos Para ingreso el 24 de diciembre y salida el 25",disponibilidad,True,ESCALAR,,train,real
+R248,No señor para el 8,disponibilidad,True,ESCALAR,,train,real
+R249,Uno pasa el puente amarillo y hay una despatada Por hay,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R250,"Quisiera saber si tiene disponibilidad de la finca para el 27, 28 y 29 de Junio",disponibilidad,True,ESCALAR,,test,real
+R251,Y qué precio Tiene ? Somos 45,precio,True,ESCALAR,,train,real
+R252,"Hola, me interesa la finca para las fechas siguientes: Mes: __________ Días: __________ Noches: __________ Cantidad de personas: __________ Me cotiza por favor. Gracias. Buenaass Tiene disponibilidad para mañana para ocho personas?",disponibilidad,True,ESCALAR,,train,real
+R253,Soy señora que ganó de hablar con usted Acabó Natural,otro_negocio,True,ESCALAR,,test,real
+R254,Hola una pregunta que Vale la alquilada de la finca,precio,True,ESCALAR,,test,real
+R255,Queremos una finca linda Grande Creería que no hay problema por el presupuesto,otro_negocio,True,ESCALAR,,test,real
+R256,"Listo, el viernes en la mañana paso",otro_negocio,True,ESCALAR,,train,real
+R257,"Buenas tardes por favor información acerca de la finca, es para el 31 de diciembre",disponibilidad,True,ESCALAR,,test,real
+R258,Hola!! Un niño de 4 años y el otro de 7 años,otro_negocio,True,ESCALAR,,test,real
+R259,Listo si sra me regalas la ubicación por favor,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R260,A ya pensamos que eran los 2 niveles,otro_negocio,True,ESCALAR,,train,real
+R261,"Amén doña [NOMBRE], lo mismo 🙏🏽",fuera_de_alcance,True,ESCALAR,,test,real
+R262,Buenos días Tiene disponibilidad de la finca para el 20 de Dic ?,disponibilidad,True,ESCALAR,,train,real
+R263,Hola buenas tardes como estás... Podrías regalarme la información de la finca o casa campestre q ofreces ... La necesitamos para 18 personas entre el 25 y 26 de octubre... Te agradezco fotos !,disponibilidad,True,ESCALAR,,train,real
+R264,Me podrías dar el precio para esas fechas y 20 personas por favor,precio,True,ESCALAR,,train,real
+R265,Y Horarios?,reglas_servicios,False,"Check-in: hacia las 9 o 10 de la mañana, no más temprano, porque ese tiempo se usa para hacer el aseo. No es estricto: a veces se puede entrar un poco antes, pero siempre deben preguntar antes de llegar. Check-out: a las 3 de la tarde. Por lo general es firme, porque hay que hacer el aseo para atender otra reserva. Si necesitan salir a otra hora, deben preguntar antes. Al ingresar debe estar presente la persona que alquiló o un encargado suyo, para revisar el inventario que se entrega. Si llega otra persona primero, a esa se le entrega y queda como encargada. Al entregar la finca se hace un video en el que se graba todo lo que se entrega: habitaciones, cocina, todas las instalaciones y los artículos entregados.",reglas_horarios_checkin_checkout,test,real
+R266,"Me envías por favor la ubicación En tiempo actual Oye, el asadero es grande?",ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,test,real
+R267,Una chica que celebro sus 15 años allí Me envió 3 fincas y estamos cotizando en las 3 Y sería para reservar . Ya que sabemos que se tiene que hacer con tiempo.,disponibilidad,True,ESCALAR,,train,real
+R268,Un amigo me pasó el contacto Bueno un señor Que estaba en los grupos,fuera_de_alcance,True,ESCALAR,,train,real
+R269,Vale yo te confirmo mañana haber que me dicen,otro_negocio,True,ESCALAR,,test,real
+R270,Me regalas fotos por favor,otro_negocio,True,ESCALAR,,test,real
+R271,Es que me preguntaron porque si el segundo nivel lo llegué arrendar Usted aparte y la verdad queremos todo para nosotros solos esos días Tranquila,otro_negocio,True,ESCALAR,,train,real
+R272,Los podemos dejar meter a la piscina? 🫣 Les gusta meterse Ella es la otra,otro_negocio,True,ESCALAR,,train,real
+R273,Me puedes enviar fotografías por favor,otro_negocio,True,ESCALAR,,test,real
+R274,Eso es lo mínimo que la alquilan?,precio,True,ESCALAR,,train,real
+R275,"Hola, me interesa la finca para las fechas siguientes: Mes: noviembre Días: 14-15-16 Noches: 2 Cantidad de personas: 70 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R276,Que costo tiene?,precio,True,ESCALAR,,train,real
+R277,Seria aproximadamente para 100 personas,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,test,real
+R278,Si señora así es tranquila somos personas serias y honradas,fuera_de_alcance,True,ESCALAR,,train,real
+R279,Veci mañana la podemos ir a mirar En la mañana Yo vivo por los lados de surtiplaza usted me dice por donde es,otro_negocio,True,ESCALAR,,test,real
+R280,14 15 y 16 de noviembre 38 a 40 personas,disponibilidad,True,ESCALAR,,test,real
+R281,Q precio tiene,precio,True,ESCALAR,,train,real
+R282,Listo ya voy saliendo entonces Yo estoy cerca en cañaveral,otro_negocio,True,ESCALAR,,train,real
+R283,Tiene piscina para los niños pequeños,reglas_servicios,False,"La finca tiene una piscina y una piscina pequeña para niños. También tiene zona de barbacoa (BBQ) con su cocina, que cuenta con horno, fogón de leña y cocina de gas. La piscina no tiene reglas de uso. Después de las 6 de la tarde no hay servicio de salvavidas. El uso de la piscina es bajo el propio riesgo de los visitantes.",servicios_piscina_bbq,train,real
+R284,Es seguro todo es lo importante Bueno que pena sigo hablando con mi familia Le voy contando,fuera_de_alcance,True,ESCALAR,,test,real
+R285,Buenas noches. Tienes disponibilidad de la finca del 31 diciembre al 2 de enero? Para 20 personas,disponibilidad,True,ESCALAR,,train,real
+R286,Fotos,otro_negocio,True,ESCALAR,,train,real
+R287,"Ok, le doy su número, para que por favor le oriente como llegar, se llama [NOMBRE] y va en moto.",otro_negocio,True,ESCALAR,,test,real
+R288,bueno señora que bueno me alegra mucho hay te envío muchas gracias te agradezco,otro_negocio,True,ESCALAR,,train,real
+R290,Ya vamos en camino Podemos llegar a las 10 y 30 a mirar la finca?,otro_negocio,True,ESCALAR,,train,real
+R291,"Hola, me interesa la finca para las fechas siguientes: Mes:diciembre Días: 31 de diciembre al 2 de enero Cantidad de personas: 15 Me cotiza por favor. Gracias",disponibilidad,True,ESCALAR,,test,real
+R292,Muy linda Le voy a comentar a mi prima,otro_negocio,True,ESCALAR,,test,real
+R293,Hola confirmación es el sábado $2500000,otro_negocio,True,ESCALAR,,train,real
+R294,Vivienda,otro_negocio,True,ESCALAR,,train,real
+R295,El domingo hasta qué hora pues me serviría el sábado en la tarde y domingo hasta tipo cinco de la tarde Cuánto sería el costo?,otro_negocio,True,ESCALAR,,train,real
+R296,Si eso me comentó [NOMBRE] No hay problema Mil gracias por la ayuda,fuera_de_alcance,True,ESCALAR,,train,real
+R297,Y para separarla qué proceso debemos realizar?,reglas_servicios,False,"Para hacer una reserva se pide el 30 % de su valor. Si no se paga ese anticipo, no se guarda la reserva. No se cancela la reserva ni se devuelve el anticipo. Lo que sí se puede es mover la reserva a otra fecha.",reglas_cancelaciones,train,real
+R298,Buen día Cómo estás? mucho gusto. Deseo información sobre finca para alquiler,disponibilidad,True,ESCALAR,,test,real
+R299,Es para 30 personas aproximadamente Y para la fecha de 1 de noviembre,disponibilidad,True,ESCALAR,,test,real
+R301,Que costo tiene para 25 personas del 24 al 27 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R302,"solo es un día, sin quedada, es para que nos brinden el espacio, hacer un almuerzo, realizar algunas actividades. Primer festivo noviembre 8/10/2026",disponibilidad,True,ESCALAR,,train,real
+R303,Y sancocho podría ser Que cocine rico jaaja Y el asado para hoy si?,otro_negocio,True,ESCALAR,,train,real
+R305,Si total ya nos ajustamos a esa fecha que también está bien. Mil gracias a ti por la ayuda,otro_negocio,True,ESCALAR,,train,real
+R306,Tranquila Les envié el video y la pregunta es que las habitaciones son muy compartidas Y hay familias que les gusta como estar por familias Y al igual que yo pensamos que nos podíamos acomodar en el primer piso y en el segundo En habitación Y se ve que son camarotes en un mismo espacio Si pero cuantas habitaciones hay en el primer piso Porque somos núcleos de familia diferentes Y cada habitación con cuantas camas o capacidad para cuantos cada habitación Muy bonita pero incluye todo estos servicios al alquilarla Gracias voy a compartir Los videos Y video del área de piscina Que pena es que como somos tantos es mejor enviar de todo Ok esta clara la información Tan bonita esta claro Le voy contando,capacidad,False,"Primer piso: 5 habitaciones, todas compartidas (ninguna es individual). Hay 25 camas (cada camarote cuenta como dos camas), distribuidas así: - 7 camarotes semidobles (1,20 m): cada cama es para 2 personas, es decir, 4 personas por camarote. - 3 camarotes sencillos (1 m): por lo general una persona por cama, aunque a veces se quedan dos. - 3 camas semidobles, para 2 personas cada una. - 1 cama nido extraíble de 1,20 m, para 2 personas, que se guarda debajo de otra cama. - 1 cama individual de 80 cm, para 1 persona. Algunas habitaciones: la más pequeña tiene un solo camarote semidoble, para 4 personas. La más grande tiene tres camarotes (dos semidobles y uno sencillo) y una cama pequeña de 80 cm. Otra habitación tiene tres camas semidobles y la cama nido. En la mayoría de las habitaciones hay hasta tres camarotes.",capacidad_habitaciones_camas,train,real
+R307,"gracias, voy a validarlo con la familia y les cuento",otro_negocio,True,ESCALAR,,train,real
+R309,donde estan ubicados es cerca a ibague,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R310,No. Lo que pasa es que no podemos,fuera_de_alcance,True,ESCALAR,,test,real
+R312,"Ok, yo hablo con mi esposo para ir",otro_negocio,True,ESCALAR,,train,real
+R313,Del 31 al 2 de enero 20 personas,disponibilidad,True,ESCALAR,,train,real
+R314,Hola buen día sra [NOMBRE] Acá la nevera no está prendida si me colaboras gracias que pena,fuera_de_alcance,True,ESCALAR,,train,real
+R315,Quedó súper atento a la ubicación para poder ir a ver la finca,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R316,"No, muchas gracias, ya estamos cuadrando con otra finca, que esta en 6 millones",fuera_de_alcance,True,ESCALAR,,train,real
+R317,Buen día. Necesito información para hospedaje de 30 personas aproximadamente para el 14 de febrero. Gracias,disponibilidad,True,ESCALAR,,train,real
+R318,Buena tarde Dios la bendiga Quisiera saber si podríamos pasar el miércoles a mirar la finca Agradezco su información,otro_negocio,True,ESCALAR,,test,real
+R319,Bueno paso a esa hora,otro_negocio,True,ESCALAR,,train,real
+R320,"Súper! Bueno muchas gracias, voy a confirmar con mis amigos 😁 en el día podrían ir más personas que no se van a quedar? Muchas gracias! Me interesa mucho",otro_negocio,True,ESCALAR,,train,real
+R321,gracias.. despues sera..,fuera_de_alcance,True,ESCALAR,,train,real
+R322,Somos entre 30. A 33 personas toda familia Yo la quería más q nada es en el dia osea por hay de 9 a 9 de la noche Para ese día se puede ?,disponibilidad,True,ESCALAR,,train,real
+R323,"Vale, y sería lo mínimo?",precio,True,ESCALAR,,train,real
+R324,Cuánto es el valor,precio,True,ESCALAR,,test,real
+R325,Tienes que finca disponible?,disponibilidad,True,ESCALAR,,test,real
+R326,"Quisiera saber si tiene disponible la finca del 31 de diciembre al 2 de enero, para 15 personas",disponibilidad,True,ESCALAR,,train,real
+R327,Para el viernes de la otra semana,disponibilidad,True,ESCALAR,,train,real
+R328,Envíame un audio como diciendo que necesitas la confirmación ya porque hay otra persona interesada que la va a tomar Para que ellos se afanen por favor Podrías por favor organizar 3 cuartos matrimoniales,otro_negocio,True,ESCALAR,,train,real
+R329,Tranquila no se preocupe,fuera_de_alcance,True,ESCALAR,,train,real
+R330,Tienen disponibilidad de finca del 31 de diciembre al 2 de enero ?,disponibilidad,True,ESCALAR,,train,real
+R331,1’500.000 ya que pensábamos programarla desde el sábado a las 6 de la tarde,otro_negocio,True,ESCALAR,,train,real
+R332,Para 10 a 12 personas Aceptan mascotas ? La cocina viene equipada ?,reglas_servicios,False,"Se admiten mascotas. No pueden dormir en las camas. Las personas deben estar siempre pendientes de sus mascotas: no pueden quedarse solas, porque en la finca hay animales silvestres y de granja.",reglas_mascotas,train,real
+R333,Ok lo consulto con la familia el precio. Gracias x la información Depronto me puedes compartir fotos,otro_negocio,True,ESCALAR,,test,real
+R335,Si listo ya vamos el camino,otro_negocio,True,ESCALAR,,train,real
+R337,Vale yo viajo en diciembre si Dios quiere y pues ya estando allá hablo con la familia a ver si para alguna fecha antes de volver pueden y miramos a ver qué se hace,fuera_de_alcance,True,ESCALAR,,test,real
+R338,Porfavor me regalas información sobre el alquiler de la finca Donde está ubicada Que costo tiene? Si tienes disponibilidad para el 21 y 22 de Marzo porfavor,disponibilidad,True,ESCALAR,,test,real
+R339,Y si fuese solo del 26 la entrada tardecito al 27 en la noche cuanto lo cobras? Pata saber las 2 opciones,precio,True,ESCALAR,,train,real
+R340,Buen día para consultar por el alquiler de la finca,disponibilidad,True,ESCALAR,,test,real
+R341,"Vale, muchísimas gracias Vamos a hablar con los demás que están ayudando a organizar y ahí me confirmamos cualquier cosa",otro_negocio,True,ESCALAR,,train,real
+R343,Ahsss Y mas O menos en cuanto salia,precio,True,ESCALAR,,test,real
+R344,Me puedes enviar la ubicación para poder llegar,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R346,"Hola, me interesa la finca para las fechas siguientes: Mes: octubre-noviembre Días: 31-1 Noches:1 Cantidad de personas: 20 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R347,De pronto tienes fotos para yo enviar a las personas que vienen,otro_negocio,True,ESCALAR,,test,real
+R348,Me podría enviar la ubicación,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,test,real
+R349,"Hola buenas tardes, podría el día lunes? Es que acabe de llegar a mi casa y creo que ya es tarde para ir a ver la finca",otro_negocio,True,ESCALAR,,train,real
+R350,Espera haber si puedo ir en la mañana Mándame la ubicación,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,test,real
+R351,Voy a preguntar si para navidad les va bien por el tema del trabajo y le confirmo Y qué precio sería más o menos,disponibilidad,True,ESCALAR,,test,real
+R352,"Hola, me interesa la finca para las fechas siguientes: Mes: __________diciembre Días: __________24,25,26 Noches: __________24,25 Cantidad de personas: __________25 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R354,"Listo, voy a consultar con la familia y te digo",fuera_de_alcance,True,ESCALAR,,test,real
+R355,"Buenas tardes, quisiera información sobre la finca para 30 personas para fin de año, gracias",disponibilidad,True,ESCALAR,,train,real
+R356,para 20 persona será q yo puedo ir a ver el lugar es q es para unos familiares,otro_negocio,True,ESCALAR,,train,real
+R357,tienes videos o fotos,otro_negocio,True,ESCALAR,,train,real
+R358,Buenas noches Para averiguar si esta disponible la finca para fin de año?,disponibilidad,True,ESCALAR,,test,real
+R359,2 noches,disponibilidad,True,ESCALAR,,test,real
+R360,Qué precio,precio,True,ESCALAR,,test,real
+R361,Buenas tardes ya estamos en camino,otro_negocio,True,ESCALAR,,train,real
+R362,"Quedo pendiente que me confirmes en cuanto me dejas los tamales por favor, muchas gracias",otro_negocio,True,ESCALAR,,train,real
+R363,"23 de marzo, son 6 adultos y 2 niñas",disponibilidad,True,ESCALAR,,train,real
+R364,Te quería preguntar si es posible que nos quedemos solo dos noches del 31 al 2 de enero,disponibilidad,True,ESCALAR,,train,real
+R365,Somos 13 personas 4 menores 9 adultos Abril,disponibilidad,True,ESCALAR,,train,real
+R367,"Buen día, Confirmo reserva del 19 y 20 de [NOMBRE]. Muchas gracias",otro_negocio,True,ESCALAR,,train,real
+R368,Buenos días Busco finca para fin de año. Fecha: 31 de diciembre al 3 de enero 4 días 3 noches Cant: 18 personas,disponibilidad,True,ESCALAR,,train,real
+R370,Estoy interesado en el servicio de la estadía,disponibilidad,True,ESCALAR,,test,real
+R371,"Perdón, de la otra Un máximo de 25, entradas tipo 5 de la tarde y salida a las 4 del mediodía",disponibilidad,True,ESCALAR,,test,real
+R372,Ah bueno señor Yo le escribo la otra semana,fuera_de_alcance,True,ESCALAR,,train,real
+R373,A bueno es q hay un trancon,fuera_de_alcance,True,ESCALAR,,train,real
+R374,Hola puedo ir a mirar el lunes en la tarde?,otro_negocio,True,ESCALAR,,train,real
+R375,Seríamos 15,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R376,Si del 2027,disponibilidad,True,ESCALAR,,train,real
+R377,Para el fin de semana del 14 de noviembre Aproximadamente 26 personas,disponibilidad,True,ESCALAR,,train,real
+R378,"Quisiera saber información de la finca, para el mes de marzo el primer fin de semana, es para unos 15 años, necesitamos un salón para 150 personas, hospedaje para 35 personas y un parqueadero amplio.",disponibilidad,True,ESCALAR,,test,real
+R379,Nuestro presupuesto es de 4 millones,precio,True,ESCALAR,,test,real
+R381,Hoteles también ofreces !???,fuera_de_alcance,True,ESCALAR,,train,real
+R382,19 personas 3 de octubre,disponibilidad,True,ESCALAR,,train,real
+R383,En cuanto quedaría?,precio,True,ESCALAR,,train,real
+R384,Licuadora?🥹 Tienes de pronto alguna persona que nos colabore con el asado o almuerzo y nosotros le pagamos,reglas_servicios,False,"Si lo necesitan, se les presta el menaje: platos, vasos, cubiertos, ollas y los utensilios de cocina que pidan. Hay dos cocinas, una en la zona de barbacoa (BBQ) y otra en el interior. La alimentación no está incluida en la reserva. Un servicio de comida o de catering sería un acuerdo aparte; por lo general no se ofrece y solo se coordina cuando hay disponibilidad.",reglas_catering_propio,train,real
+R385,"Hola, me interesa la finca para las fechas siguientes: Mes: diciembre Días: 3 Noches: 2 Cantidad de personas: 45 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R386,osea solo la noche del 31? y el dia del 1 de enero hasta que hora ?,reglas_servicios,False,"Check-in: hacia las 9 o 10 de la mañana, no más temprano, porque ese tiempo se usa para hacer el aseo. No es estricto: a veces se puede entrar un poco antes, pero siempre deben preguntar antes de llegar. Check-out: a las 3 de la tarde. Por lo general es firme, porque hay que hacer el aseo para atender otra reserva. Si necesitan salir a otra hora, deben preguntar antes. Al ingresar debe estar presente la persona que alquiló o un encargado suyo, para revisar el inventario que se entrega. Si llega otra persona primero, a esa se le entrega y queda como encargada. Al entregar la finca se hace un video en el que se graba todo lo que se entrega: habitaciones, cocina, todas las instalaciones y los artículos entregados.",reglas_horarios_checkin_checkout,test,real
+R387,De la piscina tienes foto Si ya la vi Que pena,otro_negocio,True,ESCALAR,,train,real
+R388,"Es para averiguar la finca, lo que pasa es que tenemos planeado alquilar la finca el 31 de diciembre, somos un promedio de 20 personas. Podrías brindarme más informativo sobre los costos e imágenes de la finca Porfavor Para el 31 de diciembre y 1 de enero",disponibilidad,True,ESCALAR,,train,real
+R389,"hola buenas tardes, quisiera infromacion del alquiler de la finca, por favor",disponibilidad,True,ESCALAR,,train,real
+R390,"Y que precio tiene por favor 24, 25 y 26",disponibilidad,True,ESCALAR,,test,real
+R391,Es para hacer una cotización ara alquiler de finca,disponibilidad,True,ESCALAR,,train,real
+R392,Sumercé y que valor tiene ?,precio,True,ESCALAR,,train,real
+R394,La boda es el 26 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R396,Mmmm Y que precio Tienes fotos videos,otro_negocio,True,ESCALAR,,test,real
+R397,Hola cómo estás nos vemos a las 4 si Te parece,otro_negocio,True,ESCALAR,,train,real
+R398,Con fotos por ahora ya queno encontramos en el valle del cauca Si tienes para revisar,otro_negocio,True,ESCALAR,,train,real
+R399,"Me parece súper chévere Si ella me dijo que va mañana en la mañana 🤗 Divinooooo!!! Yo amo los gatos, tengo 3 🥰",otro_negocio,True,ESCALAR,,test,real
+R400,"Hola, me interesa la finca para las fechas siguientes: Mes: diciembre Días: 30 al 3 enero Noches: _4 Cantidad de personas: 40 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R405,Dónde está ubicada Y cuánto cuesta,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R406,Ahh bueno perfecto con eso me da tiempito de llegar Ahh dale dale,otro_negocio,True,ESCALAR,,train,real
+R407,Buena noche porfavor donde está ubicada la finca y capacidad de personas,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R408,Buena tardes estoy en el paradero de los buses,otro_negocio,True,ESCALAR,,train,real
+R409,Me regalas inflamación Precios,precio,True,ESCALAR,,train,real
+R410,Y como hago para reservar,reglas_servicios,False,"Para hacer una reserva se pide el 30 % de su valor. Si no se paga ese anticipo, no se guarda la reserva. No se cancela la reserva ni se devuelve el anticipo. Lo que sí se puede es mover la reserva a otra fecha.",reglas_cancelaciones,train,real
+R411,En cuanto está ?,precio,True,ESCALAR,,train,real
+R412,Me puedes enviar foto y el valor ? Qué precio tiene ?,precio,True,ESCALAR,,train,real
+R413,Me toca fin de semana porq trabajo,otro_negocio,True,ESCALAR,,train,real
+R414,Hola veci buenas noches definitivamente queda confirmada la villa Ustedes me dirán como es la cuestión de pago,otro_negocio,True,ESCALAR,,train,real
+R415,"Hola, me interesa la finca para las fechas siguientes: Mes: __________enero Días: __________2 al 4 Noches: __________2 Cantidad de personas: __________10 aprox Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R416,Me interesa Cuéntame por favor cuál es el valor,precio,True,ESCALAR,,train,real
+R417,Ay no usted por casualidad no tiene el contacto de alguien Que nos pueda ayudar por favor,fuera_de_alcance,True,ESCALAR,,test,real
+R418,Una pregunta cuántas camas hay,capacidad,False,"Primer piso: 5 habitaciones, todas compartidas (ninguna es individual). Hay 25 camas (cada camarote cuenta como dos camas), distribuidas así: - 7 camarotes semidobles (1,20 m): cada cama es para 2 personas, es decir, 4 personas por camarote. - 3 camarotes sencillos (1 m): por lo general una persona por cama, aunque a veces se quedan dos. - 3 camas semidobles, para 2 personas cada una. - 1 cama nido extraíble de 1,20 m, para 2 personas, que se guarda debajo de otra cama. - 1 cama individual de 80 cm, para 1 persona. Algunas habitaciones: la más pequeña tiene un solo camarote semidoble, para 4 personas. La más grande tiene tres camarotes (dos semidobles y uno sencillo) y una cama pequeña de 80 cm. Otra habitación tiene tres camas semidobles y la cama nido. En la mayoría de las habitaciones hay hasta tres camarotes.",capacidad_habitaciones_camas,test,real
+R419,"Se podría conseguir señora para cocinar y aseo? Ayyy tenía dos preguntas más, podemos llevar algo de pólvora para el 31? Y se pueden llevar perritos?",reglas_servicios,False,Se permite la pirotecnia. La única restricción es no apuntarla hacia los animales. Mucha gente no la usa. En la finca no se vende.,reglas_pirotecnia,train,real
+R420,"Hm, no señor, el día de hoy ya no podría, pero mañana si sería posible?",otro_negocio,True,ESCALAR,,train,real
+R421,"Un favor, para saber sobre el alquiler Sería para el 31 de octubre hasta el domingo 01 de noviembre Y sería al rededor de 35 personas Para un cumpleaños",disponibilidad,True,ESCALAR,,train,real
+R422,Te va a escribir un primo Para que él hable contigo que ellos son los que van a ir porque yo tengo pico y placa hoy,otro_negocio,True,ESCALAR,,train,real
+R424,"Hola, me interesa la finca para las fechas siguientes: Mes: __Diciembre___ Días: _____8-9_____ Noches: _____1_____ Cantidad de personas: ___20_______ Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R425,Para alquiler del 31 diciembre 1 y2 de enero tiene disponibilidad para 50 personas,disponibilidad,True,ESCALAR,,train,real
+R426,Un favor para ir a ver la finca Quedé de ir hoy en la tarde,otro_negocio,True,ESCALAR,,test,real
+R427,Ya llegamos al puente,otro_negocio,True,ESCALAR,,train,real
+R428,30 personas máximo para el 31-01-02,disponibilidad,True,ESCALAR,,test,real
+R429,Oye para preguntar por la finca que alquilan Días 24-25 aprox 25 personas,disponibilidad,True,ESCALAR,,test,real
+R430,Pues es que si nos interesa pero se nos sale un poco del presupuesto 😓,otro_negocio,True,ESCALAR,,train,real
+R431,es octubre en este mes seria para que lleguemos sabado 24 en la mañana y entregar el domingo 25 en la tarde pero de octubre cuanto cuesta el alquiler,disponibilidad,True,ESCALAR,,train,real
+R432,"Muchas gracias, tú me habías indicado que el valor era de 7 millones del 24 al 27 para 25 personas, ese es el precio fijo?",precio,True,ESCALAR,,test,real
+R433,El presupuesto está entre 6 y 7 millones,precio,True,ESCALAR,,train,real
+R434,Para saber información de la finca para alquilar,disponibilidad,True,ESCALAR,,train,real
+R437,Y cuanto son las 2 noches,precio,True,ESCALAR,,train,real
+R438,"No veci Ve tu, nosotros te damos el dinero",otro_negocio,True,ESCALAR,,train,real
+R440,Cambiamos la fecha Para el puente del 11 de enero Tendría la disponibilidad,disponibilidad,True,ESCALAR,,test,real
+R441,"Es para celebrar unos quince años el sábado 9 de enero, pero también es para hospedaje de la familia cercana",disponibilidad,True,ESCALAR,,train,real
+R442,Si es así o entendí mal? O cuantas noches serían a ese precio,precio,True,ESCALAR,,train,real
+R443,El valor es ?,precio,True,ESCALAR,,train,real
+R444,Y qué precio sale Y qué foto tiene La comioneta porque no sabe cómo es,precio,True,ESCALAR,,test,real
+R445,Para 22 personas,precio,True,ESCALAR,,test,real
+R446,Tú me regalas la ubicación. Nosotros podemos ir a verla ahora,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,test,real
+R447,"Hola, me interesa la finca para las fechas siguientes: Mes: Noviembre Días: 6 y 7 Noches: 1 Cantidad de personas: 40 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R448,Y en donde está ubicada?,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,test,real
+R449,Si para este domingo Me regalas la información y fotos gracias Precio por favor,disponibilidad,True,ESCALAR,,train,real
+R450,"Hola, me interesa la finca para las fechas siguientes: Mes: diciembre 30 a enero 3 Días: 5 Noches: 4 Cantidad de personas: 20 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R451,Acá hay uno debe ser el suyo,fuera_de_alcance,True,ESCALAR,,train,real
+R452,"🏡 DISPNIBLE PARA NAVIDAD Y FIN DE AÑO Finca Villa Yaiza 🏕️ 📞 Información y reservas: WhatsApp. [TEL] 📍 Ubicación: Finca Villa Yaiza, Ibagué, Tolima por la Vereda Colegio Pt. Baja (Cercano a Barrio Salado). [URL] 🌌 Hermoso mirador Capacidad de hospedaje para 48 huéspedes (1er nivel) + Capacidad adicional de hospedaje para 18 huéspedes (2do nivel) 🛜 WiFi 🛏️ 5 habitaciones equipadas con camarotes semidobles (1er nivel) 🛏️ + 3 habitaciones adicionales para hospedaje (2do nivel) 🏖️ Piscina (adultos y niños) 📺 TV 🍖 Zona BBQ 🛋️ Gran salón con mesas y sillas incluidas 🍽️ Cocina equipada 🎯 Juegos de rana y boli-rana 🐸 ⚽🏐 Cancha de arena para voleibol y fútbol. 🏓 Mesa de ping-pong buenas noches para . el 30 de diciembre hasta el 4 de enero tienes disponible para 20 personas",disponibilidad,True,ESCALAR,,train,real
+R453,Hola buenos días la verdad se nos sale un poco del presupuesto muchas gracias,fuera_de_alcance,True,ESCALAR,,train,real
+R454,"Buenos días qué precio tiene la alquilada de la finca para 25 personas los días 31 de octubre 1,2 de noviembre",disponibilidad,True,ESCALAR,,test,real
+R455,Bueno sra mañana le hago la transferencia Que pena con usted será que me pueden enviar foto de la loza es para mirar lo de la comida,otro_negocio,True,ESCALAR,,test,real
+R456,Osea igual no se van a quedar los 33 por hay 8 personas más no creo pero para saber,disponibilidad,True,ESCALAR,,test,real
+R457,Quisiera saber qué precio tiene para 30 personas pero sin quedarnos sería para el 17 de este mes Sería hasta 5 o 6 de la tarde más o menos,disponibilidad,True,ESCALAR,,test,real
+R458,Que valor tiene,precio,True,ESCALAR,,train,real
+R459,Ollas grandes hay allá?,reglas_servicios,False,"Si lo necesitan, se les presta el menaje: platos, vasos, cubiertos, ollas y los utensilios de cocina que pidan. Hay dos cocinas, una en la zona de barbacoa (BBQ) y otra en el interior. La alimentación no está incluida en la reserva. Un servicio de comida o de catering sería un acuerdo aparte; por lo general no se ofrece y solo se coordina cuando hay disponibilidad.",reglas_catering_propio,train,real
+R460,Dónde está ubicada,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R461,Hablas con [NOMBRE] Me dieron este número para preguntar por una casa campestre en arriendo Quisiera saber el costo del arriendo mensual y cuantas habitaciones tiene la casa.,capacidad,False,"Primer piso: 5 habitaciones, todas compartidas (ninguna es individual). Hay 25 camas (cada camarote cuenta como dos camas), distribuidas así: - 7 camarotes semidobles (1,20 m): cada cama es para 2 personas, es decir, 4 personas por camarote. - 3 camarotes sencillos (1 m): por lo general una persona por cama, aunque a veces se quedan dos. - 3 camas semidobles, para 2 personas cada una. - 1 cama nido extraíble de 1,20 m, para 2 personas, que se guarda debajo de otra cama. - 1 cama individual de 80 cm, para 1 persona. Algunas habitaciones: la más pequeña tiene un solo camarote semidoble, para 4 personas. La más grande tiene tres camarotes (dos semidobles y uno sencillo) y una cama pequeña de 80 cm. Otra habitación tiene tres camas semidobles y la cama nido. En la mayoría de las habitaciones hay hasta tres camarotes.",capacidad_habitaciones_camas,test,real
+R462,Quisiera consultar por el alquiler de la finca por nocue,precio,True,ESCALAR,,test,real
+R463,"Hola, me interesa la finca para las fechas siguientes: Mes: ________Diciembre__ Días: ___5y6_______ Noches: __1________ Cantidad de personas:40 __________ Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R466,Para el 10 de enero Es para un evento unos 15 años De aproximadamente 100 invitados Y hospedaje para aproximadamente 25 personas,disponibilidad,True,ESCALAR,,test,real
+R467,Es que somos pocos Como le digo 15 y con niños si llegamos a 15 Vale voy hablar con la familia a ver y te confirmo,otro_negocio,True,ESCALAR,,train,real
+R468,Me regalas las fotos por favor,otro_negocio,True,ESCALAR,,test,real
+R469,Tranqui no hay problema Bno vale muchas gracias,fuera_de_alcance,True,ESCALAR,,test,real
+R470,Cuando podría ir ?,otro_negocio,True,ESCALAR,,test,real
+R471,"Buenos dias hágame un favor, quisiera saber si tiene disponibilidad de la finca para el 24 y entrega el 25 somos 12 personas, y que costo tiene muchas gracias",disponibilidad,True,ESCALAR,,train,real
+R472,Para ir a ver la Finca a qué hora puedo pasar y qué día para ver si cerramos el negocio Hay posibilidad de pronto que pueda ir mañana?,otro_negocio,True,ESCALAR,,test,real
+R474,Trataré de ir en la tarde en la mañana no puedo Yo le confirmo,otro_negocio,True,ESCALAR,,test,real
+R475,Si claro por eso lo mire por contacto directo con dueño Porque aparecen muchísimas pero son de pronto estafas,otro_negocio,True,ESCALAR,,test,real
+R476,Eso es lo mínimo Sin derecho a llorar,precio,True,ESCALAR,,train,real
+R477,minimo dos noches? solo necesitamos de sabado para domingo,disponibilidad,True,ESCALAR,,train,real
+R478,"Si vale, yo entiendo es para ver de pronto otra fecha a ver qué tal",disponibilidad,True,ESCALAR,,train,real
+R479,Son 18 personas para el 10 enwro,disponibilidad,True,ESCALAR,,train,real
+R481,Para 30 personas Del 31 al 2,disponibilidad,True,ESCALAR,,train,real
+R482,Ósea hasta qué hora nos pueden esperar que sea lo máximo?,otro_negocio,True,ESCALAR,,train,real
+R483,Mi hermano creo que te hablo ?,fuera_de_alcance,True,ESCALAR,,train,real
+R484,Buenas tardes estoy interesada en alquilar la casa que alquilan en Ibagué o alrededores para aproximadamente 30 personas del 30 de diciembre al 2 de enero,disponibilidad,True,ESCALAR,,train,real
+R485,Para averiguar sobre la finca que alquilan,disponibilidad,True,ESCALAR,,train,real
+R486,"Hola, me interesa la finca para las fechas siguientes: Mes: marzo 2027 Días: 6-7 Noches: 1 Cantidad de personas: 30 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R487,Y perritos? Llevaríamos 3,reglas_servicios,False,"Se admiten mascotas. No pueden dormir en las camas. Las personas deben estar siempre pendientes de sus mascotas: no pueden quedarse solas, porque en la finca hay animales silvestres y de granja.",reglas_mascotas,train,real
+R488,Se puede ir a mirar ? Cual es el precio porfa,precio,True,ESCALAR,,train,real
+R489,Es como vía san Bernardo ?,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R490,"Buenos días, es que es para una boda, sería para el próximo año, pero necesito cotizar desde ahora, sería para 50 personas pero hospedaje solo para 12",disponibilidad,True,ESCALAR,,train,real
+R491,Ahhh ok gracias Se sale del presupuesto,otro_negocio,True,ESCALAR,,train,real
+R492,Como a las 11 no? Trifasico me habían dicho los chicos,otro_negocio,True,ESCALAR,,train,real
+R493,Quiero saber qué costo tiene el alquiler de la finca para el fin del 18 y 19 de abril,disponibilidad,True,ESCALAR,,test,real
+R494,"Buenas tardes quisiera averiguar por la finca, 30 de dic a 1 enero . Que valor?",disponibilidad,True,ESCALAR,,train,real
+R495,Dos noches,precio,True,ESCALAR,,test,real
+R496,"14, 15 y 16 de noviembre Para 20 personas",disponibilidad,True,ESCALAR,,train,real
+R497,Sii las queremos ver personal mente,otro_negocio,True,ESCALAR,,train,real
+R498,"Hola, me interesa la finca para las fechas siguientes: Mes: __________ Días: __________ Noches: __________ Cantidad de personas: __________ Me cotiza por favor. Gracias. Por favor Disponibilidad para fin de Año Nuevo",disponibilidad,True,ESCALAR,,train,real
+R501,conoces algún sitio de pasadia?,fuera_de_alcance,True,ESCALAR,,test,real
+R502,"Ok, nosotros amamos los animales",reglas_servicios,False,"Se admiten mascotas. No pueden dormir en las camas. Las personas deben estar siempre pendientes de sus mascotas: no pueden quedarse solas, porque en la finca hay animales silvestres y de granja.",reglas_mascotas,train,real
+R503,31.1.2.y 3,disponibilidad,True,ESCALAR,,train,real
+R504,"Trifasico Si, nosotros le reconocemos a ella todo Pero si sería que ella comprara todo Allá hay nevera grande?",reglas_servicios,False,"Si lo necesitan, se les presta el menaje: platos, vasos, cubiertos, ollas y los utensilios de cocina que pidan. Hay dos cocinas, una en la zona de barbacoa (BBQ) y otra en el interior. La alimentación no está incluida en la reserva. Un servicio de comida o de catering sería un acuerdo aparte; por lo general no se ofrece y solo se coordina cuando hay disponibilidad.",reglas_catering_propio,test,real
+R505,Me preguntaron por videos de las piscinas,otro_negocio,True,ESCALAR,,train,real
+R506,Que costo tiene ?,precio,True,ESCALAR,,train,real
+R507,Hola buenas noches me interesa alquilar la finca Villa Yaiza me podrias dar más información,disponibilidad,True,ESCALAR,,train,real
+R508,En qué lugar queda?,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,test,real
+R509,Cuantos meses la alquila,otro_negocio,True,ESCALAR,,train,real
+R510,Que precio tiene? Que juegos de mesa tienen ... Mesa de billar no hay?,reglas_servicios,False,"Hay toda clase de juegos y actividades recreativas: Se presta mesa de ping-pong, juego de rana normal, bolirana, juegos de mesa (ajedrez, parchis, bingo) y balones para jugar en las distintas áreas de la finca: balón de goma para la piscina, balon de voleyball y futbol para la cancha de arena.",servicios_entretenimiento,train,real
+R511,Del 16 al 18 de mayo para 28 personas,disponibilidad,True,ESCALAR,,train,real
+R512,Dale voy a comentarles y te confirmo si nos queda cerca,otro_negocio,True,ESCALAR,,train,real
+R513,31 de diciembre,disponibilidad,True,ESCALAR,,test,real
+R514,Un fa me regala la única gracias Ya voy bajando regálame la ubicación gracias,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R515,Cual seria el costo?,precio,True,ESCALAR,,train,real
+R516,Estará disponible la finca para este fin de semana,disponibilidad,True,ESCALAR,,train,real
+R517,Cuando te puedo llamar para charlar sobre los servicios que presta la finca,reglas_servicios,False,"La reserva no incluye servicios adicionales de atención. Se ayuda en lo que se puede, por ejemplo a prender los fogones. El encargado de la finca limpia la piscina, prende los chorros y las luces, y está atento a lo que se necesite. Durante la estadía no se hace aseo. Después de que se van, el personal de la finca hace el aseo. La reserva incluye ropa de cama. Las toallas deben traerlas los clientes. No hay servicio de cocinero. Si lo necesitan, se pacta por fuera. Cualquier otro servicio se acuerda aparte y no viene con la reserva.",servicios_incluidos,train,real
+R518,La finca es nueva? Eso entendí En el audio kaka,reglas_servicios,False,"La reserva no incluye servicios adicionales de atención. Se ayuda en lo que se puede, por ejemplo a prender los fogones. El encargado de la finca limpia la piscina, prende los chorros y las luces, y está atento a lo que se necesite. Durante la estadía no se hace aseo. Después de que se van, el personal de la finca hace el aseo. La reserva incluye ropa de cama. Las toallas deben traerlas los clientes. No hay servicio de cocinero. Si lo necesitan, se pacta por fuera. Cualquier otro servicio se acuerda aparte y no viene con la reserva.",servicios_incluidos,test,real
+R519,Hola buenas tardes somos 25 personas,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R520,Y que costo tiene,precio,True,ESCALAR,,train,real
+R521,Mañana si,fuera_de_alcance,True,ESCALAR,,train,real
+R522,25 26 27 se puede? Por qué la mayoría trabaja el 24,disponibilidad,True,ESCALAR,,train,real
+R523,Por Facebook Entonces nos da cosa Pero si nos permiten enviar 100 mil y cuando lleguemos allá les entregamos el restante en efectivo Si?,otro_negocio,True,ESCALAR,,train,real
+R524,Ya estoy cerca Ya llegamos,otro_negocio,True,ESCALAR,,train,real
+R525,asi es,otro_negocio,True,ESCALAR,,train,real
+R526,Sábado y domingo Somos 17,disponibilidad,True,ESCALAR,,train,real
+R527,"Perfecto, hasta mañana 🤗",fuera_de_alcance,True,ESCALAR,,test,real
+R528,Señora [NOMBRE] muchas gracias por su información pero el presupuesto que tenemos no alcanza le agradezco mucho y de verdad muy bonito todo,otro_negocio,True,ESCALAR,,test,real
+R529,"Gracias! Yo te informaré entonces, hasta ahora estoy haciendo la lista de personas que quiero y todo, cuando confirme, te escribo",otro_negocio,True,ESCALAR,,train,real
+R530,Hola buenos días cómo están?? Hablas con [NOMBRE] la persona que va a ir a mirar la finca hoy Creería que tipo 11 estaría allá o mediados,otro_negocio,True,ESCALAR,,train,real
+R531,"Hola, me interesa la finca para las fechas siguientes: Mes: Diciembre 31, Enero 1, 2 y 3 Días: 4 Noches: 3 Cantidad de personas: 15 a 20 personas Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R532,Buenas noches quisiera preguntar si la finca esta disponible para la fecha de el 31 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R533,"si que pena, corrijo. 01/10/2026",disponibilidad,True,ESCALAR,,train,real
+R534,No entiendo ?,otro_negocio,True,ESCALAR,,train,real
+R535,"Hola, me interesa la finca para las fechas siguientes: Mes: _Diciembre_________ Días: ____31,1,2______ Noches: __________ Cantidad de personas: ____20______ Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R536,Vale ya te confirmo,otro_negocio,True,ESCALAR,,train,real
+R537,Sí señorita Yo mañana voy,otro_negocio,True,ESCALAR,,train,real
+R538,"Hola, me interesa la finca para las fechas siguientes: Mes: _octubre________ Días: ___2_______ Noches: __1________ Cantidad de personas: ____25______ Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R539,"Abono para la actividad del día 31 de enero de 2026. Agradezco que me confirme el recibido. Gracias El saldo pendiente se entregará el día 31 de enero, al entrar en la casa campo.",otro_negocio,True,ESCALAR,,train,real
+R540,"Buenas noches, necesito cotizar la finca que tienes en alquiler, gracias",disponibilidad,True,ESCALAR,,train,real
+R541,Para inflamación para la finca Del 31 de diciembre al 3 de enero 32 personas,disponibilidad,True,ESCALAR,,train,real
+R542,La verdad estamos cotizando es para pasar tiempo con 4 abuelos de dos familias que ya están en sus últimos días entonces queremos pasar y unir las dos familias . Y por eso estamos cotizando Donde nos salga mejor .,otro_negocio,True,ESCALAR,,train,real
+R545,Me regalas fotos del salón porfavor Y los horarios Una? El salón yo lo podría entregar en horas de la noche?,reglas_servicios,False,"Check-in: hacia las 9 o 10 de la mañana, no más temprano, porque ese tiempo se usa para hacer el aseo. No es estricto: a veces se puede entrar un poco antes, pero siempre deben preguntar antes de llegar. Check-out: a las 3 de la tarde. Por lo general es firme, porque hay que hacer el aseo para atender otra reserva. Si necesitan salir a otra hora, deben preguntar antes. Al ingresar debe estar presente la persona que alquiló o un encargado suyo, para revisar el inventario que se entrega. Si llega otra persona primero, a esa se le entrega y queda como encargada. Al entregar la finca se hace un video en el que se graba todo lo que se entrega: habitaciones, cocina, todas las instalaciones y los artículos entregados.",reglas_horarios_checkin_checkout,train,real
+R546,Jajajaja buenísimo!!!! Y el wifi funciona perfecto? Xq hay varias personas que deben conectarse a trabajar,reglas_servicios,False,"Hay servicio de wifi con una velocidad de 50 Mbps. Funciona solo en el interior de la finca (sala y habitaciones). No está pensado para muchas personas a la vez, así que la conexión puede ser limitada.",servicios_wifi,train,real
+R547,Mañana te confirmo muchas gracias Dios te bendiga 🙏🏻🙏🏻🙏🏻,fuera_de_alcance,True,ESCALAR,,test,real
+R548,Hasta las 5 de la tarde,otro_negocio,True,ESCALAR,,test,real
+R549,Son más o menos 80 Pero me confirmas primero el valor,precio,True,ESCALAR,,train,real
+R550,"Si en los venados, nosotros estamos a 20 minutos, le parece bien 4:30pm vernos allí?",otro_negocio,True,ESCALAR,,test,real
+R551,Que precio,precio,True,ESCALAR,,test,real
+R552,"Hola buenas noches, mucho gusto habla con [NOMBRE]. Queremos cotizar la finca Villa Yaiza , es para un evento el 14 de Noviembre para 50 personas y estadía para 40 personas esa noche.",disponibilidad,True,ESCALAR,,train,real
+R553,Sobre las 10 o antes te aviso apenas salga para allá,otro_negocio,True,ESCALAR,,train,real
+R554,No señor Consulta vía wef me dio este contacto,otro_negocio,True,ESCALAR,,test,real
+R555,la más economica,precio,True,ESCALAR,,train,real
+R556,Veci no está muy lejos y ellos quieren algo más cerca No dimos,fuera_de_alcance,True,ESCALAR,,test,real
+R557,Que valor tiene Me indicas por favor Cuenta con piscina,precio,True,ESCALAR,,test,real
+R558,Si se pasan de las 12 personas tiene algún costo adicional ?,precio,True,ESCALAR,,train,real
+R559,Quisiera averiguar si tienen disponibilidad para el 31 de diciembre?,disponibilidad,True,ESCALAR,,test,real
+R560,No que pen es desde el 30 de diciembre al 3 de enero,disponibilidad,True,ESCALAR,,test,real
+R561,Listo así quedamos para q no la alquile para esa fecha Conseguí este número y allí los escogí,otro_negocio,True,ESCALAR,,train,real
+R563,Ubicación por favor,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R564,"Veci, de pronto me puede por favor vender 5 huevos Y me podría prestar un sartén Es que acá solo hay uno🥹",otro_negocio,True,ESCALAR,,train,real
+R565,De 25 a 30 personas por favor,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R566,Cuanto la alquilaría asi? Pero como te digo ya la segunda noche solo serian 10 personas las que se quedan,fuera_de_alcance,True,ESCALAR,,train,real
+R568,Me hace un fa y me regala el número de cuenta [NOMBRE] consignarle 2 millones más gracias,otro_negocio,True,ESCALAR,,test,real
+R569,Para averiguar por la finca ?,disponibilidad,True,ESCALAR,,train,real
+R570,Me puede enviar la ubicación por favor,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R571,Esta la imagen de la sagrada Familia,fuera_de_alcance,True,ESCALAR,,train,real
+R572,"mi nombre es [NOMBRE], estoy buscando una finca para el 24 de diciembre hasta el 26 de diciembre, somos 30 personas, soy de ibague tolima",disponibilidad,True,ESCALAR,,train,real
+R573,De casualidad tiene fotos y videos por favor,otro_negocio,True,ESCALAR,,test,real
+R574,Hasta qué hora podríamos ir? Me regalas ubicación porfa,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,test,real
+R575,Hola sra [NOMBRE] una pregunta tienes parques y de cuántos puestos,reglas_servicios,False,Hay parqueadero: caben 20 carros en total. Pueden aparcar en cualquier parte de la finca mientras no obstaculicen el paso. Las motos no pueden entrar a la sala.,reglas_parqueadero,train,real
+R576,Mañana podríamos ir a verla ? Y a qué horas,otro_negocio,True,ESCALAR,,train,real
+R577,"Buenas noches, estoy interesada en el alquiler de la finca, quisiera más información por favor",disponibilidad,True,ESCALAR,,test,real
+R578,"Para 15 personas, y contactamos ya que hace unos meses un familiar mío organizó un evento en esta",disponibilidad,True,ESCALAR,,train,real
+R579,"Hola, me interesa la finca para las fechas siguientes: Mes: _______octubre___ Días: _________10,11 y 12_ Noches: _______2___ Cantidad de personas: __________23 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R580,"Buenas tardes, la finca esta disponible para fin de año?",disponibilidad,True,ESCALAR,,train,real
+R581,"Hola, me interesa la finca para las fechas siguientes: Mes: diciembre Días: 24 al 27 Noches: 3 Cantidad de personas: 25 adultos 2 niños Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R582,"Ah entiendo, no, es muy grande, muchas gracias por la información. Feliz día.",fuera_de_alcance,True,ESCALAR,,test,real
+R583,"Vale, el sábado en la mañana podríamos ir a ver la finca?",otro_negocio,True,ESCALAR,,train,real
+R584,Super linda Voy a consultar con el grupo y les comfirmo,fuera_de_alcance,True,ESCALAR,,train,real
+R585,Queda muy lejos del salado? La seguridad que tal es?,ubicacion,False,"La finca queda a unos 3 km de la Terminal La Ceibita (carrera 12 con calle 171), aproximadamente 15 minutos en carro. Caminando desde esa terminal son unos 40 minutos. Desde el barrio Modelia, que queda antes del puente donde se dividen los caminos hacia la finca, también son aproximadamente 15 minutos en carro.",ubicacion_distancias_tiempos,train,real
+R586,Tiene disponibilidad para ingreso el 24 y salida el 25,disponibilidad,True,ESCALAR,,test,real
+R587,Me das la Dirección exacta,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R588,No son 40,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,test,real
+R589,Quería preguntarte para el fin de semana 22 y 23 de marzo Si mira es para el cumpleaños de mi BB son aproximados 50 invitados incluido niños pequeños pero las personas que se van a hospedar son pocas creería que la mitad o unas 20,disponibilidad,True,ESCALAR,,train,real
+R590,"Hola, me interesa la finca para las fechas siguientes: Mes: 12 Días: 31-2 Noches: 2 Cantidad de personas: 20 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R591,Al final lo tendré que hacer después de que pasen las fiestas por qué unos tienen negocio y que no pueden ir ese fin de semana unos si otros que no 🤦🏾‍♂️ Y su villa para otra fecha,otro_negocio,True,ESCALAR,,test,real
+R592,"Hola, me interesa la finca para las fechas siguientes: Mes: Octubre 31 al 02 noviembre Días: 3 Noches: 2 Cantidad de personas: 25 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R593,Mañana tienen servicio para ir,otro_negocio,True,ESCALAR,,train,real
+R594,Aproximadamente 25 personas,precio,True,ESCALAR,,train,real
+R595,son 40 personas,precio,True,ESCALAR,,train,real
+R596,Que fechas tienes disponibles?,disponibilidad,True,ESCALAR,,test,real
+R597,Listo ya les estoy enviando,fuera_de_alcance,True,ESCALAR,,train,real
+R598,Vivienda Por ahi 3 meses,otro_negocio,True,ESCALAR,,test,real
+R599,O donde nos podemos ver,otro_negocio,True,ESCALAR,,train,real
+R602,Lo que pasa es que yo no estoy allá si no hasta la otra semana Por eso te decía que con cuánto tiempo porque no estoy en Ibague llego hasta el 13,otro_negocio,True,ESCALAR,,train,real
+R603,Esta es la piscina de los niños ?,otro_negocio,True,ESCALAR,,train,real
+R604,tienen pasadias?,otro_negocio,True,ESCALAR,,test,real
+R605,Tan bonita muchas gracias de verdad 🙏🏻 Hay pero si nos interesa pero como le digo es el presupuesto que Manejamospara el alojamiento y además por todos los gastos adicionales que cada familia tiene igual me pusieron a ver fincas y encontré la de Ustedes A ya gracias tan bonita enseñando todo le agradezco es que es mejor así porque como somos varios que todos estén enterados Si tan bonita eso veo la piscina tiene jacuzzi Tan bonita de verdad muchas gracias,otro_negocio,True,ESCALAR,,train,real
+R606,Es para un evento en el cual asistirian un promedio de 70 personas pero solo unas 30 se quedan hasta el día siguiente,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R607,30-31-1,disponibilidad,True,ESCALAR,,train,real
+R608,"Hola buenos días, hazme un favor quisiera información sobre la finca Que costo tiene ? Sería para 20 personas 2 noches 31 diciembre 1 y 2 enero",disponibilidad,True,ESCALAR,,train,real
+R609,15 adultos y 5 niños,precio,True,ESCALAR,,train,real
+R610,Quisiera saber si tienes disponibilidad en Villa yaiza para fin de año Del 30 de diciembre al 3 de enero para aproximadamente 25 personas,disponibilidad,True,ESCALAR,,train,real
+R611,Está muy bonita Déjame ya comienzo a enviar las fotos a mis amigos,otro_negocio,True,ESCALAR,,test,real
+R612,Y qué capacidad máxima de personas se puede? Porque puede que salgan más personas,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R613,Señora [NOMBRE] soy [NOMBRE] Por favor me podría enviar la ubicación,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R615,Qué precio tiene,precio,True,ESCALAR,,train,real
+R616,Para 40 persons🥹,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,test,real
+R617,Buenas tardes para preguntar por el alquiler para el 10 octubre salida el 11 para 25 personas,disponibilidad,True,ESCALAR,,test,real
+R618,Únicamente está disponible esa?🥹,disponibilidad,True,ESCALAR,,train,real
+R619,Será que la puedo llamar a las 12:00pm,otro_negocio,True,ESCALAR,,test,real
+R620,Feberero 28 al 1 Tienes fotos,disponibilidad,True,ESCALAR,,train,real
+R621,Hola no mira ya hable con mi hermano me dice que el ya quedo con una en el Totumo que es d eun amigo y que se la deja en 15’ millones igual mil gracias ☺️ Dios te bendiga,fuera_de_alcance,True,ESCALAR,,train,real
+R622,o sea 60 mil por persona,precio,True,ESCALAR,,train,real
+R623,En cuanto quería el fin de semana Ósea sábado domingo Esto vale la noche ?,precio,True,ESCALAR,,test,real
+R625,Cuál sería el horario de ingreso y salida?,reglas_servicios,False,"Check-in: hacia las 9 o 10 de la mañana, no más temprano, porque ese tiempo se usa para hacer el aseo. No es estricto: a veces se puede entrar un poco antes, pero siempre deben preguntar antes de llegar. Check-out: a las 3 de la tarde. Por lo general es firme, porque hay que hacer el aseo para atender otra reserva. Si necesitan salir a otra hora, deben preguntar antes. Al ingresar debe estar presente la persona que alquiló o un encargado suyo, para revisar el inventario que se entrega. Si llega otra persona primero, a esa se le entrega y queda como encargada. Al entregar la finca se hace un video en el que se graba todo lo que se entrega: habitaciones, cocina, todas las instalaciones y los artículos entregados.",reglas_horarios_checkin_checkout,train,real
+R626,Que precio tiene por favor,precio,True,ESCALAR,,train,real
+R627,Hola. Buenos días quisiera cotizar para 6 personas entrando el 24 saliendo el 25,disponibilidad,True,ESCALAR,,test,real
+R628,Dame 5 Termino una reunión Y ya te digo,otro_negocio,True,ESCALAR,,train,real
+R629,5 millones por los 3 meses,otro_negocio,True,ESCALAR,,test,real
+R630,Si sra mañana le envío el comprobante de transferencia,otro_negocio,True,ESCALAR,,test,real
+R631,Hola buenas noches me gustaría saber más información sobre la finca,disponibilidad,True,ESCALAR,,train,real
+R632,Si me parece bien,otro_negocio,True,ESCALAR,,train,real
+R633,Una pregunta me dice que hasta las 7 cuánto nos cobra,precio,True,ESCALAR,,train,real
+R634,Tiene fotos? Es privada? Cuánto cuesta para 25 personas entrando el domingo en la mañana y saliendo el lunes festivo en la tarde?,otro_negocio,True,ESCALAR,,test,real
+R635,Es una reunión familiar,otro_negocio,True,ESCALAR,,train,real
+R636,Ya pregunto,fuera_de_alcance,True,ESCALAR,,train,real
+R637,Eso es salado verdad,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,test,real
+R638,Mira es para celebrar el cumpleaños de mi BB Sería el 28 febrero 1 marzo Van 50 personas incluidas niños menores de 10 años Pero muy pocos se hospedaran,disponibilidad,True,ESCALAR,,train,real
+R639,Bueno voy a consultarlo con mi hermano y te confirmo vale? En donde esta ubicada?,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R640,"Hola buenos días, disculpe ando buscando una finca para celebrar un cumpleaños el día 17 de octubre todo el día, para 30 personas, qué valor tendría? Gracias.",disponibilidad,True,ESCALAR,,test,real
+R641,Bueno señora muchas gracias,fuera_de_alcance,True,ESCALAR,,train,real
+R642,"Vale si señora, muchas gracias Ahora por favor me dices cuánto es todo y te pagamos Bueno?",precio,True,ESCALAR,,train,real
+R643,"Estos dos y ya te envío la otra A si, sin problema",otro_negocio,True,ESCALAR,,train,real
+R644,La finca tiene capacidad para 35 personas?,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R646,Me gustaría alquilar una finca,disponibilidad,True,ESCALAR,,test,real
+R647,"No la vdd no nos alcanza tenemos 1.500.000 y nos estan alquilando unas en chucuni y en el totumo en ese precio. Pero casi no nos haga gustado, nos gustó esta pero siempre se nos sale del presupuesto Una pregunta y si se alquila del 26 al 28 osea para 2 noches pero la segunda noche ya serian solo 10 personas cuanto la alquilas?",precio,True,ESCALAR,,train,real
+R648,Pero hay personal allí para la granja? O tú vives ahí cerca?,otro_negocio,True,ESCALAR,,test,real
+R649,Claro t entiendo,fuera_de_alcance,True,ESCALAR,,test,real
+R651,Tu dime cuánto nos cobras y yo lo hablo con los demás yo te soy si cesa nos ha gustado pero me gustaría saber en qué parte está ubicada.,precio,True,ESCALAR,,test,real
+R652,No señor todo lo hacemos agas,fuera_de_alcance,True,ESCALAR,,test,real
+R653,A cuantos está de Ibagué?,ubicacion,False,"La finca queda a unos 3 km de la Terminal La Ceibita (carrera 12 con calle 171), aproximadamente 15 minutos en carro. Caminando desde esa terminal son unos 40 minutos. Desde el barrio Modelia, que queda antes del puente donde se dividen los caminos hacia la finca, también son aproximadamente 15 minutos en carro.",ubicacion_distancias_tiempos,test,real
+R654,una pregunta cuanto vale el alquiler de la finca para el 17 y 18 de mayo para 25 personas,disponibilidad,True,ESCALAR,,train,real
+R655,Para el día 6 de diciembre y salir el 8 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R656,Diciembre,disponibilidad,True,ESCALAR,,train,real
+R658,[NOMBRE] Cc [DOC] [TEL],fuera_de_alcance,True,ESCALAR,,train,real
+R659,"Buenas tardes, quisiera averiguar que precio tiene la finca para el sábado 3 de octubre hasta el lunes",disponibilidad,True,ESCALAR,,train,real
+R660,"Hola, me interesa la finca para las fechas siguientes: Mes: Diciembre 31,1, 2 Días: 3 Noches: 2 Cantidad de personas: 14 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R661,Para ocho que costó tendría? El mejor precio posible,precio,True,ESCALAR,,train,real
+R662,Estoy interesada para 31 dic y 1 enero Disponibilidad y valor por favor Somos 20 a 22 personas,disponibilidad,True,ESCALAR,,train,real
+R663,"Buenas tardes como estas, hablas con [NOMBRE], estoy interesada en informacion para alquiler de la finca para fin de año si me puedes ayudar, gracias",disponibilidad,True,ESCALAR,,train,real
+R664,Veci q pena cual puente Del país ?,ubicacion,False,"La finca queda a unos 3 km de la Terminal La Ceibita (carrera 12 con calle 171), aproximadamente 15 minutos en carro. Caminando desde esa terminal son unos 40 minutos. Desde el barrio Modelia, que queda antes del puente donde se dividen los caminos hacia la finca, también son aproximadamente 15 minutos en carro.",ubicacion_distancias_tiempos,train,real
+R665,"Hola buenas tardes, sería posible ir a ver la finca este fin de semana?",otro_negocio,True,ESCALAR,,test,real
+R666,26 y 27 dic 30 personas,disponibilidad,True,ESCALAR,,test,real
+R668,Serian para 37 personas la días son 14 a16 de noviembre,disponibilidad,True,ESCALAR,,train,real
+R669,Me indicas el valor,precio,True,ESCALAR,,test,real
+R671,¿El fin de semana llegando el viernes? En la noche y yendonos el domingo al medio día,disponibilidad,True,ESCALAR,,train,real
+R672,Y de cuanto sería el descuento? Que pena la pregunta,precio,True,ESCALAR,,train,real
+R673,Hola tienes disponible para el 31,disponibilidad,True,ESCALAR,,test,real
+R674,Es diferente a la que ofreces si?,otro_negocio,True,ESCALAR,,train,real
+R675,Quiero saber la disponibilidad para el domingo hospedaje al lunes,disponibilidad,True,ESCALAR,,train,real
+R676,¡Hola! Quiero más información Hola buenas noxhss Quería saber si está disponible para el día Sábado 17 de octubre ?,disponibilidad,True,ESCALAR,,train,real
+R677,Buenas tardes sra. [NOMBRE] ¿como está? Siempre vino a Ibagué ?,fuera_de_alcance,True,ESCALAR,,train,real
+R678,"Es que allá tenemos mucha familia, si queremos que alguna vaya a pasar 31, se puede?",disponibilidad,True,ESCALAR,,train,real
+R679,Tienes un video del lugar,otro_negocio,True,ESCALAR,,train,real
+R680,Aaa bueno no es q el precio no nos alcanza Y no las somos 26,precio,True,ESCALAR,,train,real
+R681,Me puedes indicar bien la ubicación,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R682,No sr Me podrías mostrar y darme la ubi,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,test,real
+R683,Muy buenos días sumercé me gustaría averiguar el alquiler para el 31 de diciembre para 15 personas solo una noche la del 31 muchas gracias.,disponibilidad,True,ESCALAR,,train,real
+R684,Se podría agendar una visita? Podría ir mañana en la mañana?,otro_negocio,True,ESCALAR,,test,real
+R685,"Buen día. Quisiera preguntarte por la casa en el Salado. Es para el sábado 27 y el domingo 28, para 7 personas",disponibilidad,True,ESCALAR,,test,real
+R686,15 personas 3 perros 24 y 25 de diciembre,disponibilidad,True,ESCALAR,,test,real
+R687,Precio,precio,True,ESCALAR,,test,real
+R688,Hágame un favor está disponible para el 31 de diciembre,disponibilidad,True,ESCALAR,,test,real
+R689,400 metros después?,ubicacion,False,"La finca queda a unos 3 km de la Terminal La Ceibita (carrera 12 con calle 171), aproximadamente 15 minutos en carro. Caminando desde esa terminal son unos 40 minutos. Desde el barrio Modelia, que queda antes del puente donde se dividen los caminos hacia la finca, también son aproximadamente 15 minutos en carro.",ubicacion_distancias_tiempos,train,real
+R690,estoy buscando una finca para hacer una integración laboral.,disponibilidad,True,ESCALAR,,test,real
+R691,"Hola, me interesa la finca para las fechas siguientes: Mes: Diciembre Días: Del 31 de diciembre al 1 de enero Noches: 1 Cantidad de personas: 15 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R692,Estamos cotizando una finca o casa campestre gracias,disponibilidad,True,ESCALAR,,train,real
+R693,claroo,fuera_de_alcance,True,ESCALAR,,train,real
+R694,Buenas tardes para averiguar alquiler de la finca para fin de año porfa,disponibilidad,True,ESCALAR,,train,real
+R695,Listo super y que costó tendría el pasadía del sábado a domingo por las 30 personas y cuento cobras tu por hacer o preparar la comida?,precio,True,ESCALAR,,test,real
+R696,buenos días están formal que precio tiene para los días 31 al 2 enero para 8 personas gracias,disponibilidad,True,ESCALAR,,train,real
+R697,Donde es eso Ni idea,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R698,para averiguar sobre la finca disponibilidad el 1 hasta el 3,disponibilidad,True,ESCALAR,,train,real
+R699,Me regala fotos o vídeo muchas gracias Y de q consta la finca,reglas_servicios,False,"La reserva no incluye servicios adicionales de atención. Se ayuda en lo que se puede, por ejemplo a prender los fogones. El encargado de la finca limpia la piscina, prende los chorros y las luces, y está atento a lo que se necesite. Durante la estadía no se hace aseo. Después de que se van, el personal de la finca hace el aseo. La reserva incluye ropa de cama. Las toallas deben traerlas los clientes. No hay servicio de cocinero. Si lo necesitan, se pacta por fuera. Cualquier otro servicio se acuerda aparte y no viene con la reserva.",servicios_incluidos,train,real
+R700,Siempre es grande,fuera_de_alcance,True,ESCALAR,,train,real
+R701,Hola a las 4 está bien ?,otro_negocio,True,ESCALAR,,train,real
+R702,buenas hola que valor tiene el alquiler de la finca de el 31 de diciembre a enero1,disponibilidad,True,ESCALAR,,train,real
+R703,y que valen las dos noches masomenos 25,precio,True,ESCALAR,,train,real
+R704,Que precio tiene la estadía allá?,precio,True,ESCALAR,,test,real
+R705,Ok perfecto allá estaremos muchas gracias Feliz noche,otro_negocio,True,ESCALAR,,train,real
+R706,Aceptan mascotas,reglas_servicios,False,"Se admiten mascotas. No pueden dormir en las camas. Las personas deben estar siempre pendientes de sus mascotas: no pueden quedarse solas, porque en la finca hay animales silvestres y de granja.",reglas_mascotas,train,real
+R707,En el segundo solo tienen habitaciones Como le dije hay familia en Ibagué Bonita ahí esta la se los niños también,capacidad,False,"Primer piso: 5 habitaciones, todas compartidas (ninguna es individual). Hay 25 camas (cada camarote cuenta como dos camas), distribuidas así: - 7 camarotes semidobles (1,20 m): cada cama es para 2 personas, es decir, 4 personas por camarote. - 3 camarotes sencillos (1 m): por lo general una persona por cama, aunque a veces se quedan dos. - 3 camas semidobles, para 2 personas cada una. - 1 cama nido extraíble de 1,20 m, para 2 personas, que se guarda debajo de otra cama. - 1 cama individual de 80 cm, para 1 persona. Algunas habitaciones: la más pequeña tiene un solo camarote semidoble, para 4 personas. La más grande tiene tres camarotes (dos semidobles y uno sencillo) y una cama pequeña de 80 cm. Otra habitación tiene tres camas semidobles y la cama nido. En la mayoría de las habitaciones hay hasta tres camarotes.",capacidad_habitaciones_camas,train,real
+R708,"Todo el día Bueno realmente la necesito para el día 8 de diciembre, el evento es una primera comunión pero no sé si me la entreguen el día anterior para el tema de decoración Regalame precios porfavor",otro_negocio,True,ESCALAR,,test,real
+R709,Vi esta publicacion que precio tiene para fin de año mas o menos 25 personas,disponibilidad,True,ESCALAR,,train,real
+R710,Hola que precio el alquiler,precio,True,ESCALAR,,train,real
+R711,Sii Medio día sería perfecto,disponibilidad,True,ESCALAR,,train,real
+R712,Del 30 de diciembre al 2 de enero 28 personas,disponibilidad,True,ESCALAR,,train,real
+R713,"Las 5 noches!! Me falta hablar con una parte de la familia pero ya la mayoría dijo que si Quedaríamos pendientes de que mi prima vaya mañana a verla 🙏🏽 Me envías video 🤗 Apenas ella vaya y no cuenta, de una confirmamos Cómo sería la reserva?",otro_negocio,True,ESCALAR,,train,real
+R714,Señora [NOMBRE] Ya pueden bajar Para que le canten,otro_negocio,True,ESCALAR,,train,real
+R715,No me ha llegado,otro_negocio,True,ESCALAR,,train,real
+R716,Quería preguntarte cuánto cuesta el alquiler de la finca para una reunión familiar de aproximadamente 40 personas. ¿Me podrías regalar información sobre el precio y qué incluye? Muchas gracias. Las fechas son 19 y 20 de diciembre tiene disponibilidad en esas fechas,disponibilidad,True,ESCALAR,,train,real
+R717,En una hora puedo pasar?,otro_negocio,True,ESCALAR,,train,real
+R718,Gracias información por favor,disponibilidad,True,ESCALAR,,test,real
+R719,Ellos siempre están ahí?,otro_negocio,True,ESCALAR,,test,real
+R720,Puede llegar familia ? En caso de que hagamos algo para el 31?,otro_negocio,True,ESCALAR,,train,real
+R721,"Buenos dias, los invitados a la fiesta son 130, y los que se van a quedar es la familia cercana, mas o menos unas 15 o 20 personas, eso ya depende de la capacidad de hospedaje que tenga la finca",capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,test,real
+R722,Aproximadamente 20 a 25 personas,capacidad,False,"La finca tiene capacidad máxima para 65 personas para dormir, sumando el primer y el segundo piso. Lo que se reserva generalmente es el primer piso, con capacidad para unas 43 personas (hasta 49 si en los camarotes sencillos duermen dos personas por cama). Si el grupo es más grande, se usa también el segundo piso y el valor de la reserva aumenta. El límite de 65 es solo para quienes se quedan a dormir. Pueden ir todas las personas que quieran si no se quedan a dormir.",capacidad_personas,train,real
+R723,en donde queda?,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,test,real
+R724,Es para preguntar si tienes alguna finca disponible para el 24 y 25 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R725,25 personas,precio,True,ESCALAR,,train,real
+R726,Aproximada 14 que precio tiene la pasadia,precio,True,ESCALAR,,train,real
+R727,Ya estamos organizando,otro_negocio,True,ESCALAR,,train,real
+R728,No recuerdo,fuera_de_alcance,True,ESCALAR,,test,real
+R729,Bueno señora Y el precio es fijo,precio,True,ESCALAR,,train,real
+R730,Mil gracias a Uds,fuera_de_alcance,True,ESCALAR,,train,real
+R731,y el viernes? ah perdón me dices que mañana en la mañana podría ser tipo 11?,otro_negocio,True,ESCALAR,,train,real
+R732,"Hola, me interesa la finca para las fechas siguientes: Mes: noviembre 2026 Días: 3 Noches: 2 Cantidad de personas: 30 aprox Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,test,real
+R733,Buenas noches quisiera saber si esta disponible para la fecha del 31 de diciembre hasta el 2 de enero. Quedo atenta muchas gracias,disponibilidad,True,ESCALAR,,train,real
+R734,Si solo 30,precio,True,ESCALAR,,train,real
+R735,Estoy cotizando el alquiler de una finca,disponibilidad,True,ESCALAR,,test,real
+R736,Hola ya estamos en el Nazareth,otro_negocio,True,ESCALAR,,train,real
+R737,Ahh juemadre,fuera_de_alcance,True,ESCALAR,,train,real
+R738,"Ay si x favor 🙏🏽 Pero no habría problema xq sería solo ella a conectarse, los demás esperamos 🤭",otro_negocio,True,ESCALAR,,train,real
+R739,Ah bueno señor@ La finca queda por q lados veci,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R740,"Hola, me interesa la finca me puedes dar más información",disponibilidad,True,ESCALAR,,train,real
+R741,Donde es disculpe Y para BBQ Juegos de boli rana y otros tiene A ya no vi fotos,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,train,real
+R742,Hola sra [NOMBRE] Para hacerte entrega,otro_negocio,True,ESCALAR,,train,real
+R743,De pronto no tienes un video guardado de la sección de la piscina qué pena Gracias de verdad es Usted muy amable,otro_negocio,True,ESCALAR,,train,real
+R744,Es Hermosa,fuera_de_alcance,True,ESCALAR,,train,real
+R745,Que pena no responder es que estoy en una cita médica,fuera_de_alcance,True,ESCALAR,,test,real
+R746,31 de diciembre y primero. Somos 5 adultos y 4 niños,disponibilidad,True,ESCALAR,,test,real
+R747,Que tan temprano podríamos pasar?,otro_negocio,True,ESCALAR,,train,real
+R748,Super y tú me podrías recordar en donde está ubicada? Cuantas habitaciones y baños tienes?,ubicacion,False,"Finca Villa Yaiza está en la vereda El Colegio (parte baja), sector La Murraposa, en Ibagué, Tolima. Código Plus de Google Maps: FVFG+M5 Ibagué, Tolima. Cómo llegar: desde Ibagué se pasa por el barrio Modelia y se llega a un puente sobre el río Alvarado, donde se dividen los caminos. Allí se toma la vía La Mina (en Google Maps, vía El País–La Mina), por el barrio El País, y se gira hacia el balneario Pirarucu. Si no saben hacia dónde ir, ubiquen el balneario Pirarucu y suban hasta encontrar la finca. Una referencia para guiarse es la Terminal La Ceibita, en la carrera 12 con calle 171 (en Google Maps aparece como «Terminal Busetas el País Salado»).",ubicacion_direccion,test,real
+R749,Es vía san Bernardo?,ubicacion,False,"La finca queda a unos 3 km de la Terminal La Ceibita (carrera 12 con calle 171), aproximadamente 15 minutos en carro. Caminando desde esa terminal son unos 40 minutos. Desde el barrio Modelia, que queda antes del puente donde se dividen los caminos hacia la finca, también son aproximadamente 15 minutos en carro.",ubicacion_distancias_tiempos,train,real
+R750,Pasa q voy de visita y es para organizar una reunión familiar,otro_negocio,True,ESCALAR,,train,real
+R751,Con todo gusto desea más datos,otro_negocio,True,ESCALAR,,train,real
+R752,31 de diciembre al 3 de enero,disponibilidad,True,ESCALAR,,test,real
+R753,Y es lo mínimo,precio,True,ESCALAR,,train,real
+R754,Pero me podrías indicar más o menos que precio tiene por una noche y dos días y con esa cantidad de personas,precio,True,ESCALAR,,train,real
+R755,Buena tarde tienes disponibilidad de la finca para el 31,disponibilidad,True,ESCALAR,,train,real
+R756,Ok gracias yo le aviso para ir,fuera_de_alcance,True,ESCALAR,,train,real
+R757,Sólo una noche las 24 horas,disponibilidad,True,ESCALAR,,train,real
+R758,Para preguntar por el costo de la finca para unas 25 personas Del 3 al 5 de enero,precio,True,ESCALAR,,test,real
+R759,Qué valor tiene?,precio,True,ESCALAR,,train,real
+R760,"Podemos entrar más temprano? Ya te van a enviar Listo, a las 4 Y mañana a qué horas salimos?",otro_negocio,True,ESCALAR,,train,real
+R761,Pues eso estamos hablando xq sería súper temprano 🤔 O x lo menos un grupito llegaría temprano para poder llegar a conectarse Mi cuñada debe estar conectada a las 7 am,otro_negocio,True,ESCALAR,,test,real
+R762,Buenas tardes soy mayorli estoy interesada en alquilar la finca para fin de año somos 18 personas Que precio tiene,disponibilidad,True,ESCALAR,,train,real
+R764,Es para un baby shower 100 personas,disponibilidad,True,ESCALAR,,train,real
+R765,"Muy buenas tardes,hágame un favor ,quiero saber qué me ofrecen para tener unas vacaciones en compañía de mi familia",reglas_servicios,False,"La reserva no incluye servicios adicionales de atención. Se ayuda en lo que se puede, por ejemplo a prender los fogones. El encargado de la finca limpia la piscina, prende los chorros y las luces, y está atento a lo que se necesite. Durante la estadía no se hace aseo. Después de que se van, el personal de la finca hace el aseo. La reserva incluye ropa de cama. Las toallas deben traerlas los clientes. No hay servicio de cocinero. Si lo necesitan, se pacta por fuera. Cualquier otro servicio se acuerda aparte y no viene con la reserva.",servicios_incluidos,test,real
+R766,Ya eh preguntado en varias,fuera_de_alcance,True,ESCALAR,,train,real
+R767,De 20 de diciembre al 5 de [NOMBRE] Somos unas 38 personas incluidos niños .,disponibilidad,True,ESCALAR,,train,real
+R768,Bueno sra,fuera_de_alcance,True,ESCALAR,,train,real
+R769,Hoy se podría?,otro_negocio,True,ESCALAR,,train,real
+R770,Que precio tiene para 15 adultos y 5,precio,True,ESCALAR,,train,real
+R772,Buenos día gracias para obtener información sobre la finca por favor,disponibilidad,True,ESCALAR,,train,real
+R773,Hablas con [NOMBRE] Tienes disponibilidad para el día 15 y 16 de noviembre,disponibilidad,True,ESCALAR,,train,real
+R774,Ya vi las fotos si sra Déjeme reviso mi presupuesto,precio,True,ESCALAR,,train,real
+R776,Para el 31 de diciembre es para apartar la si está disponibles para esa fecha y son 40 personas,disponibilidad,True,ESCALAR,,test,real
+R777,"No sé qué opinen de esas dos opciones ? Una en san Bernardo y la otra en Alvarado La de Alvarado 1’5 La de san Bernardo 1,2",fuera_de_alcance,True,ESCALAR,,train,real
+R778,Y que precio tendría? Podríamos llegar el sábado temprano si?,otro_negocio,True,ESCALAR,,test,real
+R779,Ah vale gracias,fuera_de_alcance,True,ESCALAR,,test,real
+R780,Puede ir a verla?,otro_negocio,True,ESCALAR,,train,real
+R781,La estoy buscando [NOMBRE] lo de la plata y no la veo,otro_negocio,True,ESCALAR,,train,real
+R782,Y cuanto con el trasporte,otro_negocio,True,ESCALAR,,test,real
+R783,A qué horas en la mañana,otro_negocio,True,ESCALAR,,train,real
+R784,[NOMBRE] Niño [NOMBRE] [CUENTA] [TEL],otro_negocio,True,ESCALAR,,train,real
+R785,Qué precio tienes Y tienes disponible para esos días?,disponibilidad,True,ESCALAR,,train,real
+R786,30 personas,precio,True,ESCALAR,,train,real
+R787,Por favor para la información sobre la casa en alquiler Para la fecha de 31 al 02 de enero Promedio de 21 personas,disponibilidad,True,ESCALAR,,train,real
+R788,"Y un fin de semana normalmente cuánto vale que no sea una fecha así como navidad, fin de año una fecha casual",precio,True,ESCALAR,,train,real
+R789,Buena tarde por favor para preguntar por lanfinca si esta disponible para 31 diciembre 2 de enero,disponibilidad,True,ESCALAR,,train,real
+R790,Me gustaría información acerca de la finca,disponibilidad,True,ESCALAR,,train,real
+R791,Porque es un matrimonio familiar y mi hermana se casa a las 6 estaríamos llegando a las 8 abajo,otro_negocio,True,ESCALAR,,train,real
+R792,Disculpa Te dijeron algo ??,fuera_de_alcance,True,ESCALAR,,train,real
+R793,Cómo está ? Tú me haces un favor Me puedes compartir el video de cómo llegar a la finca Porfis,otro_negocio,True,ESCALAR,,test,real
+R794,"Buenos días, disculpa estoy buscando una finca para el 30-31 y 1 de enero",disponibilidad,True,ESCALAR,,train,real
+R795,28 y 29 nov,disponibilidad,True,ESCALAR,,train,real
+R796,Para el puente de [NOMBRE] 10 aproximadamente,disponibilidad,True,ESCALAR,,test,real
+R797,Oye allá está lloviendo?,fuera_de_alcance,True,ESCALAR,,train,real
+R798,Dale ya le digo,fuera_de_alcance,True,ESCALAR,,train,real
+R799,Déjame mañana hablo y te confirmo para ir a verla y apartarse la,otro_negocio,True,ESCALAR,,train,real
+R800,"Hola buenos días como está?. Quiero preguntar si la finca tiene disponibilidad para el 31 de dic, 01 de enero, salida el 02",disponibilidad,True,ESCALAR,,train,real
+R801,"Quisiera saber si tiene disponible la finca del 31 de diciembre al 2 de enero, para 15 personas",disponibilidad,True,ESCALAR,,train,real
+R802,Una pregunta que me hacen como es el ingreso la calle si es buena sube carro y moto Porque es que le dijieron a mi hermano que si eso era más allá del botadero,ubicacion,False,"La vía está en buen estado. Es destapada en un tramo y, desde el balneario Pirarucu hacia arriba, está en su mayoría pavimentada con cemento. No hay transporte público hasta la finca.",ubicacion_estado_via_transporte,train,real
+R803,24 con niños incluidos,precio,True,ESCALAR,,test,real
+R804,Ya gracias en Ibagué verdad Con quien tengo el gusto Mi nombre es [NOMBRE],otro_negocio,True,ESCALAR,,train,real
+R805,Tendrás fotos o videos de la finca por favor Me recuerdas dónde queda y cuando podría ir a verla,otro_negocio,True,ESCALAR,,train,real
+R806,Buenas tardes quería consultar si tiene disponibilidad para el 24 25 26 y 27 de diciembre,disponibilidad,True,ESCALAR,,train,real
+R807,"Mmm okk Muy linda la finca, voy hablar con mi familia haber que....",fuera_de_alcance,True,ESCALAR,,train,real
+R808,Lista ya le confirmo,fuera_de_alcance,True,ESCALAR,,train,real
+R809,"Hola buena tarde, quería saber si la finca está disponible para fin de año?",disponibilidad,True,ESCALAR,,test,real
+R810,"Hola, me interesa la finca para las fechas siguientes: Mes: ______12____ Días: ___31_______ Noches: _______2___ Cantidad de personas: ______20____ Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R811,De ese te escribe ? Y cuánto saldría si uno se quisiera quedar ?,precio,True,ESCALAR,,train,real
+R812,"Hola, me interesa la finca para las fechas siguientes: Mes: diciembre y enero Días: 31 dic al 3 ene Noches: 3 Cantidad de personas: 25 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R814,En el puente está bien,disponibilidad,True,ESCALAR,,test,real
+R815,Me regalas ubicación por favor Y a qué hora se puede hoy,ubicacion,False,"La finca está en Google Maps como «Finca Villa Yaiza» (Ibagué, Tolima), con el código Plus FVFG+M5. Enlace de Google Maps: https://maps.app.goo.gl/8TdYrXjYrUrq6hwZ9",ubicacion_mapa_enlace,train,real
+R816,Cuando puedas me envías En video por favor,otro_negocio,True,ESCALAR,,test,real
+R817,"Cuesta 4 millones las 3 noches para los 17 Tiene imágenes El sitio tiene todo lo necesario para la celebración de fin de año, neveras, menaje, internet etcétera",otro_negocio,True,ESCALAR,,train,real
+R818,Somos 22 personas,precio,True,ESCALAR,,test,real
+R819,Sería para el 13 y 14 de diciembre y un promedio de 20 personas,disponibilidad,True,ESCALAR,,train,real
+R820,Me gustaría mas información para el alquiler de la finca,disponibilidad,True,ESCALAR,,test,real
+R821,Hola buenos como están Mira hay le envíe dos millones más Porfa me envía un recibo gracias Ya van 6 millones,otro_negocio,True,ESCALAR,,train,real
+R822,Se lo agradecería de todo corazón Es que vamos con un señor de 90 años y el quiere pasar año nuevo en una finca Es mi abuelo,otro_negocio,True,ESCALAR,,test,real
+R823,Para el 30 de [NOMBRE] Del 30 al 31 del otro año,disponibilidad,True,ESCALAR,,train,real
+R824,No me has dicho el precio,precio,True,ESCALAR,,train,real
+R825,Hay posibilidad de verla hoy mismo? O mañana que sería lo más temprano? Mañana cuál es la hora más temprano?,otro_negocio,True,ESCALAR,,train,real
+R826,Hola buen día precio para 15 personas. Sábado 10 de octubre,disponibilidad,True,ESCALAR,,train,real
+R827,Buenos días cómo estás Quisiera saber si puedo ir a ver el lugar Y si me dices por favor si tenemos opción para alimentación Se pueden ingresar mascotas ?,reglas_servicios,False,"Se admiten mascotas. No pueden dormir en las camas. Las personas deben estar siempre pendientes de sus mascotas: no pueden quedarse solas, porque en la finca hay animales silvestres y de granja.",reglas_mascotas,test,real
+R828,Es que nosotros nos gusta saber lo del numero de habitaciones porque no nos gusta dormir de 10 en un mismo sitio como nos han ofertado en otros lugares Eso es importante para nosotros,capacidad,False,"Primer piso: 5 habitaciones, todas compartidas (ninguna es individual). Hay 25 camas (cada camarote cuenta como dos camas), distribuidas así: - 7 camarotes semidobles (1,20 m): cada cama es para 2 personas, es decir, 4 personas por camarote. - 3 camarotes sencillos (1 m): por lo general una persona por cama, aunque a veces se quedan dos. - 3 camas semidobles, para 2 personas cada una. - 1 cama nido extraíble de 1,20 m, para 2 personas, que se guarda debajo de otra cama. - 1 cama individual de 80 cm, para 1 persona. Algunas habitaciones: la más pequeña tiene un solo camarote semidoble, para 4 personas. La más grande tiene tres camarotes (dos semidobles y uno sencillo) y una cama pequeña de 80 cm. Otra habitación tiene tres camas semidobles y la cama nido. En la mayoría de las habitaciones hay hasta tres camarotes.",capacidad_habitaciones_camas,train,real
+R829,"Si, que costo tendría y hay disponibles para esos días? Del 24 al 27 de diciembre",disponibilidad,True,ESCALAR,,train,real
+R830,"Listo, envíame por favor fotos o video del lugar para enviarle a la familia",otro_negocio,True,ESCALAR,,test,real
+R831,"Gracias por tu mensaje, en este momento no puedo responder, pero lo hare lo antes posible. *Dios te bendiga!🙏*",fuera_de_alcance,True,ESCALAR,,train,real
+R832,"Hola buenos días. Estoy interesada en alquilar la casa y quisiera saber cuánto cuesta el alquiler. ¿Me podrían indicar el precio y qué incluye el alquiler, por favor? También quisiera saber qué fechas tienen disponibles. Muchas gracias.",disponibilidad,True,ESCALAR,,test,real
+R833,Me interesa alquilar,disponibilidad,True,ESCALAR,,train,real
+R834,"Hola, me interesa la finca para las fechas siguientes: Mes: __________ Días: __________ Noches: __________ Cantidad de personas: __________ Me cotiza por favor. Gracias. Hola, me interesa la finca para las fechas siguientes: Mes: diciembre Días: 4 Noches: 3 Cantidad de personas: 40 Me cotiza por favor. Gracias.",disponibilidad,True,ESCALAR,,train,real
+R835,Me regalas mas información de la finca,disponibilidad,True,ESCALAR,,train,real
+R836,"21 de marzo Mira lo q pasa esq se va a realizar una reunión para aprox 100, pero no todas se quedarian, la mayoría se irian al terminar la reunión, mi pregunta es para cuantas personas max tiene la capacidad para hospedaje?",disponibilidad,True,ESCALAR,,train,real
+R837,Si señora Y a q hora podría ir mañana a ver la finca?,otro_negocio,True,ESCALAR,,train,real
+R838,cuantas habitaciones tiene?,capacidad,False,"Primer piso: 5 habitaciones, todas compartidas (ninguna es individual). Hay 25 camas (cada camarote cuenta como dos camas), distribuidas así: - 7 camarotes semidobles (1,20 m): cada cama es para 2 personas, es decir, 4 personas por camarote. - 3 camarotes sencillos (1 m): por lo general una persona por cama, aunque a veces se quedan dos. - 3 camas semidobles, para 2 personas cada una. - 1 cama nido extraíble de 1,20 m, para 2 personas, que se guarda debajo de otra cama. - 1 cama individual de 80 cm, para 1 persona. Algunas habitaciones: la más pequeña tiene un solo camarote semidoble, para 4 personas. La más grande tiene tres camarotes (dos semidobles y uno sencillo) y una cama pequeña de 80 cm. Otra habitación tiene tres camas semidobles y la cama nido. En la mayoría de las habitaciones hay hasta tres camarotes.",capacidad_habitaciones_camas,train,real
+R839,Ay siiiii Ya estoy hablando con la familia,fuera_de_alcance,True,ESCALAR,,test,real
+R840,Yo soy la persona interesada en la pasadia para el día 2 de noviembre,otro_negocio,True,ESCALAR,,train,real
+R841,Si eso vi Por otro número verdad Ya estamos analizando lo que ud nos envió,otro_negocio,True,ESCALAR,,test,real
+R842,Me puedes dar fotos videos Otra pregunta con cuánto tiempo de anticipación lo debo cancelar Separar,otro_negocio,True,ESCALAR,,train,real
+R843,Pero de Ibagué ahí cuanto hay Es que no conozco por allá Pero si hay familia en Ibagué Cuanto es lo mínimo me disculpa la pregunta porque la verdad tenemos un presupuesto por noche de 1.600.000 para las 38 personas igual de pronto subimos a 40 como le digo es que somos una familia y vivimos en diferentes lugares Muchas gracias lo del transporte no sería necesario Y tienen parqueadero Como le digo estamos mirando pero Usted me dice señora [NOMBRE] Le agradezco mucho su colaboración y la información,ubicacion,False,"La finca queda a unos 3 km de la Terminal La Ceibita (carrera 12 con calle 171), aproximadamente 15 minutos en carro. Caminando desde esa terminal son unos 40 minutos. Desde el barrio Modelia, que queda antes del puente donde se dividen los caminos hacia la finca, también son aproximadamente 15 minutos en carro.",ubicacion_distancias_tiempos,train,real
+R844,Si señora yo le di este número de contacto ellos pasarían después de las 11 de la mañana,otro_negocio,True,ESCALAR,,test,real
+R845,entre 20 a 25 personas,precio,True,ESCALAR,,train,real
+R846,osea si fueran dos noches serian 8 millones? y cuanto esas tres noches,precio,True,ESCALAR,,test,real
+R847,Con quien tengo el gusto,otro_negocio,True,ESCALAR,,train,real
+R848,Mira para preguntarte por las fechas disponibles que tienes ?,disponibilidad,True,ESCALAR,,train,real
+R849,Si señora Sin hospedaje,precio,True,ESCALAR,,test,real
+R850,Me recuerdas tu nombre,otro_negocio,True,ESCALAR,,test,real
+R851,Ah ya No tienes más fotos por ahora? Tiene bolirana y canchas de tejo?,reglas_servicios,False,"Hay toda clase de juegos y actividades recreativas: Se presta mesa de ping-pong, juego de rana normal, bolirana, juegos de mesa (ajedrez, parchis, bingo) y balones para jugar en las distintas áreas de la finca: balón de goma para la piscina, balon de voleyball y futbol para la cancha de arena.",servicios_entretenimiento,train,real
+R852,Qué valor tiene la noche ? Me podrías enviar video del lugar por favor.,precio,True,ESCALAR,,train,real
+R853,Ya les estoy diciendo a ellos Me dices que 1.200 hoy y mañana Ay para asar carne?,reglas_servicios,False,"La finca tiene una piscina y una piscina pequeña para niños. También tiene zona de barbacoa (BBQ) con su cocina, que cuenta con horno, fogón de leña y cocina de gas. La piscina no tiene reglas de uso. Después de las 6 de la tarde no hay servicio de salvavidas. El uso de la piscina es bajo el propio riesgo de los visitantes.",servicios_piscina_bbq,test,real
+R854,A qué horas nos la entregarían Me envías ubicación,reglas_servicios,False,"Check-in: hacia las 9 o 10 de la mañana, no más temprano, porque ese tiempo se usa para hacer el aseo. No es estricto: a veces se puede entrar un poco antes, pero siempre deben preguntar antes de llegar. Check-out: a las 3 de la tarde. Por lo general es firme, porque hay que hacer el aseo para atender otra reserva. Si necesitan salir a otra hora, deben preguntar antes. Al ingresar debe estar presente la persona que alquiló o un encargado suyo, para revisar el inventario que se entrega. Si llega otra persona primero, a esa se le entrega y queda como encargada. Al entregar la finca se hace un video en el que se graba todo lo que se entrega: habitaciones, cocina, todas las instalaciones y los artículos entregados.",reglas_horarios_checkin_checkout,train,real
+R855,Hola buenas tardes para información de la finca Para el 16 y 17 de noviembre 25 personas,disponibilidad,True,ESCALAR,,train,real
+R856,Si es tan amable y valor,precio,True,ESCALAR,,test,real
+R857,Entre 15 y 20 personas Me podría mostrar registro fotográfico y ubicación por favor,otro_negocio,True,ESCALAR,,train,real
+R858,Ha no valla ser mi hermana jaja Ella me pasó el contacto,otro_negocio,True,ESCALAR,,train,real
+R859,Soy [NOMBRE] Hablamos hace unos minutos,otro_negocio,True,ESCALAR,,train,real
+R860,Cuando tiene tiempo,otro_negocio,True,ESCALAR,,train,real
+R861,Cuando podría ir a verla? Un fds en la tarde es posible?,otro_negocio,True,ESCALAR,,train,real
+R862,Porq vamos del centro en carro por si hay algún tranco,otro_negocio,True,ESCALAR,,train,real
+R863,Hola! Quisiera información sobre la finca villa yaiza,disponibilidad,True,ESCALAR,,train,real
+R864,1.800 hay la verdad Por mucho 2,precio,True,ESCALAR,,train,real
+R865,Hola buenas noches me podrías informar por favor si tiene disponibilidad para el sábado 26 al domingo 27 de septiembre para 13 adultos y 3 menores y cual seria su costo. Gracias,disponibilidad,True,ESCALAR,,train,real
+R866,Ah súper muchas gracias! Y cuando se debería pagar para apartar?,reglas_servicios,False,"Para hacer una reserva se pide el 30 % de su valor. Si no se paga ese anticipo, no se guarda la reserva. No se cancela la reserva ni se devuelve el anticipo. Lo que sí se puede es mover la reserva a otra fecha.",reglas_cancelaciones,train,real
+R867,Quisiera saber si disponible para fecha del 31 al 2 de enero,disponibilidad,True,ESCALAR,,train,real
+R868,9833 termina el número de ella ?,otro_negocio,True,ESCALAR,,train,real
+R869,Hola buenos días sra [NOMBRE] le envió el comprobante de transferencia muchas gracias,otro_negocio,True,ESCALAR,,train,real
+R870,Buenos días ustedes solo tienen esta finca en alquiler,otro_negocio,True,ESCALAR,,train,real
+R871,Ya estoy compartiendo las fotos al grupo de la familia,fuera_de_alcance,True,ESCALAR,,train,real
+R872,Si puedo ir hoy en la tarde,otro_negocio,True,ESCALAR,,train,real

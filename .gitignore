@@ -1,6 +1,8 @@
 # Datos y artefactos
 data/raw/
 data/interim/
+reports/**/manual_eval_*.csv
+data/processed/*_local.csv
 *.zip
 .env
 models/
