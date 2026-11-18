@@ -1,0 +1,8 @@
+true_intent,precio,capacidad,reglas_servicios,ubicacion,disponibilidad,otro_negocio,fuera_de_alcance
+precio,19,0,0,0,9,4,0
+capacidad,2,0,1,0,4,1,0
+reglas_servicios,1,0,0,0,1,8,0
+ubicacion,0,1,0,11,0,4,0
+disponibilidad,4,0,0,1,69,7,0
+otro_negocio,4,0,1,2,6,61,2
+fuera_de_alcance,1,0,0,0,1,13,5
