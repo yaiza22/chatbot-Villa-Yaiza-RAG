@@ -1,0 +1,4 @@
+variante,abstencion_correcta,abstencion_innecesaria,n_escalo
+oficial (escalate del arnés),0.567,0.09,282
++ 'ESCALAR' en el texto,0.571,0.115,286
++ remite a una persona (heurística),0.722,0.321,375

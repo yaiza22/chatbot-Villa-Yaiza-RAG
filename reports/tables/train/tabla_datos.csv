@@ -1,0 +1,9 @@
+intent,escala,train,test,total
+precio,True,74,32,106
+capacidad,False,17,8,25
+reglas_servicios,False,25,10,35
+ubicacion,False,36,16,52
+disponibilidad,True,188,81,269
+otro_negocio,True,178,76,254
+fuera_de_alcance,True,45,20,65
+TOTAL,,563,243,806
