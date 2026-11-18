@@ -70,6 +70,7 @@ STATUS_COLORS: dict[str, str] = {
     "critical": "#d03b3b",
     "warning": "#fab219",
     "neutral": "#b5b3ad",
+    "good_light": "#8fd18f",
 }
 
 # Rampa secuencial (un solo tono, claro -> oscuro) para las matrices de confusión.
@@ -655,6 +656,8 @@ def escalation_outcomes(predictions: pd.DataFrame) -> pd.DataFrame:
         * ``resp_wrong``: respondible, respondió con contenido incorrecto (automático).
         * ``resp_ungraded``: respondible, respondió y requiere revisión manual (M3).
         * ``resp_escalated``: respondible y escaló (abstención innecesaria).
+        * ``resp_partial``: solo si hay calificación manual (``manual_partial``): respuesta
+          parcialmente correcta (nota 1). No cuenta como correcta ni como incorrecta.
     """
     data = (
         predictions
@@ -667,23 +670,27 @@ def escalation_outcomes(predictions: pd.DataFrame) -> pd.DataFrame:
         se, esc = g["should_escalate"], g["escalate"]
         resp_answered = g[~se & ~esc]
         graded = resp_answered["auto_correct"].notna()
-        rows.append(
-            {
-                "engine": engine,
-                "n_should_escalate": int(se.sum()),
-                "esc_ok": int((se & esc).sum()),
-                "esc_answered": int((se & ~esc).sum()),
-                "n_respondable": int((~se).sum()),
-                "resp_correct": int(
-                    (resp_answered.loc[graded, "auto_correct"] == 1).sum()
-                ),
-                "resp_wrong": int(
-                    (resp_answered.loc[graded, "auto_correct"] == 0).sum()
-                ),
-                "resp_ungraded": int((~graded).sum()),
-                "resp_escalated": int((~se & esc).sum()),
-            }
+        partial = (
+            resp_answered["manual_partial"].fillna(0).astype(bool)
+            if "manual_partial" in resp_answered
+            else pd.Series(False, index=resp_answered.index)
         )
+        row = {
+            "engine": engine,
+            "n_should_escalate": int(se.sum()),
+            "esc_ok": int((se & esc).sum()),
+            "esc_answered": int((se & ~esc).sum()),
+            "n_respondable": int((~se).sum()),
+            "resp_correct": int((resp_answered.loc[graded, "auto_correct"] == 1).sum()),
+            "resp_wrong": int(
+                ((resp_answered["auto_correct"] == 0) & graded & ~partial).sum()
+            ),
+            "resp_ungraded": int((~graded).sum()),
+            "resp_escalated": int((~se & esc).sum()),
+        }
+        if "manual_partial" in data:
+            row["resp_partial"] = int((partial & graded).sum())
+        rows.append(row)
     return pd.DataFrame(rows)
 
 
@@ -979,6 +986,449 @@ def simulate_gate(
 
 
 # --------------------------------------------------------------------------------------
+# Calificación manual de M3 (corrección y alucinación)
+# --------------------------------------------------------------------------------------
+TIPO_RESPONDABLE = "respondible"
+TIPO_SHOULD_ESCALATE = "debia_escalar"
+REDIRECT_NOTE = re.compile(r"remit", flags=re.IGNORECASE)
+
+
+def _read_sheet(path: Path | str) -> pd.DataFrame:
+    """Lee una hoja de calificación CSV con separador ``,`` o ``;`` (Excel en español)."""
+    return pd.read_csv(
+        path,
+        sep=None,
+        engine="python",
+        encoding="utf-8-sig",
+        dtype=str,
+        keep_default_na=False,
+    )
+
+
+def _parse_grades(
+    values: pd.Series, allowed: set[int], column: str, ids: pd.Series
+) -> pd.Series:
+    """Convierte notas de texto a números; vacío -> NaN; falla si hay valores no válidos."""
+    text = values.astype(str).str.strip().str.replace(",", ".", regex=False)
+    numbers = pd.to_numeric(text.where(text != ""), errors="coerce")
+    bad = (text != "") & (numbers.isna() | ~numbers.isin(sorted(allowed)))
+    if bad.any():
+        examples = ", ".join(f"{i}={v!r}" for i, v in zip(ids[bad], values[bad]))
+        raise ValueError(
+            f"{column}: valores no válidos (se esperaba {sorted(allowed)}): {examples}"
+        )
+    return numbers
+
+
+def load_manual_grades(
+    path_rater_1: Path | str, path_rater_2: Path | str
+) -> pd.DataFrame:
+    """Une y valida las hojas de los dos calificadores.
+
+    Cada calificador llena solo sus columnas (``*_rater_1`` o ``*_rater_2``) en su propia
+    copia de la hoja. Esta función toma de cada archivo las columnas que le corresponden.
+
+    Reglas que se comprueban:
+
+    * Las dos hojas tienen las mismas preguntas (``question_id``) con el mismo ``tipo``.
+    * Filas ``respondible``: corrección 0, 1 o 2 y alucinación 0 o 1, obligatorias.
+    * Filas ``debia_escalar``: alucinación 0 o 1 obligatoria; la corrección no aplica y se
+      ignora si alguien la llenó.
+
+    Args:
+        path_rater_1: Hoja del calificador 1.
+        path_rater_2: Hoja del calificador 2.
+
+    Returns:
+        Una fila por pregunta con ``question_id, tipo, intent`` y, por calificador,
+        ``correctness_N``, ``hallucination_N`` y ``redirect_N`` (la nota dice "remite").
+
+    Raises:
+        ValueError: Si faltan columnas, las preguntas no coinciden o hay notas no válidas
+            o vacías donde son obligatorias.
+    """
+    frames = []
+    for n, path in ((1, path_rater_1), (2, path_rater_2)):
+        sheet = _read_sheet(path)
+        needed = {
+            "tipo",
+            "question_id",
+            f"correctness_rater_{n}",
+            f"hallucination_rater_{n}",
+            f"notes_rater_{n}",
+        }
+        missing = sorted(needed - set(sheet.columns))
+        if missing:
+            raise ValueError(f"{Path(path).name}: faltan columnas {missing}")
+        sheet["question_id"] = sheet["question_id"].str.strip()
+        sheet["tipo"] = sheet["tipo"].str.strip()
+        if sheet["question_id"].duplicated().any():
+            dup = sheet.loc[sheet["question_id"].duplicated(), "question_id"].tolist()
+            raise ValueError(f"{Path(path).name}: question_id repetidos {dup}")
+        bad_tipo = sorted(set(sheet["tipo"]) - {TIPO_RESPONDABLE, TIPO_SHOULD_ESCALATE})
+        if bad_tipo:
+            raise ValueError(f"{Path(path).name}: tipo no válido {bad_tipo}")
+        ids = sheet["question_id"]
+        out = sheet[["question_id", "tipo"]].copy()
+        if "intent" in sheet:
+            out["intent"] = sheet["intent"].str.strip()
+        out[f"correctness_{n}"] = _parse_grades(
+            sheet[f"correctness_rater_{n}"], {0, 1, 2}, f"correctness_rater_{n}", ids
+        )
+        out[f"hallucination_{n}"] = _parse_grades(
+            sheet[f"hallucination_rater_{n}"], {0, 1}, f"hallucination_rater_{n}", ids
+        )
+        out[f"redirect_{n}"] = (
+            sheet[f"notes_rater_{n}"]
+            .astype(str)
+            .str.contains(REDIRECT_NOTE)
+            .astype(float)
+        )
+        is_resp = out["tipo"] == TIPO_RESPONDABLE
+        ignored = ~is_resp & out[f"correctness_{n}"].notna()
+        if ignored.any():
+            warnings.warn(
+                f"{Path(path).name}: se ignora la corrección en {int(ignored.sum())} filas "
+                "'debia_escalar' (solo se califica alucinación).",
+                UserWarning,
+                stacklevel=2,
+            )
+            out.loc[ignored, f"correctness_{n}"] = np.nan
+        empty_c = is_resp & out[f"correctness_{n}"].isna()
+        empty_h = out[f"hallucination_{n}"].isna()
+        if empty_c.any() or empty_h.any():
+            raise ValueError(
+                f"{Path(path).name}: faltan notas. Corrección vacía en "
+                f"{ids[empty_c].tolist()}; alucinación vacía en {ids[empty_h].tolist()}"
+            )
+        frames.append(out)
+
+    first, second = frames
+    if set(first["question_id"]) != set(second["question_id"]):
+        only_1 = sorted(set(first["question_id"]) - set(second["question_id"]))
+        only_2 = sorted(set(second["question_id"]) - set(first["question_id"]))
+        raise ValueError(
+            f"Las hojas no tienen las mismas preguntas. Solo en la 1: {only_1}; "
+            f"solo en la 2: {only_2}"
+        )
+    second = second.drop(columns=[c for c in ("intent",) if c in second])
+    merged = first.merge(second, on="question_id", suffixes=("", "_hoja2"))
+    mismatch = merged["tipo"] != merged["tipo_hoja2"]
+    if mismatch.any():
+        raise ValueError(
+            f"El tipo no coincide entre hojas en {merged.loc[mismatch, 'question_id'].tolist()}"
+        )
+    return merged.drop(columns=["tipo_hoja2"]).reset_index(drop=True)
+
+
+def manual_disagreements(grades: pd.DataFrame) -> pd.DataFrame:
+    """Filas en que los calificadores no coinciden, con columnas vacías para el consenso.
+
+    Se llenan en la reunión (``correctness_final`` solo en filas ``respondible``).
+    """
+    resp = grades["tipo"] == TIPO_RESPONDABLE
+    differs = (resp & (grades["correctness_1"] != grades["correctness_2"])) | (
+        grades["hallucination_1"] != grades["hallucination_2"]
+    )
+    out = grades.loc[
+        differs,
+        [
+            "question_id",
+            "tipo",
+            "correctness_1",
+            "correctness_2",
+            "hallucination_1",
+            "hallucination_2",
+        ],
+    ].copy()
+    out["correctness_final"] = ""
+    out["hallucination_final"] = ""
+    return out.reset_index(drop=True)
+
+
+def apply_resolutions(
+    grades: pd.DataFrame, resolutions: pd.DataFrame | None = None
+) -> pd.DataFrame:
+    """Agrega ``correctness_final`` y ``hallucination_final`` (consenso).
+
+    Donde los dos calificadores coinciden, ese es el valor final. Donde no, se toma el valor
+    decidido en reunión (``resolutions``); si todavía no existe, queda ``NaN`` y la fila no
+    entra en las métricas de consenso.
+    """
+    out = grades.copy()
+    for metric in ("correctness", "hallucination"):
+        a, b = out[f"{metric}_1"], out[f"{metric}_2"]
+        out[f"{metric}_final"] = np.where(a == b, a, np.nan)
+    if resolutions is not None and not resolutions.empty:
+        res = resolutions.copy()
+        res["question_id"] = res["question_id"].astype(str).str.strip()
+        res = res.set_index("question_id")
+        for metric, allowed in (("correctness", {0, 1, 2}), ("hallucination", {0, 1})):
+            column = f"{metric}_final"
+            if column not in res:
+                continue
+            parsed = _parse_grades(
+                res[column].astype(str), allowed, column, pd.Series(res.index)
+            )
+            parsed.index = res.index
+            idx = out["question_id"].map(parsed)
+            fill = out[column].isna() & idx.notna()
+            out.loc[fill, column] = idx[fill]
+    out.loc[out["tipo"] != TIPO_RESPONDABLE, "correctness_final"] = np.nan
+    return out
+
+
+def _cohen_kappa(a: pd.Series, b: pd.Series, weights: str | None) -> float:
+    """Kappa de Cohen; ``NaN`` si solo hay una categoría (kappa no está definido)."""
+    from sklearn.metrics import cohen_kappa_score
+
+    if len(set(a) | set(b)) < 2:
+        return float("nan")
+    return float(cohen_kappa_score(a.astype(int), b.astype(int), weights=weights))
+
+
+def manual_agreement(grades: pd.DataFrame) -> pd.DataFrame:
+    """Acuerdo entre calificadores: % de coincidencia exacta y kappa de Cohen.
+
+    La corrección (0/1/2) usa kappa con pesos cuadráticos: un desacuerdo 0 vs 2 pesa más
+    que 1 vs 2. La alucinación y "remite" usan kappa simple. Con casi todas las notas en
+    una sola categoría, kappa puede ser bajo aunque el acuerdo sea alto: por eso se
+    reportan los dos.
+    """
+    resp = grades["tipo"] == TIPO_RESPONDABLE
+    esc = grades["tipo"] == TIPO_SHOULD_ESCALATE
+    specs = [
+        ("correccion", "respondible", resp, "correctness", "quadratic"),
+        ("alucinacion", "todas", resp | esc, "hallucination", None),
+        ("alucinacion", "respondible", resp, "hallucination", None),
+        ("alucinacion", "debia_escalar", esc, "hallucination", None),
+        ("remite_a_persona", "debia_escalar", esc, "redirect", None),
+    ]
+    rows = []
+    for name, group, mask, column, weights in specs:
+        a = grades.loc[mask, f"{column}_1"]
+        b = grades.loc[mask, f"{column}_2"]
+        if a.empty:
+            continue
+        rows.append(
+            {
+                "medida": name,
+                "grupo": group,
+                "n": len(a),
+                "acuerdo_exacto": float((a == b).mean()),
+                "kappa": _cohen_kappa(a, b, weights),
+                "tipo_kappa": "ponderado cuadrático" if weights else "simple",
+                "n_desacuerdos": int((a != b).sum()),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def manual_grade_summary(
+    grades: pd.DataFrame, n_boot: int = N_BOOT_DEFAULT, seed: int = SEED
+) -> pd.DataFrame:
+    """Métricas de la calificación manual con IC bootstrap, por fuente de la nota.
+
+    Fuentes: ``calificador_1``, ``calificador_2``, ``promedio`` (media de los dos por
+    pregunta) y ``consenso`` (si ya se aplicó ``apply_resolutions``; solo filas con valor
+    final).
+
+    Métricas:
+
+    * ``correccion_media`` (0–2), ``correcta_completa`` (% con nota 2) y
+      ``correcta_al_menos_parcial`` (% con nota ≥ 1), sobre las respondibles.
+    * ``alucinacion`` (% de respuestas con algún dato que no está en la base), en
+      respondibles, en las que debían escalar (muestra) y en todas.
+    * ``remite_a_persona`` (% de respuestas a preguntas que debían escalar que mandan al
+      cliente con una persona), según las notas.
+    """
+    resp = grades["tipo"] == TIPO_RESPONDABLE
+    esc = grades["tipo"] == TIPO_SHOULD_ESCALATE
+
+    def full(c: pd.Series) -> pd.Series:
+        return (c == 2).astype(float).where(c.notna())
+
+    def any_credit(c: pd.Series) -> pd.Series:
+        return (c >= 1).astype(float).where(c.notna())
+
+    def per_rater(n: int) -> dict[str, pd.Series]:
+        c = grades[f"correctness_{n}"]
+        return {
+            "c": c,
+            "full": full(c),
+            "any": any_credit(c),
+            "h": grades[f"hallucination_{n}"],
+            "r": grades[f"redirect_{n}"],
+        }
+
+    r1, r2 = per_rater(1), per_rater(2)
+    # "promedio": por pregunta, la media de los dos calificadores en cada indicador.
+    sources: dict[str, dict[str, pd.Series]] = {
+        "calificador_1": r1,
+        "calificador_2": r2,
+        "promedio": {key: (r1[key] + r2[key]) / 2 for key in r1},
+    }
+    if "correctness_final" in grades:
+        c = grades["correctness_final"]
+        sources["consenso"] = {
+            "c": c,
+            "full": full(c),
+            "any": any_credit(c),
+            "h": grades["hallucination_final"],
+            "r": r1["r"].where(r1["r"] == r2["r"]),
+        }
+    rows = []
+    for source, cols in sources.items():
+        metrics = [
+            ("correccion_media", "respondible", cols["c"][resp]),
+            ("correcta_completa", "respondible", cols["full"][resp]),
+            ("correcta_al_menos_parcial", "respondible", cols["any"][resp]),
+            ("alucinacion", "respondible", cols["h"][resp]),
+            ("alucinacion", "debia_escalar", cols["h"][esc]),
+            ("alucinacion", "todas", cols["h"][resp | esc]),
+            ("remite_a_persona", "debia_escalar", cols["r"][esc]),
+        ]
+        for metric, group, values in metrics:
+            value, low, high, n = bootstrap_ci(
+                values.astype(float), n_boot=n_boot, seed=seed
+            )
+            rows.append(
+                {
+                    "fuente": source,
+                    "metrica": metric,
+                    "grupo": group,
+                    "valor": value,
+                    "ci_low": low,
+                    "ci_high": high,
+                    "n": n,
+                }
+            )
+    return pd.DataFrame(rows)
+
+
+def apply_manual_correctness(
+    outcomes: pd.DataFrame, grades: pd.DataFrame, column: str = "correctness_final"
+) -> pd.DataFrame:
+    """Lleva la corrección manual de M3 a las filas de M3 (y de combinaciones con M3).
+
+    Afecta las filas respondibles de M3. Si el motor escaló, la respuesta cuenta como no
+    correcta (igual que en M0–M2). Si respondió: nota 2 cuenta como
+    correcta (``auto_correct = 1``); notas 0 y 1 como no correctas (``auto_correct = 0``),
+    y la nota 1 se marca además en ``manual_partial`` para mostrarla aparte en las figuras.
+    Las filas sin nota quedan sin calificar.
+
+    Args:
+        outcomes: Salida de ``per_question_outcomes``.
+        grades: Salida de ``load_manual_grades`` (y opcionalmente ``apply_resolutions``).
+        column: Nota a usar (``correctness_final``, ``correctness_1``, ...).
+
+    Returns:
+        Copia de ``outcomes`` con ``auto_correct`` y ``manual_partial`` actualizados.
+    """
+    out = outcomes.copy()
+    if "manual_partial" not in out:
+        out["manual_partial"] = np.nan
+    notes = grades.set_index("question_id")[column]
+    is_m3 = out["engine"].astype(str).str.contains("M3", regex=False)
+    target = is_m3 & ~out["should_escalate"] & ~out["escalate"]
+    # Escalar una pregunta respondible no es una respuesta correcta (igual que en M0–M2).
+    escalated = is_m3 & ~out["should_escalate"] & out["escalate"]
+    out.loc[escalated, "auto_correct"] = 0.0
+    out.loc[escalated, "manual_partial"] = 0.0
+    mapped = out.loc[target, "question_id"].astype(str).map(notes)
+    graded = mapped.notna()
+    idx = mapped.index[graded]
+    out.loc[idx, "auto_correct"] = (mapped[graded] == 2).astype(float)
+    out.loc[idx, "manual_partial"] = (mapped[graded] == 1).astype(float)
+    return out
+
+
+def plot_manual_grades(
+    summary: pd.DataFrame,
+    path: Path | None = None,
+    source: str = "consenso",
+    title: str | None = None,
+):
+    """Corrección (izq.) y alucinación (der.) de M3 según la calificación manual."""
+    import matplotlib.pyplot as plt
+
+    data = summary[summary["fuente"] == source]
+    if data.empty or data["n"].sum() == 0:
+        data = summary[summary["fuente"] == "promedio"]
+        source = "promedio"
+    source_en = {
+        "consenso": "consensus",
+        "promedio": "average of both raters",
+        "calificador_1": "rater 1",
+        "calificador_2": "rater 2",
+    }.get(source, source)
+    fig, axes = plt.subplots(1, 2, figsize=(11, 3.8), constrained_layout=True)
+    panels = [
+        (
+            axes[0],
+            [
+                ("correcta_completa", "respondible", "Fully correct (2)"),
+                ("correcta_al_menos_parcial", "respondible", "At least partially (≥1)"),
+            ],
+            "Correctness on answerable questions",
+            STATUS_COLORS["good"],
+        ),
+        (
+            axes[1],
+            [
+                ("alucinacion", "respondible", "Answerable"),
+                ("alucinacion", "debia_escalar", "Should have escalated"),
+                ("remite_a_persona", "debia_escalar", "Refers to a person*"),
+            ],
+            "Hallucination and redirection",
+            STATUS_COLORS["critical"],
+        ),
+    ]
+    for ax, items, panel_title, color in panels:
+        _style_axes(ax)
+        ax.xaxis.grid(True, color=GRID, linewidth=0.8)
+        y = np.arange(len(items))[::-1]
+        for k, (metric, group, label) in enumerate(items):
+            row = data[(data["metrica"] == metric) & (data["grupo"] == group)]
+            if row.empty or row["n"].iloc[0] == 0:
+                continue
+            r = row.iloc[0]
+            bar_color = INK_SECONDARY if metric == "remite_a_persona" else color
+            ax.barh(y[k], r["valor"], height=0.55, color=bar_color, edgecolor="white")
+            ax.errorbar(
+                r["valor"],
+                y[k],
+                xerr=[[r["valor"] - r["ci_low"]], [r["ci_high"] - r["valor"]]],
+                fmt="none",
+                ecolor=INK,
+                capsize=3,
+                elinewidth=1.2,
+            )
+            ax.text(
+                min(r["ci_high"] + 0.02, 0.98),
+                y[k],
+                f"{r['valor']:.0%} (n={int(r['n'])})",
+                va="center",
+                fontsize=9.5,
+                color=INK,
+            )
+        ax.set_yticks(y, [label for _, _, label in items])
+        ax.set_xlim(0, 1.15)
+        ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:.0%}"))
+        ax.set_title(panel_title, loc="left", fontsize=11, color=INK)
+    fig.suptitle(
+        title or f"M3 manual grading · test ({source_en}; *from rater notes)",
+        x=0.01,
+        ha="left",
+        fontsize=12,
+        color=INK,
+    )
+    if path is not None:
+        _save(fig, path)
+    return fig
+
+
+# --------------------------------------------------------------------------------------
 # Figuras
 # --------------------------------------------------------------------------------------
 def _style_axes(ax) -> None:
@@ -1261,6 +1711,7 @@ def plot_escalation_outcomes(
             "n_respondable",
             [
                 ("resp_correct", "Correct answer", STATUS_COLORS["good"]),
+                ("resp_partial", "Partially correct", STATUS_COLORS["good_light"]),
                 ("resp_wrong", "Wrong answer", STATUS_COLORS["critical"]),
                 (
                     "resp_ungraded",
@@ -1277,6 +1728,8 @@ def plot_escalation_outcomes(
         _style_axes(ax)
         left = np.zeros(len(engines))
         for column, label, color in parts:
+            if column not in data:  # p. ej. "resp_partial" sin calificación manual
+                continue
             share = data[column].to_numpy() / data[total_col].to_numpy()
             ax.barh(
                 y,
@@ -1297,7 +1750,12 @@ def plot_escalation_outcomes(
                         ha="center",
                         va="center",
                         fontsize=9.5,
-                        color="white" if color != STATUS_COLORS["warning"] else INK,
+                        color=(
+                            INK
+                            if color
+                            in (STATUS_COLORS["warning"], STATUS_COLORS["good_light"])
+                            else "white"
+                        ),
                     )
             left += share
         n_total = int(data[total_col].iloc[0])
