@@ -352,3 +352,121 @@ def test_youden_is_zero_for_always_escalate() -> None:
     metrics = vr.compute_metrics(always, n_boot=200).set_index(["engine", "metric"])
     assert metrics.loc[("M1", "youden_j"), "value"] == pytest.approx(0.0)
     assert metrics.loc[("M1", "correct_abstention"), "value"] == pytest.approx(1.0)
+
+
+# ---- Calificación manual de M3 ----------------------------------------------------------
+def _sheet(rows: list[tuple], rater: int) -> pd.DataFrame:
+    """Hoja inventada con el formato de manual_eval_m3_para_calificar.csv."""
+    frame = pd.DataFrame(rows, columns=["tipo", "question_id", "c", "h", "notes"])
+    frame["intent"] = "capacidad"
+    for n in (1, 2):
+        mine = n == rater
+        frame[f"correctness_rater_{n}"] = frame["c"] if mine else ""
+        frame[f"hallucination_rater_{n}"] = frame["h"] if mine else ""
+        frame[f"notes_rater_{n}"] = frame["notes"] if mine else ""
+    return frame.drop(columns=["c", "h", "notes"])
+
+
+RATER_1 = [
+    ("respondible", "X003", "2", "0", ""),
+    ("respondible", "X004", "1", "0", ""),
+    ("debia_escalar", "X001", "", "1", "remite al encargado"),
+    ("debia_escalar", "X002", "", "0", ""),
+]
+RATER_2 = [
+    ("respondible", "X003", "2", "0", ""),
+    ("respondible", "X004", "0", "0", ""),
+    ("debia_escalar", "X001", "", "1", "Remite"),
+    ("debia_escalar", "X002", "", "1", ""),
+]
+
+
+def _write_sheets(tmp_path: Path, sep: str = ",") -> tuple[Path, Path]:
+    p1, p2 = tmp_path / "r1.csv", tmp_path / "r2.csv"
+    _sheet(RATER_1, 1).to_csv(p1, index=False, sep=sep, encoding="utf-8-sig")
+    _sheet(RATER_2, 2).to_csv(p2, index=False, sep=sep, encoding="utf-8-sig")
+    return p1, p2
+
+
+def test_load_manual_grades_accepts_semicolon_and_merges(tmp_path: Path) -> None:
+    p1, p2 = _write_sheets(tmp_path, sep=";")
+    grades = vr.load_manual_grades(p1, p2).set_index("question_id")
+    assert grades.loc["X004", "correctness_1"] == 1
+    assert grades.loc["X004", "correctness_2"] == 0
+    assert np.isnan(grades.loc["X001", "correctness_1"])
+    assert grades.loc["X001", "redirect_1"] == 1
+    assert grades.loc["X001", "redirect_2"] == 1
+
+
+def test_load_manual_grades_rejects_invalid_and_missing(tmp_path: Path) -> None:
+    bad = [list(r) for r in RATER_1]
+    bad[0][2] = "3"
+    p1 = tmp_path / "bad.csv"
+    _sheet([tuple(r) for r in bad], 1).to_csv(p1, index=False)
+    p2 = tmp_path / "r2.csv"
+    _sheet(RATER_2, 2).to_csv(p2, index=False)
+    with pytest.raises(ValueError, match="no válidos"):
+        vr.load_manual_grades(p1, p2)
+    empty = [list(r) for r in RATER_1]
+    empty[1][3] = ""
+    _sheet([tuple(r) for r in empty], 1).to_csv(p1, index=False)
+    with pytest.raises(ValueError, match="faltan notas"):
+        vr.load_manual_grades(p1, p2)
+
+
+def test_load_manual_grades_rejects_different_questions(tmp_path: Path) -> None:
+    p1, p2 = _write_sheets(tmp_path)
+    _sheet(RATER_2[:3], 2).to_csv(p2, index=False)
+    with pytest.raises(ValueError, match="mismas preguntas"):
+        vr.load_manual_grades(p1, p2)
+
+
+def test_disagreements_and_resolutions(tmp_path: Path) -> None:
+    grades = vr.load_manual_grades(*_write_sheets(tmp_path))
+    dis = vr.manual_disagreements(grades)
+    assert sorted(dis["question_id"]) == ["X002", "X004"]
+    pending = vr.apply_resolutions(grades)
+    assert np.isnan(pending.set_index("question_id").loc["X004", "correctness_final"])
+    dis["correctness_final"] = (
+        ["", "1"] if dis.loc[0, "question_id"] == "X002" else ["1", ""]
+    )
+    dis["hallucination_final"] = dis["hallucination_1"].astype(int).astype(str)
+    final = vr.apply_resolutions(grades, dis).set_index("question_id")
+    assert final.loc["X004", "correctness_final"] == 1
+    assert final.loc["X003", "correctness_final"] == 2
+    assert np.isnan(final.loc["X001", "correctness_final"])  # debia_escalar
+
+
+def test_agreement_and_summary(tmp_path: Path) -> None:
+    grades = vr.apply_resolutions(vr.load_manual_grades(*_write_sheets(tmp_path)))
+    agree = vr.manual_agreement(grades).set_index(["medida", "grupo"])
+    assert agree.loc[("correccion", "respondible"), "acuerdo_exacto"] == 0.5
+    assert agree.loc[("remite_a_persona", "debia_escalar"), "acuerdo_exacto"] == 1.0
+    summary = vr.manual_grade_summary(grades, n_boot=100).set_index(
+        ["fuente", "metrica", "grupo"]
+    )
+    assert (
+        summary.loc[("calificador_1", "correccion_media", "respondible"), "valor"]
+        == 1.5
+    )
+    assert summary.loc[("promedio", "alucinacion", "debia_escalar"), "valor"] == 0.75
+    # Promedio de "correcta completa": X003 (2 y 2) = 1; X004 (1 y 0) = 0 -> 0,5.
+    assert summary.loc[("promedio", "correcta_completa", "respondible"), "valor"] == 0.5
+    # En consenso, X004 (pendiente) no cuenta: solo X003, con nota 2.
+    assert summary.loc[("consenso", "correcta_completa", "respondible"), "n"] == 1
+
+
+def test_apply_manual_correctness_only_touches_answered_m3_rows(tmp_path: Path) -> None:
+    grades = vr.load_manual_grades(*_write_sheets(tmp_path))
+    out = vr.per_question_outcomes(_predictions())
+    graded = vr.apply_manual_correctness(out, grades, column="correctness_1")
+    m3 = graded[graded.engine == "M3"].set_index("question_id")
+    assert m3.loc["X003", "auto_correct"] == 1
+    assert m3.loc["X004", "auto_correct"] == 0
+    assert m3.loc["X004", "manual_partial"] == 1
+    m0 = graded[graded.engine == "M0"].set_index("question_id")
+    assert m0.loc["X004", "auto_correct"] == 0  # M0 conserva su calificación automática
+    table = vr.escalation_outcomes(graded).set_index("engine")
+    assert table.loc["M3", "resp_partial"] == 1
+    assert table.loc["M3", "resp_correct"] == 1
+    assert table.loc["M3", "resp_wrong"] == 0
