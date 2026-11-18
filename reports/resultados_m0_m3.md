@@ -1,8 +1,6 @@
 # Resultados de la evaluación de los motores M0–M3
 
-**Estado:** resultados finales. El *test* (243 preguntas reales) se evaluó **una sola vez**, con los motores y su configuración congelados antes de la corrida. La partición *train* (563 preguntas) se usó para desarrollar y elegir la configuración: umbrales, modelo de embeddings, k de M3 y la combinación de motores a comparar.
-
-**Pendiente:** la calificación manual de **corrección y alucinación de M3** (sección 11). Las demás cifras ya son definitivas.
+**Estado:** resultados finales, incluida la calificación manual de M3. El *test* (243 preguntas reales) se evaluó **una sola vez**, con los motores y su configuración congelados antes de la corrida. La partición *train* (563 preguntas) se usó para desarrollar y elegir la configuración: umbrales, modelo de embeddings, k de M3 y la combinación de motores a comparar.
 
 Todas las cifras salen de archivos de `reports/`, y junto a cada una se indica el archivo y la columna de origen. Para regenerar tablas y figuras se usa `notebooks/07_resultados_m0_m3_ng.ipynb`, con `SPLIT = "train"` o `SPLIT = "test"`.
 
@@ -50,11 +48,11 @@ En test, **209 preguntas deben escalar (86 %) y 34 son respondibles (14 %)**. To
 | Accuracy de intención (todas) | sí | sí | no comparable | no comparable | M2 y M3 toman la intención del fragmento top-1. La base solo tiene fragmentos de `capacidad`, `reglas_servicios` y `ubicacion`, así que no pueden predecir intenciones que escalan; su techo es n_respondibles / n_total (34/243 = 0,14 en test). Para ellos se reporta la accuracy **solo sobre respondibles**. |
 | Hit@k (k = 1, 3, 5) | no aplica | no aplica | sí | sí (= M2) | M0 y M1 no recuperan fragmentos. M3 usa el recuperador de M2, así que `retrieved_str`, Hit@k y la matriz de confusión son idénticos. |
 | Abstención correcta / innecesaria, J | sí | sí | sí | sí | Es la decisión escalar/responder, común a todos. |
-| Corrección | automática | automática | automática | manual (pendiente) | M0 y M1 devuelven la plantilla validada de la intención y M2 el fragmento sin redactar. Su respuesta es correcta si no escaló y acertó la intención (M0/M1) o el fragmento top-1 = `kb_source` (M2). M3 redacta texto libre y se califica a mano. |
-| Alucinación | 0 por construcción | 0 por construcción | 0 por construcción | manual (pendiente) | M0–M2 solo eligen entre textos ya validados de la base. |
+| Corrección | automática | automática | automática | manual (sección 11) | M0 y M1 devuelven la plantilla validada de la intención y M2 el fragmento sin redactar. Su respuesta es correcta si no escaló y acertó la intención (M0/M1) o el fragmento top-1 = `kb_source` (M2). M3 redacta texto libre y se califica a mano. |
+| Alucinación | 0 por construcción | 0 por construcción | 0 por construcción | manual (sección 11) | M0–M2 solo eligen entre textos ya validados de la base. |
 | Latencia | sí | sí | sí | sí | Mediana y percentil 95 en el mismo equipo. |
 
-**Diferencia de exigencia en la corrección automática.** Las plantillas de M0 y M1 reúnen todos los temas de una intención: por ejemplo, todas las reglas de la finca en un solo texto. Por eso, en M0 y M1, "correcta" significa que la información está dentro de la plantilla. M2 debe acertar el fragmento exacto, un criterio más estricto.
+**Diferencia de exigencia entre criterios de corrección.** Las plantillas de M0 y M1 reúnen todos los temas de una intención: por ejemplo, todas las reglas de la finca en un solo texto. Por eso, en M0 y M1, "correcta" significa que la información está dentro de la plantilla. M2 debe acertar el fragmento exacto. M3 se califica a mano: una respuesta con información de más o de menos recibe 1 y no 2 (sección 11). Los criterios de M2 y M3 son más exigentes que el de M0 y M1, y esto favorece a M0 y M1 en la comparación de respuestas correctas.
 
 **M1 sobre train.** El arnés evalúa M1 con las mismas filas con las que se entrena (resustitución) y obtiene 1,00 en todo. **Ese valor no se usa.** En train se reporta la validación cruzada fuera de pliegue (sección 8).
 
@@ -80,7 +78,7 @@ En test, **209 preguntas deben escalar (86 %) y 34 son respondibles (14 %)**. To
 | paraphrase-multilingual-MiniLM-L12-v2 | 0,423 | 0,731 | 0,769 | 0,737 |
 
 - **El elegido recupera mejor, pero es el que peor separa** lo respondible de lo que debe escalar (AUROC 0,687). La mediana de similitud top-1 es 0,853 en respondibles y 0,842 en las que escalan (`median_top1_sim_*`): sus similitudes quedan muy comprimidas.
-- **Ningún modelo supera un AUROC de 0,77**, así que la similitud por sí sola no basta para decidir si escalar.
+- **Ningún modelo pasa de un AUROC de 0,76**, así que la similitud por sí sola no basta para decidir si escalar.
 - **Diferencia entre preguntas sintéticas y reales:** con preguntas sintéticas (`source = synthetic`), e5-small alcanza Hit@1 = 0,846, frente a 0,487 con preguntas reales. Las preguntas escritas por el equipo son más limpias que las de WhatsApp.
 
 ## 5. Resultados en test (resultado final)
@@ -92,17 +90,22 @@ Los valores se presentan como punto [IC 95 % bootstrap, 2000 remuestreos, semill
 | M0 | 0,60 [0,54–0,66] | 0,53 [0,35–0,71] | 0,92 [0,89–0,96] | 0,38 [0,21–0,56] | **0,54 [0,37–0,69]** | 0,53 [0,35–0,71] | — | — | — |
 | M1 | 0,68 [0,62–0,74] | 0,32 [0,18–0,50] | 0,98 [0,96–1,00] | 0,62 [0,44–0,76] | 0,36 [0,20–0,54] | 0,32 [0,18–0,50] | — | — | — |
 | M2 | 0,11 (techo 0,14) | 0,79 [0,65–0,91] | 0,32 [0,25–0,38] | 0,15 [0,03–0,29] | 0,17 [0,03–0,30] | 0,35 [0,21–0,53] | 0,38 [0,24–0,56] | 0,68 [0,50–0,82] | 0,74 [0,59–0,88] |
-| M3 | 0,11 (techo 0,14) | 0,79 [0,65–0,91] | 0,62 [0,55–0,68] | 0,18 [0,06–0,32] | 0,44 [0,28–0,57] | manual | 0,38 | 0,68 | 0,74 |
+| M3 | 0,11 (techo 0,14) | 0,79 [0,65–0,91] | 0,62 [0,55–0,68] | 0,18 [0,06–0,32] | 0,44 [0,28–0,57] | 0,56 [0,41–0,71]¹ | 0,38 | 0,68 | 0,74 |
 | *Siempre escalar (referencia)* | — | — | 1,00 | 1,00 | 0,00 | 0,00 | — | — | — |
 
-**Qué hace cada motor con cada pregunta en test** (`tables/test/tabla_escalar_responder.csv`; figura `escalation_outcomes`):
+¹ Calificación manual por consenso: nota 2 = correcta (sección 11). Fuente: `tables/test/tabla_final_con_calificacion_manual.csv`.
 
-| Motor | Debía escalar: escaló | Debía escalar: **respondió** | Respondible: correcta | Respondible: incorrecta | Respondible: sin calificar | Respondible: escaló |
+**Qué hace cada motor con cada pregunta en test.** M3 y M0 + M3 llevan la calificación manual. Fuentes: `tables/test/tabla_escalar_responder.csv` y, para M3, la segunda tabla de la sección 12 del notebook. Figura: `escalation_outcomes_graded`.
+
+| Motor | Debía escalar: escaló | Debía escalar: **respondió** | Respondible: correcta | Respondible: parcial | Respondible: **incorrecta** | Respondible: escaló |
 |---|---|---|---|---|---|---|
-| M0 | 193 | **16 (8 %)** | 18 | 3 | 0 | 13 |
-| M1 | 205 | **4 (2 %)** | 11 | 2 | 0 | 21 |
-| M2 | 66 | **143 (68 %)** | 12 | 17 | 0 | 5 |
-| M3 | 129 | **80 (38 %)** | — | — | 28 | 6 |
+| M0 | 193 | **16 (8 %)** | 18 | — | **3** | 13 |
+| M1 | 205 | **4 (2 %)** | 11 | — | **2** | 21 |
+| M2 | 66 | **143 (68 %)** | 12 | — | **17** | 5 |
+| M3 | 129 | **80 (38 %)** | 19 | 8 | **1** | 6 |
+| M0 + M3 | 199 | **10 (5 %)** | 15 | 4 | **0** | 15 |
+
+En M0, M1 y M2 la corrección es automática y no tiene categoría "parcial".
 
 **Latencia en test.** Medianas tomadas de `latency_median_ms` de `results_*.csv`; los p95 están en `tables/test/tabla_latencia.csv`.
 
@@ -110,7 +113,7 @@ Los valores se presentan como punto [IC 95 % bootstrap, 2000 remuestreos, semill
 |---|---|---|---|---|
 | Mediana | 0,11 ms | 0,32 ms | 15,2 ms | 4,25 s |
 
-En train, en el mismo equipo, las medianas fueron 0,23 ms, 0,95 ms, 29,4 ms y 4,8 s (p95 de M3: 8,0 s). En ambas corridas, M3 es **de dos a tres órdenes de magnitud más lento** que M2 y unas 10 000 veces más lento que M1.
+En train, en el mismo equipo, las medianas fueron 0,23 ms, 0,95 ms, 29,4 ms y 4,8 s (p95 de M3: 8,0 s). En ambas corridas, M3 es entre 160 y 280 veces más lento que M2 y entre 5 000 y 13 000 veces más lento que M1.
 
 ### Comparaciones pareadas en test (mismas 243 preguntas)
 
@@ -132,8 +135,11 @@ Fuente: `tables/test/tabla_comparaciones_pareadas.csv` (`diff_a_menos_b`, `ci_lo
 | M0 − M1 | Accuracy de intención | −0,078 [−0,144 – −0,012] | Sí (M1 acierta más la intención) |
 | M0 − M1 | Correctas (respondibles) | +0,206 [0,000–0,412] | No (al límite) |
 | M0 − M2 | Correctas (respondibles) | +0,176 [−0,029–0,353] | No |
+| M0 − M3 | Correctas (respondibles, M3 manual) | −0,029 [−0,176–0,118] | No |
+| M0 − (M0 + M3) | Correctas (respondibles, M3 manual) | +0,088 [0,000–0,206] | No (al límite) |
+| M3 − (M0 + M3) | Correctas (respondibles, M3 manual) | +0,118 [0,029–0,235] | **Sí** |
 
-Con solo 34 preguntas respondibles en test, las diferencias que dependen de ellas tienen IC anchos: la abstención innecesaria, J y la corrección.
+Con solo 34 preguntas respondibles en test, las diferencias que dependen de ellas tienen IC anchos: la abstención innecesaria, J y la corrección. Las tres comparaciones con "M3 manual" salen de la sección 12 del notebook.
 
 ## 6. Combinaciones de motores
 
@@ -144,11 +150,11 @@ Test (`tables/test/tabla_combinaciones.csv`; figura `escalation_outcomes_combine
 | | Abstención correcta | Abstención innecesaria | J | Debía escalar y respondió | Respondibles que respondió | Correctas (respondibles) |
 |---|---|---|---|---|---|---|
 | M0 | 0,92 | 0,38 | 0,54 | 8 % | 62 % | 0,53 |
-| M3 | 0,62 | 0,18 | 0,44 | 38 % | 82 % | manual |
-| **M0 + M3** | **0,95 [0,92–0,98]** | 0,44 [0,26–0,62] | 0,51 [0,34–0,67] | **5 %** | **56 %** | manual |
+| M3 | 0,62 | 0,18 | 0,44 | 38 % | 82 % | 0,56 [0,41–0,71] (manual) |
+| **M0 + M3** | **0,95 [0,92–0,98]** | 0,44 [0,26–0,62] | 0,51 [0,34–0,67] | **5 %** | **56 %** | 0,44 [0,26–0,62] (manual) |
 | M0 + M2 | 0,94 [0,91–0,97] | 0,41 [0,24–0,59] | 0,53 [0,36–0,69] | 6 % | 59 % | 0,29 [0,15–0,47] |
 | M1 + M2 | 0,99 | 0,65 | 0,34 | 1 % | 35 % | 0,15 |
-| M1 + M3 | 1,00 | 0,65 | 0,35 | 0 % | 35 % | manual |
+| M1 + M3 | 1,00 | 0,65 | 0,35 | 0 % | 35 % | 0,26 [0,12–0,41] (manual) |
 
 En train la simulación dio el mismo orden (`tables/train/tabla_combinaciones.csv`): M0 + M3 obtuvo J = 0,51, respondió el 8 % de lo que debía escalar y el 59 % de lo respondible.
 
@@ -177,7 +183,8 @@ En train la simulación dio el mismo orden (`tables/train/tabla_combinaciones.cs
   - en 1 respuesta escribió "ESCALAR" sin que el motor lo registrara;
   - cerca del 31 % de sus respuestas remiten a una persona sin marcar `escalate`. Es una estimación por palabras clave, no una medida.
   - Si se contaran esas respuestas como escalamientos, la abstención correcta sería ~0,76 y la innecesaria ~0,32.
-- **El fragmento correcto llegó al LLM en el 68 % de las respondibles** (Hit@3). Ese es el techo de su corrección.
+- **El fragmento correcto llegó al LLM en el 68 % de las respondibles** (Hit@3), pero aun así el LLM respondió bien la mayoría (sección 11).
+- **Calidad de sus respuestas (calificación manual, sección 11):** en las 28 respondibles que contestó, el **68 %** fue totalmente correcto y el **96 %** al menos parcialmente, sin ninguna alucinación. El riesgo de M3 no es inventar datos sino **responder con información real de la base preguntas que debían ir a una persona**. En la muestra de las que debía escalar, solo el 38 % de sus respuestas le dice al cliente que hable con una persona.
 
 ## 8. Consistencia entre train y test
 
@@ -206,11 +213,18 @@ Fuentes: `tables/train/tabla_metricas_oof.csv` y `tables/test/tabla_metricas.csv
 1. **La tarea central es decidir cuándo escalar:** el 86 % de las consultas reales debe pasar a una persona. En esa tarea, **el método más simple, M0, obtiene el mejor equilibrio** (J = 0,54). No se distingue estadísticamente de M3 (0,44) ni de M1 (0,36), pero sí de M2 (0,17). Esto se reporta tal cual: el motor complejo no supera al simple.
 2. **Recuperar fragmentos no sirve para decidir si escalar.** La base solo cubre temas respondibles y la similitud separa mal ambos grupos (AUROC ≤ 0,76). M2 responde dos de cada tres consultas que debían escalar.
 3. **El LLM mejora la decisión de M2, pero no basta por sí solo:** M3 responde el 38 % de lo que debía escalar, y cuesta 4,3 s por respuesta con GPU.
-4. **Los motores se complementan.** Con M0 decidiendo si escalar y M3 redactando, solo se responde el 5 % de lo que debía escalar (frente al 38 % de M3 solo) y se mantiene el equilibrio de M0 (J = 0,51). En la práctica, el LLM solo se llama para las preguntas que M0 no escala, así que la mayoría de las consultas no pagan su latencia. Esta combinación es la candidata a bot final, **siempre que la calificación manual confirme que las respuestas de M3 son correctas y no alucinan**. Si no lo confirma, M0 sigue siendo la opción más sólida.
-5. **Respuesta a la pregunta de investigación** (¿en qué medida un agente RAG con LLM local supera a métodos más simples?):
+4. **Cuando M3 responde una pregunta respondible, lo hace bien y no inventa:** 68 % de respuestas totalmente correctas, 96 % al menos parciales y 0 alucinaciones en 28 respuestas. En 40 respuestas a preguntas que debían escalar hubo 1 alucinación (3 %).
+5. **Los motores se complementan.** Con M0 decidiendo si escalar y M3 redactando:
+   - solo se responde el 5 % de lo que debía escalar (frente al 8 % de M0 y el 38 % de M3);
+   - **ninguna respuesta a una pregunta respondible es incorrecta** (M0 tiene 3);
+   - J se mantiene en 0,51.
+
+   El costo: 3 respuestas totalmente correctas menos que M0 (15 frente a 18; diferencia no distinguible, y con un criterio más exigente para M3), y llamar al LLM en el ~15 % de los mensajes (los 37 de 243 que M0 no escala). Es la opción **más segura**. M0 solo es la **más barata**, con una cantidad de aciertos estadísticamente igual.
+6. **Respuesta a la pregunta de investigación** (¿en qué medida un agente RAG con LLM local supera a métodos más simples?):
    - **En abstención correcta, no los supera:** M3 queda por debajo de M0 y de M1.
-   - **En calidad de respuesta,** la conclusión depende de la calificación manual pendiente.
-6. **Metodología:** la validación cruzada fuera de pliegue estimó bien el rendimiento de M1 en test. Evaluar sobre las mismas filas de entrenamiento lo habría sobrestimado por completo.
+   - **En calidad de respuesta, la iguala sin alucinar:** sus respuestas correctas (0,56) no se distinguen de las de M0 (0,53).
+   - **Su aporte real aparece combinado con un clasificador**, que evita que responda lo que debe escalar.
+7. **Metodología:** la validación cruzada fuera de pliegue estimó bien el rendimiento de M1 en test. Evaluar sobre las mismas filas de entrenamiento lo habría sobrestimado por completo.
 
 ## 10. Limitaciones
 
@@ -219,17 +233,46 @@ Fuentes: `tables/train/tabla_metricas_oof.csv` y `tables/test/tabla_metricas.csv
 - **Solo texto:** solo se evaluaron mensajes de texto. Los audios de los chats quedaron fuera.
 - **Reutilización parcial del test:** 68 preguntas de test ya se habían usado una vez en una evaluación preliminar de M0 y M1, sin ajustar nada con ellas. Parte de esas filas se reclasificó después con la base de conocimiento.
 - **El k de M3 se eligió con una muestra pequeña** (12 preguntas de train).
+- **Calificación manual sin medida de concordancia:** las respuestas de M3 se calificaron **una sola vez, por consenso**, sin calificaciones independientes. Por eso no se reporta el acuerdo entre calificadores. Además, la corrección de M3 (humana) es más exigente que la de M0 y M1 (automática).
 - **Lectura de la salida de M3:** su escalamiento depende de cómo se interpreta el texto del LLM (sección 7), y la estimación de respuestas que remiten a una persona es heurística.
 - **Selección del modelo de embeddings:** se eligió por recuperación (Hit@1), aunque otro modelo separa mejor las preguntas que escalan.
 - **Datos sintéticos:** se evaluaron solo para la recuperación (`m2_model_selection.csv`), no para todos los motores.
 - **Combinaciones simuladas:** se simularon con predicciones guardadas; su latencia no se midió directamente.
 
-## 11. Pendiente: corrección y alucinación de M3
+## 11. Calificación manual de M3 (test)
 
-- **Quiénes califican:** dos personas distintas a quien construyó M3.
-- **Qué califican:** en test, todas las respuestas de M3 a preguntas respondibles (28) más una muestra aleatoria de 40 respuestas (semilla 42) a preguntas que debían escalar y que M3 respondió.
-- **Escala:** corrección 0, 1 o 2 frente a `reference_answer`; alucinación 0 o 1 frente a `data/kb/`.
-- **Resultados que se agregan aquí:** la media con IC y el acuerdo entre calificadores.
+**Qué se calificó.** Todas las respuestas de M3 a preguntas respondibles en las que no escaló (28) y una muestra aleatoria, con semilla 42, de 40 de las 80 respuestas a preguntas que debían escalar y M3 respondió. Las filas en que M3 escaló no se califican: no hay texto que evaluar.
+
+**Quién y cómo.** Integrantes del equipo distintos a quien construyó M3. Calificaron cada respuesta **una sola vez, por consenso**, con la siguiente rúbrica:
+
+| Medida | Criterio |
+|---|---|
+| Corrección **2** | La respuesta resuelve lo que el cliente preguntó, con la información de la base. Puede mencionar condiciones relevantes (por ejemplo, "el primer piso es para 43 personas y se puede ampliar") sin copiar todo el tema. |
+| Corrección **1** | Responde, pero le falta información importante o agrega datos reales de la base que no se preguntaron. |
+| Corrección **0** | No responde lo que se preguntó. |
+| Alucinación **1** | La respuesta afirma algún dato que no está en `data/kb/`. |
+| Nota "remite" | Solo en las que debían escalar: la respuesta le dice explícitamente al cliente que hable con una persona o espere a una. |
+
+Las hojas calificadas contienen texto de los chats y no se versionan.
+
+**Resultados** (`tables/test/tabla_m3_calificacion_manual.csv`, columna `consenso`; figura `m3_manual_grades`):
+
+| Medida | Grupo | Valor [IC 95 %] | n |
+|---|---|---|---|
+| Corrección media (0–2) | respondibles | 1,64 [1,43–1,82] | 28 |
+| Totalmente correcta (nota 2) | respondibles | **0,68 [0,50–0,86]** | 28 |
+| Al menos parcialmente correcta (nota ≥ 1) | respondibles | 0,96 [0,89–1,00] | 28 |
+| Alucinación | respondibles | **0,00** | 28 |
+| Alucinación | debían escalar (muestra) | 0,03 [0,00–0,07] | 40 |
+| Alucinación | todas | 0,01 [0,00–0,04] | 68 |
+| Remite a una persona | debían escalar (muestra) | 0,38 [0,23–0,53] | 40 |
+
+**Lectura.**
+- **Casi no inventa:** 1 dato no respaldado por la base en 68 respuestas.
+- **Pero responde lo que debía escalar:** cuando contesta una pregunta que debía ir a una persona, lo hace con información real de la base (por ejemplo, capacidad o ubicación ante una consulta de fechas o precio). Solo en el 38 % de esos casos le indica al cliente que hable con una persona. Por eso la alucinación no refleja el riesgo principal de M3.
+- **Llevado a las 34 respondibles del test**, cuenta como correcta la nota 2, y las 6 en que escaló cuentan como no respondidas:
+  - **19 correctas (0,56)**, 8 parciales y 1 incorrecta para M3;
+  - 15 correctas, 4 parciales y 0 incorrectas para M0 + M3 (sección 5).
 
 ## 12. Figuras y tablas
 
@@ -237,7 +280,9 @@ Las figuras están en `reports/figures/<split>/`: PNG para diapositivas y PDF pa
 
 | Archivo | Uso sugerido | Pie de figura sugerido (artículo) |
 |---|---|---|
-| `test/escalation_outcomes` | Diapositiva principal | Resultado por pregunta en test: escalamiento de las consultas que lo requieren (izq.) y respuestas a las consultas respondibles (der.). |
+| `test/escalation_outcomes_graded` | **Diapositiva principal** | Resultado por pregunta en test, con la corrección manual de M3: escalamiento de las consultas que lo requieren (izq.) y respuestas a las consultas respondibles (der.). |
+| `test/m3_manual_grades` | Calidad de M3 | Calificación manual de M3: corrección en preguntas respondibles, alucinación y remisión a una persona. |
+| `test/escalation_outcomes` | Versión sin calificación manual | ídem, con M3 sin calificar. |
 | `test/escalation_outcomes_combined` | Propuesta de bot final | Motores individuales frente a combinaciones simuladas (un clasificador decide si escalar). |
 | `test/metrics_panels` | Comparación general | Métricas por motor en test, con IC 95 % bootstrap. |
 | `test/confusion_grid` (o `confusion_M0/M1/M2`) | Matrices | Matrices de confusión normalizadas por fila; (E) indica intenciones que escalan. |
