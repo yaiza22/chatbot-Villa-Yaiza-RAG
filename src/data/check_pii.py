@@ -14,7 +14,7 @@ revisar además una muestra a mano.
 
 Uso (desde la raíz del repositorio):: python -m src.data.check_pii data/processed/messages.csv
 py -m src.data.check_pii data/processed/messages.csv --names-file data/interim/names.txt --index data/interim/chat_index.csv
-$LASTEXITCODE
+Con $LASTEXITCODE muestra el codigo, si es 0 todo salión sin error.
 """
 
 import argparse
